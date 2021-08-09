@@ -15,7 +15,12 @@ app.config['MAIL_SSL'] = False
 # app.config['MAIL_TEMPLATE_FOLDER'] = Path(__file__).parent / 'attachments'
 
 
-fm = Mail(app)
+mail = Mail(app)
+"""
+you can use mail.init_app() too.
+
+mail.init_app(app)
+"""
 
 #test email standart sending mail 
 @app.get("/email")
@@ -29,7 +34,7 @@ async def simple_send() -> jsonify:
         )
 
     
-    await fm.send_message(message)
+    await mail.send_message(message)
     return jsonify(status_code=200, content={"message": "email has been sent"})
 
 
@@ -41,7 +46,7 @@ async def mail_file():
         body = "This is the email body",
         attachments = ['attachments/attachment.txt']
     )
-    await fm.send_message(message)
+    await mail.send_message(message)
     return jsonify(message="email sent")
 
 @app.get("/mail-html")
@@ -56,7 +61,7 @@ async def mail_html():
                         }
         # attachments = ['attachments/attachment.txt']
     )
-    await fm.send_message(message, template_name="test.html")
+    await mail.send_message(message, template_name="test.html")
     return jsonify(message="email sent")
 
 if __name__ == "__main__":
