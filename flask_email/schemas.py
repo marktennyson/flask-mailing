@@ -58,7 +58,7 @@ class Message(BaseModel):
                 temp.append(file)
             else:
                 raise WrongFile(
-                    "attachments field type incorrect, must be UploadFile or path")
+                    "attachments field type incorrect, must be FileStorage or path")
         return temp
 
     @validator('subtype')
