@@ -31,7 +31,7 @@ The key features are:
 -  email utils has two available classes ```DefaultChecker``` and  ```WhoIsXmlApi```
 -  Unittests using Mail
 
-More information on [Getting-Started](https://flask-email.netlify.app/getting-started.html)
+More information on [Getting-Started](https://marktennyson.github.io/flask-email/getting-started.html)
 
 ### Guide
 
@@ -76,7 +76,7 @@ async def simple_send() -> JSONResponse:
 
 ## List of Examples
 
-For more examples of using flask-email please check [example](https://flask-email.netlify.app/flask-email/example/) section
+For more examples of using flask-email please check [example](https://marktennyson.github.io/flask-email/flask-email/example/) section
 
 # Contributing
 Feel free to open issues and send pull requests.
