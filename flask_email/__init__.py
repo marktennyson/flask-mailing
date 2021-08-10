@@ -1,7 +1,7 @@
 from .mail import Mail
 from .config import  ConnectionConfig
 from .schemas import Message, MultipartSubtypeEnum
-from . import email_utils
+from . import utils
 
 
 version_info = (0, 0, 1)
@@ -14,5 +14,5 @@ __author__ = "aniketsarkar@yahoo.com"
 
 
 __all__ = [
-    "Mail", "ConnectionConfig", "Message", "email_utils", "MultipartSubtypeEnum"
+    "Mail", "ConnectionConfig", "Message", "utils", "MultipartSubtypeEnum"
 ]

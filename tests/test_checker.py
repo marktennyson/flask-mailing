@@ -1,6 +1,6 @@
 import pytest
 from pydantic import EmailError
-from flask_email.email_utils.errors import DBProvaiderError
+from flask_email.utils.errors import DBProvaiderError
 
 
 @pytest.mark.asyncio
