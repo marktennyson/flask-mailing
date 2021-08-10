@@ -1,26 +1,22 @@
-from flask import Flask, jsonify
+from flask import jsonify
+from base import create_app
 from flask_email import Mail, Message
-from pathlib import Path
 
-app = Flask(__name__)
-
-
-app.config['MAIL_USERNAME'] = "aniketsarkar1998@gmail.com"
-app.config['MAIL_PASSWORD'] = "zpaxrkdjaxgoqrll"
-app.config['MAIL_FROM'] = "aniketsarkar1998@gmail.com"
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_SERVER'] = "smtp.gmail.com"
-app.config['MAIL_TLS'] = True
-app.config['MAIL_SSL'] = False
-# app.config['MAIL_TEMPLATE_FOLDER'] = Path(__file__).parent / 'attachments'
+mail = Mail()
 
 
-mail = Mail(app)
 """
 you can use mail.init_app() too.
 
 mail.init_app(app)
 """
+
+app = create_app()
+mail.init_app(app)
+
+@app.get('/')
+def index():
+    return jsonify(index=True)
 
 #test email standart sending mail 
 @app.get("/email")
@@ -65,4 +61,4 @@ async def mail_html():
     return jsonify(message="email sent")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=8000)

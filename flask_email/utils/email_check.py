@@ -56,7 +56,7 @@ class DefaultChecker(AbstractEmailChecker):
         :param db_provider: switch to redis
 
         example: 
-            from email_utils import DefaultChecker
+            from utils import DefaultChecker
             import asyncio
 
             a = DefaultChecker(db_provider="redis") # if you use redis
@@ -289,7 +289,7 @@ class WhoIsXmlApi:
         :param email: email for checking
 
         example: 
-            from email_utils import WhoIsXmlApi
+            from utils import WhoIsXmlApi
 
             who_is = WhoIsXmlApi(token="Your access token", email = "your@mailaddress.com")
 

@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 # import fakeredis.aioredis
-from flask_email.email_utils import DefaultChecker
+from flask_email.utils import DefaultChecker
 
 
 @pytest.fixture

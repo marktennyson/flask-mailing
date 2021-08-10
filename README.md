@@ -19,7 +19,7 @@ python setup.py install
 ```
 
 ---
-**Documentation**: [Flask-EMAIL](https://flask-email.netlify.app)
+**Documentation**: [Flask-EMAIL](https://marktennyson.github.io/flask-email)
 ---
 
 The key features are:
@@ -31,7 +31,7 @@ The key features are:
 -  email utils has two available classes ```DefaultChecker``` and  ```WhoIsXmlApi```
 -  Unittests using Mail
 
-More information on [Getting-Started](https://marktennyson.github.io/flask-email/getting-started.html)
+More information on [Getting-Started](https://marktennyson.github.io/flask-email/getting-started)
 
 ### Guide
 
@@ -56,7 +56,7 @@ app.config['VALIDATE_CERTS'] = True
 mail = Mail(app)
 
 html = """
-<p>Thanks for using Fastapi-mail</p> 
+<p>Thanks for using Flask-Email</p> 
 """
 
 
@@ -64,7 +64,7 @@ html = """
 async def simple_send() -> JSONResponse:
 
     message = Message(
-        subject="Fastapi-Mail module",
+        subject="Flask-Email module",
         recipients=["recipients@email-domain.com"],  # List of recipients, as many as you can pass 
         body=html,
         subtype="html"
