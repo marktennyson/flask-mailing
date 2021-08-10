@@ -56,7 +56,7 @@ app.config['VALIDATE_CERTS'] = True
 mail = Mail(app)
 
 html = """
-<p>Thanks for using Flask-mail</p> 
+<p>Thanks for using Flask-Email</p> 
 """
 
 
