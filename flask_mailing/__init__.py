@@ -4,7 +4,7 @@ from .schemas import Message, MultipartSubtypeEnum
 from . import utils
 
 
-version_info = (0, 0, 2)
+version_info = (0, 0, 4)
 
 __version__ = ".".join([str(v) for v in version_info])
 
