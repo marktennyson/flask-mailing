@@ -1,4 +1,4 @@
-from flask_email.config import ConnectionConfig
+from flask_mailing.config import ConnectionConfig
 
 
 def test_configuration(mail_config):

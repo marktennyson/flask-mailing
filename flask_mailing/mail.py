@@ -108,7 +108,7 @@ class Mail(_MailMixin):
 
         if not issubclass(message.__class__, BaseModel):
             raise PydanticClassRequired('''Message schema should be provided from Message class, check example below:
-         \nfrom flask_email import Message  \nmessage = Message(\nsubject = "subject",\nrecipients = ["list_of_recipients"],\nbody = "Hello World",\ncc = ["list_of_recipients"],\nbcc = ["list_of_recipients"],\nreply_to = ["list_of_recipients"],\nsubtype = "plain")
+         \nfrom flask_mailing import Message  \nmessage = Message(\nsubject = "subject",\nrecipients = ["list_of_recipients"],\nbody = "Hello World",\ncc = ["list_of_recipients"],\nbcc = ["list_of_recipients"],\nreply_to = ["list_of_recipients"],\nsubtype = "plain")
          ''')
 
         if template_name:

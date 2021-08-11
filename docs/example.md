@@ -2,14 +2,14 @@
 
 ## Sending emails using Falsk-Email
 
-#### Here I have tried to demonstrate some basic functionalities of flask-email module.
+#### Here I have tried to demonstrate some basic functionalities of flask-mailing module.
 
 ##### Basic configuration
 
 ```python
 
 from flask import Flask, jsonify
-from flask_email import Mail, Message
+from flask_mailing import Mail, Message
 
 mail = Mail()
 
@@ -27,7 +27,7 @@ def create_app():
 
     return app
 
-#send a simple email using flask_email module.
+#send a simple email using flask_mailing module.
 
 app = create_app()
 
@@ -35,7 +35,7 @@ app = create_app()
 async def simple_send():
 
     message = Message(
-        subject="Flask-Email module",
+        subject="Flask-Mailing module",
         recipients=["aniketsarkar@yahoo.com"],
         body="This is the basic email body",
         )
@@ -49,14 +49,14 @@ async def simple_send():
 ```python
 
 html = """
-<p>Hi this test mail, thanks for using Flask-Email</p> 
+<p>Hi this test mail, thanks for using Flask-Mailing</p> 
 """
 
 @app.get("/html-email")
 async def html_email():
 
     message = Message(
-        subject="Flask-Email module test html mail",
+        subject="Flask-Mailing module test html mail",
         recipients=["aniketsarkar@yahoo.com"],
         body=html,
         subtype="html"
@@ -269,7 +269,7 @@ async def del_disp_domain():
 
 ###  WhoIsXmlApi
 ```python
-from flask_email.utils import WhoIsXmlApi
+from flask_mailing.utils import WhoIsXmlApi
 
 who_is = WhoIsXmlApi(token="Your access token", email="your@mailaddress.com")
 

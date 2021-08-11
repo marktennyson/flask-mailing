@@ -1,6 +1,6 @@
 from flask import jsonify
 from base import create_app
-from flask_email import Mail, Message
+from flask_mailing import Mail, Message
 
 mail = Mail()
 
@@ -23,7 +23,7 @@ def index():
 async def simple_send() -> jsonify:
 
     message = Message(
-        subject="Flask-Email module",
+        subject="Flask-Mailing module",
         recipients=["aniketsarkar@yahoo.com"],
         body="This is the basic email body",
         # subtype="html"
@@ -61,4 +61,4 @@ async def mail_html():
     return jsonify(message="email sent")
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8000)
+    app.run(debug=True)

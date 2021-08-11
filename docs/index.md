@@ -1,13 +1,13 @@
 # Flask-mail
 
-The flask-email simple lightweight mail system, sending emails and attachments(individual && bulk)
+The flask-mailing simple lightweight mail system, sending emails and attachments(individual && bulk)
 
 
-[![MIT licensed](https://img.shields.io/github/license/marktennyson/flask-email)](https://raw.githubusercontent.com/marktennyson/flask-email/master/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/marktennyson/flask-email.svg)](https://github.com/marktennyson/flask-email/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/marktennyson/flask-email.svg)](https://github.com/marktennyson/flask-email/network)
-[![GitHub issues](https://img.shields.io/github/issues-raw/marktennyson/flask-email)](https://github.com/marktennyson/flask-email/issues)
-[![Downloads](https://pepy.tech/badge/flask-email)](https://pepy.tech/project/flask-email)
+<!-- [![MIT licensed](https://img.shields.io/github/license/marktennyson/flask-mailing)](https://raw.githubusercontent.com/marktennyson/flask-mailing/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/marktennyson/flask-mailing.svg)](https://github.com/marktennyson/flask-mailing/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/marktennyson/flask-mailing.svg)](https://github.com/marktennyson/flask-mailing/network)
+[![GitHub issues](https://img.shields.io/github/issues-raw/marktennyson/flask-mailing)](https://github.com/marktennyson/flask-mailing/issues) -->
+[![Downloads](https://pepy.tech/badge/flask-mailing)](https://pepy.tech/project/flask-mailing)
 
 
 
