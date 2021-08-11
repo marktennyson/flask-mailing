@@ -30,7 +30,6 @@ setup(
         "blinker>=1.4",
         "pydantic>=1.8.2",
         "email-validator>=1.1.3",
-        "httpx>=0.18.2",
         "typing-extensions>=3.10.0.0",
     ],
     extras_require={},
