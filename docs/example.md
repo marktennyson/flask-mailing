@@ -2,14 +2,14 @@
 
 ## Sending emails using Falsk-Email
 
-#### Here I have tried to demonstrate some basic functionalities of flask-email module.
+## List of Examples 
 
-##### Basic configuration
+### Basic configuration
 
 ```python
 
 from flask import Flask, jsonify
-from flask_email import Mail, Message
+from flask_mailing import Mail, Message
 
 mail = Mail()
 
@@ -27,7 +27,7 @@ def create_app():
 
     return app
 
-#send a simple email using flask_email module.
+#send a simple email using flask_mailing module.
 
 app = create_app()
 
@@ -35,7 +35,7 @@ app = create_app()
 async def simple_send():
 
     message = Message(
-        subject="Flask-Email module",
+        subject="Flask-Mailing module",
         recipients=["aniketsarkar@yahoo.com"],
         body="This is the basic email body",
         )
@@ -45,18 +45,18 @@ async def simple_send():
     return jsonify(status_code=200, content={"message": "email has been sent"})
 ```
 
-##### Send a simple html message
+### Send a simple html message
 ```python
 
 html = """
-<p>Hi this test mail, thanks for using Flask-Email</p> 
+<p>Hi this test mail, thanks for using Flask-Mailing</p> 
 """
 
 @app.get("/html-email")
 async def html_email():
 
     message = Message(
-        subject="Flask-Email module test html mail",
+        subject="Flask-Mailing module test html mail",
         recipients=["aniketsarkar@yahoo.com"],
         body=html,
         subtype="html"
@@ -67,7 +67,7 @@ async def html_email():
     return jsonify(status_code=200, content={"message": "email has been sent"})
 ```
 
-##### Sending files
+### Sending files
 
 ```python
 @app.get("/mail-file")
@@ -82,7 +82,7 @@ async def mail_file():
     return jsonify(message="email sent")
 ```
 
-##### Using Jinja2 HTML Templates
+### Using Jinja2 HTML Templates
 
 You can enable Jinja2 HTML Template emails by setting the `TEMPLATE_FOLDER` configuration option, and supplying a value (which is just the name of the template file within the `TEMPLATE_FOLDER` dir) for the `template_name` parameter in `Mail.send_message()`. You then can pass a Dict as the `template_body` property of your `Message` object. If you haven't provided the `TEMPLATE_FOLDER` configuration option, then the module will take the app's jinja2 environment for templating and you can use templates from app's default template folder:
 
@@ -269,7 +269,7 @@ async def del_disp_domain():
 
 ###  WhoIsXmlApi
 ```python
-from flask_email.utils import WhoIsXmlApi
+from flask_mailing.utils import WhoIsXmlApi
 
 who_is = WhoIsXmlApi(token="Your access token", email="your@mailaddress.com")
 

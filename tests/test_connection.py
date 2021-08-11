@@ -1,5 +1,5 @@
 import pytest
-from flask_email import Mail, Message, ConnectionConfig
+from flask_mailing import Mail, Message, ConnectionConfig
 
 
 @pytest.mark.asyncio

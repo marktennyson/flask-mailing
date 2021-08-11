@@ -1,5 +1,5 @@
-from flask_email import __version__ as version
-from flask_email import __author__ as author
+from flask_mailing import __version__ as version
+from flask_mailing import __author__ as author
 
 from setuptools import setup,find_packages
 
@@ -9,16 +9,16 @@ with open("README.md", "r") as f:
 
 
 setup(
-    name="Flask-Email",
+    name="Flask-Mailing",
     version=version,
-    url="https://github.com/marktennyson/flask-email",
+    url="https://github.com/marktennyson/flask-mailing",
     license="MIT",
     author=author,
     author_email="aniketsarkar@yahoo.com",
     description="Flask mail system sending mails(individual, bulk) attachments(individual, bulk)",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    keywords=["flask", "django", "navycut", 'flask-mail', 'flask-email'],
+    keywords=["flask", "django", "navycut", 'flask-mail', 'flask-mailing'],
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,

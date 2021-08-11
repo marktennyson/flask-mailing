@@ -15,7 +15,7 @@ class Connection:
 
         if not issubclass(settings.__class__, Settings):
             raise PydanticClassRequired('''Email configuruation should be provided from ConnectionConfig class, check example below:
-         \nfrom flask_email import ConnectionConfig  \nconf = Connection(\nMAIL_USERNAME = "your_username",\nMAIL_PASSWORD = "your_pass",\nMAIL_FROM = "your_from_email",\nMAIL_PORT = 587,\nMAIL_SERVER = "email_service",\nMAIL_TLS = True,\nMAIL_SSL = False)
+         \nfrom flask_mailing import ConnectionConfig  \nconf = Connection(\nMAIL_USERNAME = "your_username",\nMAIL_PASSWORD = "your_pass",\nMAIL_FROM = "your_from_email",\nMAIL_PORT = 587,\nMAIL_SERVER = "email_service",\nMAIL_TLS = True,\nMAIL_SSL = False)
          ''')
 
         self.settings = settings.dict()

@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "Flask-Email"
+name = "Flask-Mailing"
 version = "0.0.1"
-description = "Flask mail system sending mails(individual, bulk) attachments(individual, bulk)"
+description = "Flask mail system sending mails(individual, bulk) attachments(individual, bulk) asynchroniously."
 authors = ["Aniket Sarkar <aniketsarkar@yahoo.com>"]
 license = "MIT"
 readme="README.md"
-repository="https://github.com/marktennyson/flask-email"
-keywords=["flask", "mail", "smtp", "flask-mail", "flask-email", "flask-mailman"]
+repository="https://github.com/marktennyson/flask-mailing"
+keywords=["flask", "mail", "smtp", "flask-mail", "flask-mailing", "flask-mailman"]
 exclude = ["docs", "tests*"]
 classifiers=[
         "Development Status :: 4 - Beta",

@@ -1,14 +1,14 @@
-Contributing to fastapi-mail
+Contributing to flask-mailing
 =========================================
 
-We welcome contributions to [fastapi-mail](https://github.com/marktennyson/flask-email)
+We welcome contributions to [flask-mailing](https://github.com/marktennyson/flask-mailing)
 
 Issues
 ------
 
 Feel free to submit issues and enhancement requests.
 
-[Fatapi-Mail Issues](https://github.com/marktennyson/flask-email/issues)
+[Flask-Mailing Issues](https://github.com/marktennyson/flask-mailing/issues)
 
 Contributing
 ------------

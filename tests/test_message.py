@@ -1,6 +1,6 @@
 import pytest
-from flask_email.schemas import Message, MultipartSubtypeEnum
-from flask_email.msg import MailMsg
+from flask_mailing.schemas import Message, MultipartSubtypeEnum
+from flask_mailing.msg import MailMsg
 import os
 
 CONTENT = "file test content"
