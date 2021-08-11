@@ -76,7 +76,7 @@ async def simple_send() -> JSONResponse:
 
 ## List of Examples
 
-For more examples of using flask-mailing please check [example](https://marktennyson.github.io/flask-mailing/flask-mailing/example/) section
+For more examples of using flask-mailing please check [example](https://marktennyson.github.io/flask-mailing/example/) section
 
 # Contributing
 Feel free to open issues and send pull requests.
@@ -95,7 +95,7 @@ Thanks goes to these wonderful people ([🚧]):
 This project follows the [all-contributors](https://allcontributors.org) specification.
 Contributions of any kind are welcome!
 
-Before you start please read [CONTRIBUTING](https://github.com/marktennyson/flask-mailing/blob/master/CONTRIBUTING.md)
+Before you start please read [CONTRIBUTING](https://github.com/marktennyson/flask-mailing/blob/main/CONTRIBUTING.md)
 
 
 
