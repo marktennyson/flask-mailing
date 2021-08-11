@@ -1,15 +1,15 @@
 # Flask-mailing
 
-The flask-mailing simple lightweight mail system, sending emails and attachments(individual && bulk) fully asynchronusly.
+The flask-mailing simple lightweight mail system, sending emails and attachments(individual && bulk) fully asynchronously.
 
 Flask_Mail is dead now. To use the mail service with your project you can use eaither [Flask-Mailing](https://github.com/marktennyson/flask-mailing) for legacy or [Flask-Mailman](https://github.com/waynerv/flask-mailman) for Django type implementation.
 
 Flask-Mailing is a fork of `Sabuhi's` Fastapi-Mail package, providing similar functionality. 99% of the work was done by him, and the fork was made mainly provide the same features and the apis for the Flask Microframework.
 
-<!-- [![MIT licensed](https://img.shields.io/github/license/marktennyson/flask-mailing)](https://raw.githubusercontent.com/marktennyson/flask-mailing/master/LICENSE)
+[![MIT licensed](https://img.shields.io/github/license/marktennyson/flask-mailing)](https://raw.githubusercontent.com/marktennyson/flask-mailing/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/marktennyson/flask-mailing.svg)](https://github.com/marktennyson/flask-mailing/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/marktennyson/flask-mailing.svg)](https://github.com/marktennyson/flask-mailing/network)
-[![GitHub issues](https://img.shields.io/github/issues-raw/marktennyson/flask-mailing)](https://github.com/marktennyson/flask-mailing/issues) -->
+[![GitHub issues](https://img.shields.io/github/issues-raw/marktennyson/flask-mailing)](https://github.com/marktennyson/flask-mailing/issues)
 [![Downloads](https://pepy.tech/badge/flask-mailing)](https://pepy.tech/project/flask-mailing)
 
 ## A Basic Demo for better understanding
