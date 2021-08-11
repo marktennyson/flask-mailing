@@ -15,7 +15,7 @@ setup(
     license="MIT",
     author=author,
     author_email="aniketsarkar@yahoo.com",
-    description="Flask mail system sending mails(individual, bulk) attachments(individual, bulk)",
+    description="Flask mail system sending mails(individual, bulk) attachments(individual, bulk) fully asynchroniously",
     long_description=long_description,
     long_description_content_type="text/markdown",
     keywords=["flask", "django", "navycut", 'flask-mail', 'flask-mailing'],
