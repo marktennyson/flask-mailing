@@ -1,4 +1,4 @@
-# Flask-mail
+# Flask-mailing
 
 The flask-mailing simple lightweight mail system, sending emails and attachments(individual && bulk)
 
@@ -30,7 +30,7 @@ then the utility will save it in the list or set by default.
 
 
 
-## Writing unittests using Flask-Mail
+## Writing unittests using Flask-Mailing
 Flask mails allows you to write unittest for your application without sending emails to
 non existent email address by mocking the email to be sent. To mock sending out mails, set
 the suppress configuraton to true. Suppress send defaults to False to prevent mocking within applications.

@@ -1,0 +1,42 @@
+site_name: Flask-MAILING
+site_url: 
+site_description: flask-mailing 
+dev_addr: 127.0.0.1:8080
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: teal
+    accent: purple
+  
+  icon:
+    repo: fontawesome/brands/github
+
+
+    
+repo_name: flask-mailing
+repo_url: https://github.com/marktennyson/flask-mailing
+edit_uri: ''
+
+plugins:
+- search
+- markdownextradata:
+    data: data
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  
+  - pymdownx.highlight:
+      linenums: false
+
+  - pymdownx.superfences
+
+nav:
+  - Flask MAILING: index.md
+  - 🔨 Installation: install.md
+  - 🕹 Getting Started: getting-started.md
+  - Example: example.md
+  - Contribution: contribute.md
+
