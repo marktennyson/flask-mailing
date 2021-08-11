@@ -1,7 +1,10 @@
 # Flask-mailing
 
-The flask-mailing simple lightweight mail system, sending emails and attachments(individual && bulk)
+The flask-mailing simple lightweight mail system, sending emails and attachments(individual && bulk) fully asynchronusly.
 
+Flask_Mail is dead now. To use the mail service with your project you can use eaither [Flask-Mailing](https://github.com/marktennyson/flask-mailing) for legacy or [Flask-Mailman](https://github.com/waynerv/flask-mailman) for Django type implementation.
+
+Flask-Mailing is a fork of `Sabuhi's` Fastapi-Mail package, providing similar functionality. 99% of the work was done by him, and the fork was made mainly provide the same features and the apis for the Flask Microframework.
 
 <!-- [![MIT licensed](https://img.shields.io/github/license/marktennyson/flask-mailing)](https://raw.githubusercontent.com/marktennyson/flask-mailing/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/marktennyson/flask-mailing.svg)](https://github.com/marktennyson/flask-mailing/stargazers)
@@ -9,7 +12,46 @@ The flask-mailing simple lightweight mail system, sending emails and attachments
 [![GitHub issues](https://img.shields.io/github/issues-raw/marktennyson/flask-mailing)](https://github.com/marktennyson/flask-mailing/issues) -->
 [![Downloads](https://pepy.tech/badge/flask-mailing)](https://pepy.tech/project/flask-mailing)
 
+## A Basic Demo for better understanding
 
+```python
+
+from flask import Flask, jsonify
+from flask_mailing import Mail, Message
+
+mail = Mail()
+
+def create_app():
+    app = Flask(__name__)
+
+
+    app.config['MAIL_USERNAME'] = "your-email@your-domain.com"
+    app.config['MAIL_PASSWORD'] = "world_top_secret_password"
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_SERVER'] = "your-email-server.com"
+    app.config['MAIL_TLS'] = True
+    app.config['MAIL_SSL'] = False
+    mail.init_app(app)
+
+    return app
+
+#send a simple email using flask_mailing module.
+
+app = create_app()
+
+@app.get("/email")
+async def simple_send():
+
+    message = Message(
+        subject="Flask-Mailing module",
+        recipients=["aniketsarkar@yahoo.com"],
+        body="This is the basic email body",
+        )
+
+    
+    await mail.send_message(message)
+    return jsonify(status_code=200, content={"message": "email has been sent"})
+```
 
 ## Using Jinja2 HTML Templates
 
