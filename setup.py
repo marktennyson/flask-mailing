@@ -1,7 +1,7 @@
-from flask_mailing import __version__ as version
-from flask_mailing import __author__ as author
-
 from setuptools import setup,find_packages
+
+version = (0, 0, 5)
+author = "Aniket Sarkar"
 
 
 with open("README.md", "r") as f:
@@ -10,7 +10,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="Flask-Mailing",
-    version=version,
+    version=".".join([str(i) for i in list(version)]),
     url="https://github.com/marktennyson/flask-mailing",
     license="MIT",
     author=author,
@@ -31,6 +31,7 @@ setup(
         "pydantic>=1.8.2",
         "email-validator>=1.1.3",
         "typing-extensions>=3.10.0.0",
+        "httpx>=0.19.0"
     ],
     extras_require={},
     python_requires=">=3.6,<4",

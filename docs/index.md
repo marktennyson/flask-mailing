@@ -31,6 +31,7 @@ def create_app():
     app.config['MAIL_SERVER'] = "your-email-server.com"
     app.config['MAIL_TLS'] = True
     app.config['MAIL_SSL'] = False
+    app.config['MAIL_DEFAULT_SENDER'] = "your-email@your-domain.com"
     mail.init_app(app)
 
     return app

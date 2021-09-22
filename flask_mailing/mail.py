@@ -68,12 +68,12 @@ class Mail(_MailMixin):
                 MAIL_TLS = app.config.get("MAIL_TLS", False),
                 MAIL_SSL = app.config.get("MAIL_SSL", True),
                 MAIL_DEBUG= app.config.get("MAIL_DEBUG", 0),
-                MAIL_FROM = app.config.get("MAIL_FROM", app.config.get("MAIL_USERNAME")),
                 MAIL_FROM_NAME = app.config.get("MAIL_FROM_NAME",None),
                 MAIL_TEMPLATE_FOLDER = app.config.get("MAIL_TEMPLATE_FOLDER",None),
                 SUPPRESS_SEND = app.config.get("SUPPRESS_SEND", 0),
                 USE_CREDENTIALS = app.config.get("USE_CREDENTIALS", True),
-                VALIDATE_CERTS = app.config.get("VALIDATE_CERTS", True)
+                VALIDATE_CERTS = app.config.get("VALIDATE_CERTS", True),
+                MAIL_FROM = app.config.get("MAIL_FROM", app.config.get("MAIL_DEFAULT_SENDER", app.config.get("MAIL_USERNAME")))
                 )    
 
     async def get_mail_template(self, env_path, template_name):
