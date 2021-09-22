@@ -52,6 +52,7 @@ app.config['MAIL_TLS'] = True
 app.config['MAIL_SSL'] = False
 app.config['USE_CREDENTIALS'] = True
 app.config['VALIDATE_CERTS'] = True
+app.config['MAIL_DEFAULT_SENDER'] = "youremailid@doaminname.com"
 
 mail = Mail(app)
 
