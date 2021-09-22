@@ -10,17 +10,18 @@ class has following attributes
 
 -  MAIL_USERNAME  : Username for email, some email hosts separates username from the default sender(AWS).
     - If you service does not provide username use sender address for connection.
--  MAIL_PASSWORD : Password for authentication
--  MAIL_SERVER  : SMTP Mail server.
--  MAIL_TLS : For TLS connection
--  MAIL_SSL : For TLS connection
--  MAIL_DEBUG : Debug mode for while sending mails, defaults 0.
--  MAIL_FROM : Sender address
--  MAIL_FROM_NAME : Title for Mail
--  TEMPLATE_FOLDER: If you are using jinja2, specify template folder name
--  SUPPRESS_SEND:  To mock sending out mail, defaults 0.
--  USE_CREDENTIALS: Defaults to `True`. However it enables users to choose whether or not to login to their SMTP server.
--  VALIDATE_CERTS: Defaults to `True`. It enables to choose whether to verify the mail server's certificate
+-  **MAIL_PASSWORD** : Password for authentication
+-  **MAIL_SERVER**  : SMTP Mail server.
+-  **MAIL_TLS** : For TLS connection
+-  **MAIL_SSL** : For TLS connection
+-  **MAIL_DEBUG** : Debug mode for while sending mails, defaults 0.
+-  **MAIL_FROM** : Sender address
+- **MAIL_DEFAULT_SENDER** : Sender address
+-  __MAIL_FROM_NAME__ : Title for Mail
+-  __TEMPLATE_FOLDER__: If you are using jinja2, specify template folder name
+-  **SUPPRESS_SEND**:  To mock sending out mail, defaults 0.
+-  **USE_CREDENTIALS**: Defaults to `True`. However it enables users to choose whether or not to login to their SMTP server.
+-  __VALIDATE_CERTS__: Defaults to `True`. It enables to choose whether to verify the mail server's certificate
 
 ### ```Mail``` class
 class has following attributes and methods

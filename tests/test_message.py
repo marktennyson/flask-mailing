@@ -137,7 +137,7 @@ def test_multipart_subtype():
 async def test_msgid_header():
     message = Message(
         subject="test subject",
-        recipients=["uzezio22@gmail.com"],
+        recipients=["sp001@gmail.com"],
         body="test",
         subtype="plain"
     )

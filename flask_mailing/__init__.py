@@ -1,10 +1,13 @@
 from .mail import Mail
 from .config import  ConnectionConfig
-from .schemas import Message, MultipartSubtypeEnum
+from .schemas import (
+    Message as Message, 
+    MultipartSubtypeEnum as MultipartSubtypeEnum
+    )
 from . import utils
 
 
-version_info = (0, 0, 4)
+version_info = (0, 0, 5)
 
 __version__ = ".".join([str(v) for v in version_info])
 
