@@ -8,7 +8,7 @@ Main classes and packages are
 ### Available config options
 class has following attributes
 
--  MAIL_USERNAME  : Username for email, some email hosts separates username from the default sender(AWS).
+-  **MAIL_USERNAME**  : Username for email, some email hosts separates username from the default sender(AWS).
     - If you service does not provide username use sender address for connection.
 -  **MAIL_PASSWORD** : Password for authentication
 -  **MAIL_SERVER**  : SMTP Mail server.
