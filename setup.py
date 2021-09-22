@@ -31,7 +31,8 @@ setup(
         "pydantic>=1.8.2",
         "email-validator>=1.1.3",
         "typing-extensions>=3.10.0.0",
-        "httpx>=0.19.0"
+        "httpx>=0.19.0",
+        "flask>=2.0.0"
     ],
     extras_require={},
     python_requires=">=3.6,<4",
