@@ -68,7 +68,7 @@ html = """
 
 
 @app.post("/email")
-async def simple_send() -> JSONResponse:
+async def simple_send():
 
     message = Message(
         subject="Flask-Mailing module",
