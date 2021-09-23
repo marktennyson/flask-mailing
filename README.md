@@ -9,7 +9,7 @@ Flask-Mailing is a fork of `Sabuhi's` Fastapi-Mail package, providing similar fu
 
 __The key features are:__
 
--  Most of the Apis is very familiar with `Flask-Mail` module.
+-  Most of the Apis are very familiar with `Flask-Mail` module.
 -  sending emails with either with Flask or using asyncio module 
 -  sending files either from form-data or files from server
 -  Using Jinja2 HTML Templates
