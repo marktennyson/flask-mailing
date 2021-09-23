@@ -1,34 +1,15 @@
-# Flask-Mailing
+# ✉️ Flask-Mailing
 ![Flask mail logo](https://github.com/marktennyson/flask-mailing/blob/main/logo/flask-mailing-logo-cropped.png?raw=true)
 
 Flask-Mailing adds SMTP mail sending to your Flask applications
 
-Flask_Mail is dead now. To use the mail service with your project you can use eaither [Flask-Mailing](https://github.com/marktennyson/flask-mailing) for legacy or [Flask-Mailman](https://github.com/waynerv/flask-mailman) for Django type implementation.
+**Flask_Mail** is dead now. This is the time to migrate a fully asynchronous based mailer library to send emails while using a Flask based application. Now Flask 2.0 supports the asynchronous view function then who is stopping you to use __Flask-Mailing__ ?
 
 Flask-Mailing is a fork of `Sabuhi's` Fastapi-Mail package, providing similar functionality. 99% of the work was done by him, and the fork was made mainly provide the same features and the apis for the Flask Microframework.
 
-# Downloads
-[![Downloads](https://pepy.tech/badge/flask-mailing)](https://pepy.tech/project/flask-mailing) [![Downloads](https://pepy.tech/badge/flask-mailing/month)](https://pepy.tech/project/flask-mailing) [![Downloads](https://pepy.tech/badge/flask-mailing/week)](https://pepy.tech/project/flask-mailing)
-<br>
+__The key features are:__
 
-
-###  🔨  Installation ###
-
-```bash
- pip install flask-mailing
-```
-or install from source code
-```bash
-git clone https://github.com/marktennyson/flask-mailing.git && cd flask-mailing
-python setup.py install
-```
-
----
-**Documentation**: [Flask-MAILING](https://marktennyson.github.io/flask-mailing)
----
-
-The key features are:
-
+-  Most of the Apis is very familiar with `Flask-Mail` module.
 -  sending emails with either with Flask or using asyncio module 
 -  sending files either from form-data or files from server
 -  Using Jinja2 HTML Templates
@@ -38,7 +19,27 @@ The key features are:
 
 More information on [Getting-Started](https://marktennyson.github.io/flask-mailing/getting-started)
 
-### Guide
+# 📥 Downloads
+[![Downloads](https://pepy.tech/badge/flask-mailing)](https://pepy.tech/project/flask-mailing) [![Downloads](https://pepy.tech/badge/flask-mailing/month)](https://pepy.tech/project/flask-mailing) [![Downloads](https://pepy.tech/badge/flask-mailing/week)](https://pepy.tech/project/flask-mailing)
+<br>
+
+# 🔗 Important Links
+#### ❤️ [Github](https://github.com/marktennyson/flask-mailing)    
+#### 📄 [Documentation](https://marktennyson.github.io/flask-mailing)    
+#### 🐍 [PYPI](https://pypi.org/project/flask-mailing)    
+
+# 🔨 Installation ###
+
+```bash
+ pip install flask-mailing
+```
+or install from source code
+```bash
+git clone https://github.com/marktennyson/flask-mailing.git && cd flask-mailing
+python -m pip install .
+```
+
+# 🦮 Guide
 
 
 ```python
@@ -80,14 +81,14 @@ async def simple_send() -> JSONResponse:
     return jsonify(status_code=200, content={"message": "email has been sent"})     
 ```
 
-## List of Examples
+# 🪜 List of Examples
 
 For more examples of using flask-mailing please check [example](https://marktennyson.github.io/flask-mailing/example/) section
 
-# Contributing
+# 👍 Contributing
 Feel free to open issues and send pull requests.
 
-## Contributors ✨
+## 😀 Contributors ✨
 
 Thanks goes to these wonderful people ([🚧]):
 
@@ -105,6 +106,6 @@ Before you start please read [CONTRIBUTING](https://github.com/marktennyson/flas
 
 
 
-## LICENSE
+# 📝 LICENSE
 
 [MIT](LICENSE)
