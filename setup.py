@@ -1,7 +1,11 @@
-from setuptools import setup,find_packages
+from setuptools import (
+    setup, 
+    find_packages
+    )
 
-version = (0, 0, 5)
-author = "Aniket Sarkar"
+VERSION = (0, 0, 5)
+AUTHOR = "Aniket Sarkar"
+AUTHOR_EMAIL = "aniketsarkar@yahoo.com"
 
 
 with open("README.md", "r") as f:
@@ -10,11 +14,11 @@ with open("README.md", "r") as f:
 
 setup(
     name="Flask-Mailing",
-    version=".".join([str(i) for i in list(version)]),
+    version=".".join([str(i) for i in list(VERSION)]),
     url="https://github.com/marktennyson/flask-mailing",
     license="MIT",
-    author=author,
-    author_email="aniketsarkar@yahoo.com",
+    author=AUTHOR,
+    author_email=AUTHOR_EMAIL,
     description="Flask mail system sending mails(individual, bulk) attachments(individual, bulk) fully asynchroniously",
     long_description=long_description,
     long_description_content_type="text/markdown",

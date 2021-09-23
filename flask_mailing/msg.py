@@ -7,6 +7,11 @@ from email.mime.multipart import MIMEMultipart
 from email.utils import formatdate, make_msgid
 from email.encoders import encode_base64
 
+import typing as t
+
+if t.TYPE_CHECKING:
+    from werkzeug.datastructures import FileStorage
+
 PY3 = sys.version_info[0] == 3
 
 
@@ -40,8 +45,7 @@ class MailMsg:
 
         return MIMEText(text, _subtype=subtype, _charset=self.charset)
 
-    async def attach_file(self, message, attachment):
-
+    async def attach_file(self, message, attachment:t.List["FileStorage"]):
         for file in attachment:
 
             part = MIMEBase(_maintype="application", _subtype="octet-stream")
@@ -58,13 +62,15 @@ class MailMsg:
                     filename = filename.encode('utf8')
 
             filename = ('UTF8', '', filename)
-
+            disposition:str = getattr(file, 'disposition', 'attachment')
             part.add_header(
                 'Content-Disposition',
-                "attachment",
+                disposition,
                 filename=filename)
 
             self.message.attach(part)
+
+            file.close() # close the file stream
 
     async def _message(self, sender):
         """Creates the email message"""

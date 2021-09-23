@@ -50,10 +50,7 @@ class Mail(_MailMixin):
 
     """
 
-    def __init__(self,
-                app:t.Optional["Flask"]=None
-                #  config: ConnectionConfig
-                 ):
+    def __init__(self, app:t.Optional["Flask"]=None) -> None:
 
         if app is not None:
             self.init_app(app)
@@ -65,8 +62,8 @@ class Mail(_MailMixin):
                 MAIL_PASSWORD = app.config.get("MAIL_PASSWORD"),
                 MAIL_PORT = app.config.get("MAIL_PORT", 465),
                 MAIL_SERVER = app.config.get("MAIL_SERVER"),
-                MAIL_TLS = app.config.get("MAIL_TLS", False),
-                MAIL_SSL = app.config.get("MAIL_SSL", True),
+                MAIL_TLS = app.config.get("MAIL_USE_TLS", False),
+                MAIL_SSL = app.config.get("MAIL_USE_SSL", True),
                 MAIL_DEBUG= app.config.get("MAIL_DEBUG", 0),
                 MAIL_FROM_NAME = app.config.get("MAIL_FROM_NAME",None),
                 MAIL_TEMPLATE_FOLDER = app.config.get("MAIL_TEMPLATE_FOLDER",None),

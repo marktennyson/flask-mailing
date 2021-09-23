@@ -1,6 +1,10 @@
+from dotenv import load_dotenv; load_dotenv()
+
 from flask import jsonify
 from base import create_app
 from flask_mailing import Mail, Message
+
+import os as os
 
 mail = Mail()
 
@@ -24,10 +28,10 @@ async def simple_send() -> jsonify:
 
     message = Message(
         subject="Flask-Mailing module",
-        recipients=["aniketsarkar@yahoo.com"],
+        recipients=[os.environ['MAIL_RECIPIENT']],
         body="This is the basic email body",
-        # subtype="html"
         )
+    message.add_recipient("aniforsana@gmail.com")
 
     
     await mail.send_message(message)
@@ -38,10 +42,13 @@ async def simple_send() -> jsonify:
 async def mail_file():
     message = Message(
         subject = "attachments based email",
-        recipients = ["aniketsarkar@yahoo.com"],
+        recipients = [os.environ['MAIL_RECIPIENT']],
         body = "This is the email body",
         attachments = ['attachments/attachment.txt']
     )
+    with app.open_resource('attachments/test.html') as fp:
+        message.attach("test.html", fp.read())
+
     await mail.send_message(message)
     return jsonify(message="email sent")
 
@@ -50,7 +57,7 @@ async def mail_html():
     
     message = Message(
         subject = "html template based email",
-        recipients = ["aniketsarkar@yahoo.com"],
+        recipients = [os.environ['MAIL_RECIPIENT']],
         template_body = {
                         "first_name": "Fred",
                         "last_name": "Fredsson"

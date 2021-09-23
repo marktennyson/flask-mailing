@@ -12,8 +12,8 @@ class has following attributes
     - If you service does not provide username use sender address for connection.
 -  **MAIL_PASSWORD** : Password for authentication
 -  **MAIL_SERVER**  : SMTP Mail server.
--  **MAIL_TLS** : For TLS connection
--  **MAIL_SSL** : For TLS connection
+-  **MAIL_USE_TLS** : For TLS connection
+-  **MAIL_USE_SSL** : For TLS connection
 -  **MAIL_DEBUG** : Debug mode for while sending mails, defaults 0.
 -  **MAIL_FROM** : Sender address
 - **MAIL_DEFAULT_SENDER** : Sender address
@@ -44,10 +44,10 @@ class has following attributes
 -  reply_to : Reply-To recipients in the mail
 -  charset : charset defaults to utf-8
 -  subtype : subtype of the mail defaults to plain
+- add_recipient : a method to add additional recipients.
+- attach : a method to add additional attachments.
 
    
-
-
 ### ```utils.DefaultChecker``` class
 Default class for checking email from collected public resource.
 The class makes it possible to use redis to save data.

@@ -27,6 +27,17 @@ def test_recipients_properly_initialized():
 
     assert message.recipients == []
 
+def test_add_recipient_method():
+    message = Message(
+        subject="test subject",
+        recipients=[],
+        body="test",
+        subtype="plain"
+    )
+    message.add_recipient("aniketsarkar@yahoo.com")
+
+    assert message.recipients == ["aniketsarkar@yahoo.com"]
+
 
 def test_sendto_properly_set():
     msg = Message(subject="subject", recipients=["somebody@here.com", "somebody2@here.com"],
@@ -88,6 +99,21 @@ def test_plain_message_with_attachments():
     assert len(msg.attachments) == 1
 
 
+def test_plain_message_with_attach_method():
+    directory = os.getcwd()
+    attachement  = directory + "/files/attachement_1.txt"
+ 
+    msg = Message(subject="testing",
+                        recipients=["to@example.com"],
+                        body="test mail body")
+    
+    with open(attachement, "w") as file:
+        file.write(CONTENT)
+
+    with open(attachement, "rb") as fp:
+        msg.attach("attachement_1.txt", fp.read())
+
+    assert len(msg.attachments) == 1
 
 
 def test_empty_subject_header():

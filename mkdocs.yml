@@ -1,5 +1,5 @@
 site_name: Flask-MAILING
-site_url: 
+site_url: https://marktennyson.github.io/flask-mailing
 site_description: flask-mailing 
 dev_addr: 127.0.0.1:8080
 
@@ -15,9 +15,9 @@ theme:
 
 
     
-repo_name: flask-mailing
+repo_name: marktennyson/flask-mailing
 repo_url: https://github.com/marktennyson/flask-mailing
-edit_uri: ''
+edit_uri: 'https://github.com/marktennyson/flask-mailing'
 
 plugins:
 - search
