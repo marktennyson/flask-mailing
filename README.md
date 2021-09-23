@@ -1,5 +1,5 @@
 # Flask-Mailing
-![Flask mail logo](https://github.com/marktennyson/flask-mailing/blob/main/flask-mailing-logo-cropped.png?raw=true)
+![Flask mail logo](https://github.com/marktennyson/flask-mailing/blob/main/logo/flask-mailing-logo-cropped.png?raw=true)
 
 Flask-Mailing adds SMTP mail sending to your Flask applications
 
