@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import pytest
-# import fakeredis.aioredis
+import fakeredis.aioredis
 from flask_mailing.utils import DefaultChecker
 
 
@@ -12,15 +12,15 @@ def default_checker():
     del test
 
 
-# @pytest.fixture
-# @pytest.mark.asyncio
-# async def redis_checker(scope="redis_config"):
-#     test = DefaultChecker(db_provider="redis")
-#     test.redis_client = await  fakeredis.aioredis.create_redis_pool(encoding="UTF-8")
-#     await test.init_redis()
-#     yield test
-#     await test.redis_client.flushall()
-#     await test.close_connections()
+@pytest.fixture
+@pytest.mark.asyncio
+async def redis_checker(scope="redis_config"):
+    test = DefaultChecker(db_provider="redis")
+    test.redis_client = await  fakeredis.aioredis.create_redis_pool(encoding="UTF-8")
+    await test.init_redis()
+    yield test
+    await test.redis_client.flushall()
+    await test.close_connections()
 
 
 @pytest.fixture(autouse=True)
@@ -34,8 +34,8 @@ def mail_config():
         "MAIL_FROM_NAME": "example",
         "MAIL_PORT": 25,
         "MAIL_SERVER": "localhost",
-        "MAIL_TLS": False,
-        "MAIL_SSL": False,
+        "MAIL_USE_TLS": False,
+        "MAIL_USE_SSL": False,
         "MAIL_DEBUG": 0,
         "SUPPRESS_SEND": 1,
         "USE_CREDENTIALS": False,

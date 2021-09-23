@@ -1,6 +1,14 @@
 import os
+import io
 from enum import Enum
-from typing import List, Union, Any, Optional, Dict
+from typing import (
+    List, 
+    Union, 
+    Any, 
+    Optional, 
+    Dict, 
+    Literal
+    )
 from mimetypes import MimeTypes
 
 from pydantic import BaseModel, EmailStr, validator
@@ -67,6 +75,48 @@ class Message(BaseModel):
         if values['template_body']:
             return 'html'
         return value
+
+    
+    def add_recipient(self, recipient:str) -> Literal[True]:
+        """
+        Adds another recipient to the message.
+
+        :param recipient: email address of recipient.
+        """
+        self.recipients.append(recipient)
+        return True
+
+
+    def attach(
+        self,
+        filename:str,
+        data:Union[bytes,str],
+        content_type:dict=None,
+        disposition:str='attachment',
+        headers:dict={}
+        ) -> Literal[True]:
+        """
+        Adds an attachment to the message.
+
+        :param `filename`: filename of attachment
+        :param `data`: the raw file data
+        :param `content_type`: file mimetype
+        :param `disposition`: content-disposition (if any)
+        :param `headers`: dictionary of headers
+        """
+        if content_type is None:
+            mime = MimeTypes()
+            content_type = mime.guess_type(filename)
+
+        fsob:"FileStorage" = FileStorage(
+            io.BytesIO(data), 
+            filename, 
+            content_type=content_type, 
+            headers=headers
+            )
+        fsob.disposition = disposition
+        self.attachments.append(fsob)
+        return True
 
 
 def validate_path(path):

@@ -1,11 +1,16 @@
 # Flask-Mailing
+![Flask mail logo](https://github.com/marktennyson/flask-mailing/blob/main/flask-mailing-logo-cropped.png?raw=true)
+
 Flask-Mailing adds SMTP mail sending to your Flask applications
 
 Flask_Mail is dead now. To use the mail service with your project you can use eaither [Flask-Mailing](https://github.com/marktennyson/flask-mailing) for legacy or [Flask-Mailman](https://github.com/waynerv/flask-mailman) for Django type implementation.
 
 Flask-Mailing is a fork of `Sabuhi's` Fastapi-Mail package, providing similar functionality. 99% of the work was done by him, and the fork was made mainly provide the same features and the apis for the Flask Microframework.
 
-##### Need help to create and deploy the test cases.(Urgent)
+# Downloads
+[![Downloads](https://pepy.tech/badge/flask-mailing)](https://pepy.tech/project/flask-mailing) [![Downloads](https://pepy.tech/badge/flask-mailing/month)](https://pepy.tech/project/flask-mailing) [![Downloads](https://pepy.tech/badge/flask-mailing/week)](https://pepy.tech/project/flask-mailing)
+<br>
+
 
 ###  🔨  Installation ###
 
@@ -48,10 +53,11 @@ app.config['MAIL_USERNAME'] = "YourUserName"
 app.config['MAIL_PASSWORD'] = "strong_password"
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_SERVER'] = "your mail server"
-app.config['MAIL_TLS'] = True
-app.config['MAIL_SSL'] = False
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
 app.config['USE_CREDENTIALS'] = True
 app.config['VALIDATE_CERTS'] = True
+app.config['MAIL_DEFAULT_SENDER'] = "youremailid@doaminname.com"
 
 mail = Mail(app)
 

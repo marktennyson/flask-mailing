@@ -21,8 +21,8 @@ def create_app():
     app.config['MAIL_PASSWORD'] = "world_top_secret_password"
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_SERVER'] = "your-email-server.com"
-    app.config['MAIL_TLS'] = True
-    app.config['MAIL_SSL'] = False
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USE_SSL'] = False
     mail.init_app(app)
 
     return app
@@ -44,6 +44,13 @@ async def simple_send():
     await mail.send_message(message)
     return jsonify(status_code=200, content={"message": "email has been sent"})
 ```
+
+#### Add recipient using `add_recipient` method
+
+```python
+message.add_recipient("recipient@emldomain.com")
+```
+
 
 ### Send a simple html message
 ```python
@@ -80,6 +87,11 @@ async def mail_file():
     )
     await mail.send_message(message)
     return jsonify(message="email sent")
+```
+#### Sending files using `attach` method
+```python
+with app.open_resource("attachments/example.txt") as fp:
+    message.attach("example.txt", fp.read())
 ```
 
 ### Using Jinja2 HTML Templates
