@@ -13,6 +13,8 @@ from .errors import PydanticClassRequired
 if t.TYPE_CHECKING:
     from flask import Flask
 
+version_info = (0, 0, 6)
+
 
 class _MailMixin:
     @contextmanager
@@ -54,6 +56,7 @@ class Mail(_MailMixin):
 
         if app is not None:
             self.init_app(app)
+            
 
     def init_app(self, app:"Flask") -> None:
 
@@ -71,7 +74,11 @@ class Mail(_MailMixin):
                 USE_CREDENTIALS = app.config.get("USE_CREDENTIALS", True),
                 VALIDATE_CERTS = app.config.get("VALIDATE_CERTS", True),
                 MAIL_FROM = app.config.get("MAIL_FROM", app.config.get("MAIL_DEFAULT_SENDER", app.config.get("MAIL_USERNAME")))
-                )    
+                )   
+        app.extensions['flask_mailing'] = {
+            'name': "Flask Mailing",
+            'version': ".".join([str(v) for v in version_info]),
+        }
 
     async def get_mail_template(self, env_path, template_name):
         return env_path.get_template(template_name)
