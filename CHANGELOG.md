@@ -11,3 +11,6 @@
 - added `add_recipient` and `attach` method to the __schemas.Message__ class.
 - Fixed some broken test cases.
 - modifications at the documentation.
+
+## 0.0.6
+- Now the user can access the `Mail` object from the app extension dictionary: `app.extension['mailing']`

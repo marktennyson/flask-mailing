@@ -17,6 +17,10 @@ version_info = (0, 0, 6)
 
 
 class _MailMixin:
+
+    name = "Flask Mailing"
+    version = ".".join([str(v) for v in version_info])
+
     @contextmanager
     def record_messages(self):
         """Records all messages. Use in unit tests for example::
@@ -75,10 +79,7 @@ class Mail(_MailMixin):
                 VALIDATE_CERTS = app.config.get("VALIDATE_CERTS", True),
                 MAIL_FROM = app.config.get("MAIL_FROM", app.config.get("MAIL_DEFAULT_SENDER", app.config.get("MAIL_USERNAME")))
                 )   
-        app.extensions['flask_mailing'] = {
-            'name': "Flask Mailing",
-            'version': ".".join([str(v) for v in version_info]),
-        }
+        app.extensions['mailing'] = self
 
     async def get_mail_template(self, env_path, template_name):
         return env_path.get_template(template_name)
