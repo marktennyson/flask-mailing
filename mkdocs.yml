@@ -20,6 +20,7 @@ repo_url: https://github.com/marktennyson/flask-mailing
 edit_uri: 'https://github.com/marktennyson/flask-mailing'
 
 plugins:
+- include-markdown
 - search
 - markdownextradata:
     data: data
@@ -39,4 +40,5 @@ nav:
   - 🕹 Getting Started: getting-started.md
   - Example: example.md
   - Contribution: contribute.md
+  - Changelog: changelog.md
 
