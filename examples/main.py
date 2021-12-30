@@ -31,7 +31,7 @@ async def simple_send() -> jsonify:
         recipients=[os.environ['MAIL_RECIPIENT']],
         body="This is the basic email body",
         )
-    message.add_recipient("aniforsana@gmail.com")
+    # message.add_recipient("aniforsana@gmail.com")
 
     
     await mail.send_message(message)
