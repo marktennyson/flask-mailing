@@ -14,3 +14,6 @@
 
 ## 0.0.6
 - Now the user can access the `Mail` object from the app extension dictionary: `app.extension['mailing']`
+
+## 0.0.7
+- Solved the `long description not found` on the PYPI website.

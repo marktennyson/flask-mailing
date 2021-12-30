@@ -13,7 +13,7 @@ from .errors import PydanticClassRequired
 if t.TYPE_CHECKING:
     from flask import Flask
 
-version_info = (0, 0, 6)
+version_info = (0, 0, 7)
 
 
 class _MailMixin:

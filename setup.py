@@ -3,13 +3,13 @@ from setuptools import (
     find_packages
     )
 
-VERSION = (0, 0, 6)
+VERSION = (0, 0, 7)
 AUTHOR = "Aniket Sarkar"
 AUTHOR_EMAIL = "aniketsarkar@yahoo.com"
 
 
 with open("README.md", "r") as f:
-    #long_description = f.read().decode('utf8')
+    long_description = f.read()
     pass
 
 
@@ -21,6 +21,8 @@ setup(
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
     description="Flask mail system sending mails(individual, bulk) attachments(individual, bulk) fully asynchroniously",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     keywords=["flask", "django", "navycut", 'flask-mail', 'flask-mailing'],
     packages=find_packages(),
     include_package_data=True,
