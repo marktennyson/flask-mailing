@@ -117,6 +117,17 @@ async def mail_html():
                         }
         # attachments = ['attachments/attachment.txt']
     )
+    #or
+    message = Message(
+        subject = "html template based email",
+        recipients = ["aniketsarkar@yahoo.com"],
+        template_params = {
+                        "first_name": "Hare",
+                        "last_name": "Krishna"
+                        }
+        # attachments = ['attachments/attachment.txt']
+    )
+
     await mail.send_message(message, template_name="test.html")
     return jsonify(message="email sent")
 ```

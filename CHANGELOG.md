@@ -17,3 +17,6 @@
 
 ## 0.0.7
 - Solved the `long description not found` on the PYPI website.
+
+## 0.0.8 [Upcoming]
+- Fixed issue #20

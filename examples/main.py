@@ -54,13 +54,17 @@ async def mail_file():
 
 @app.get("/mail-html")
 async def mail_html():
-    
+    Message.update_forward_refs()
     message = Message(
         subject = "html template based email",
         recipients = [os.environ['MAIL_RECIPIENT']],
-        template_body = {
+        template_params = {
                         "first_name": "Fred",
                         "last_name": "Fredsson"
+                        },
+        template_body = {
+                        "first_name": "Aniket",
+                        "last_name": "Sarkar"
                         }
         # attachments = ['attachments/attachment.txt']
     )
