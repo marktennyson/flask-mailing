@@ -23,7 +23,16 @@ setup(
     description="Flask mail system sending mails(individual, bulk) attachments(individual, bulk) fully asynchroniously",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    keywords=["flask", "django", "navycut", 'flask-mail', 'flask-mailing'],
+    keywords=[
+        "flask", 
+        'flask-mail', 
+        'flask-mailing', 
+        'async-flask', 
+        'asynchroniously-send-email-in-flask',
+        'async-mailer', 
+        'flask-email', 
+        'flask-mailman'
+        ],
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
@@ -41,17 +50,12 @@ setup(
     ],
     extras_require={},
     python_requires=">=3.6,<4",
-    entry_points={
-        "console_scripts":[
-            "navycut=navycut.__main__:_main"
-        ]
-    },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Framework :: Flask",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+        "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",

@@ -20,3 +20,4 @@
 
 ## 0.0.8 [Upcoming]
 - Fixed issue #20
+- Major typo fixed at setup.py
