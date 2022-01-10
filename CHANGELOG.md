@@ -29,3 +29,4 @@
 - Fixed some broken test cases.
 - Added some more test cases.
 - Fixed the Variable name issue at `config.ConnectionConfig` class.
+- Now the users are allowed to create custom headers for attachments.
