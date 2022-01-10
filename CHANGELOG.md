@@ -18,6 +18,14 @@
 ## 0.0.7
 - Solved the `long description not found` on the PYPI website.
 
-## 0.0.8 [Upcoming]
-- Fixed issue #20
+## 0.1.0 [Upcoming]
+- Fixed issue #20 
+- Now the user can pass template parameters by using `template_params` variable on the `schemas.Message` class.
+- Dependencies update.
+- Added `future roadmap` on the docs.
 - Major typo fixed at setup.py
+- Updated the `MANIFEST.in` file.
+- Python version 3.10.0 compatibility. 
+- Fixed some broken test cases.
+- Added some more test cases.
+- Fixed the Variable name issue at `config.ConnectionConfig` class.

@@ -2,10 +2,10 @@ import os
 from pathlib import Path
 from typing import Optional
 
-from pydantic import BaseSettings as Settings, conint
-from pydantic import EmailStr, validator, DirectoryPath
-from jinja2 import Environment, FileSystemLoader
 from flask.globals import current_app
+from jinja2 import Environment, FileSystemLoader
+from pydantic import BaseSettings as Settings
+from pydantic import DirectoryPath, EmailStr, conint, validator
 
 from .errors import TemplateFolderDoesNotExist
 
@@ -15,8 +15,8 @@ class ConnectionConfig(Settings):
     MAIL_PASSWORD: str
     MAIL_PORT: int = 465
     MAIL_SERVER: str
-    MAIL_TLS: bool = False
-    MAIL_SSL: bool = True
+    MAIL_USE_TLS: bool = False
+    MAIL_USE_SSL: bool = True
     MAIL_DEBUG: conint(gt=-1, lt=2) = 0
     MAIL_FROM: EmailStr
     MAIL_FROM_NAME: Optional[str] = None
@@ -30,7 +30,7 @@ class ConnectionConfig(Settings):
         """Validate the template folder directory."""
         if not v:
             return
-        if not os.access(str(v), os.R_OK):# or not path_traversal(v):
+        if not os.access(str(v), os.R_OK):  # or not path_traversal(v):
             raise TemplateFolderDoesNotExist(
                 f"{v!r} is not a valid path to an email template folder"
             )
@@ -39,12 +39,12 @@ class ConnectionConfig(Settings):
     def template_engine(self) -> Environment:
         """Return template environment."""
         folder = self.MAIL_TEMPLATE_FOLDER
-        
+
         if not folder:
             template_env = current_app.jinja_env
-        
+
         else:
-            template_env:"Environment" = Environment(loader=FileSystemLoader(folder))
+            template_env: "Environment" = Environment(loader=FileSystemLoader(folder))
 
         return template_env
 

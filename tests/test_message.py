@@ -1,7 +1,9 @@
-import pytest
-from flask_mailing.schemas import Message, MultipartSubtypeEnum
-from flask_mailing.msg import MailMsg
 import os
+
+import pytest
+
+from flask_mailing.msg import MailMsg
+from flask_mailing.schemas import Message, MultipartSubtypeEnum
 
 CONTENT = "file test content"
 
@@ -11,7 +13,7 @@ def test_initialize():
         subject="test subject",
         recipients=["uzezio22@gmail.com"],
         body="test",
-        subtype="plain"
+        subtype="plain",
     )
 
     assert message.subject == "test subject"
@@ -19,20 +21,15 @@ def test_initialize():
 
 def test_recipients_properly_initialized():
     message = Message(
-        subject="test subject",
-        recipients=[],
-        body="test",
-        subtype="plain"
+        subject="test subject", recipients=[], body="test", subtype="plain"
     )
 
     assert message.recipients == []
 
+
 def test_add_recipient_method():
     message = Message(
-        subject="test subject",
-        recipients=[],
-        body="test",
-        subtype="plain"
+        subject="test subject", recipients=[], body="test", subtype="plain"
     )
     message.add_recipient("aniketsarkar@yahoo.com")
 
@@ -40,8 +37,13 @@ def test_add_recipient_method():
 
 
 def test_sendto_properly_set():
-    msg = Message(subject="subject", recipients=["somebody@here.com", "somebody2@here.com"],
-                        cc=["cc@example.com"], bcc=["bcc@example.com"], reply_to=["replyto@example.com"])
+    msg = Message(
+        subject="subject",
+        recipients=["somebody@here.com", "somebody2@here.com"],
+        cc=["cc@example.com"],
+        bcc=["bcc@example.com"],
+        reply_to=["replyto@example.com"],
+    )
 
     assert len(msg.recipients) == 2
     assert len(msg.cc) == 1
@@ -49,18 +51,15 @@ def test_sendto_properly_set():
     assert len(msg.reply_to) == 1
 
 
-
-
 def test_plain_message():
     message = Message(
         subject="test subject",
         recipients=["uzezio22@gmail.com"],
         body="test",
-        subtype="plain"
+        subtype="plain",
     )
 
     assert message.body == "test"
-
 
 
 def test_charset():
@@ -68,17 +67,18 @@ def test_charset():
         subject="test subject",
         recipients=["uzezio22@gmail.com"],
         body="test",
-        subtype="plain"
+        subtype="plain",
     )
 
     assert message.charset == "utf-8"
+
 
 def test_message_str():
     message = Message(
         subject="test subject",
         recipients=["uzezio22@gmail.com"],
         body="test",
-        subtype="plain"
+        subtype="plain",
     )
 
     assert type(message.body) == str
@@ -86,27 +86,29 @@ def test_message_str():
 
 def test_plain_message_with_attachments():
     directory = os.getcwd()
-    attachement  = directory + "/files/attachement.txt"
- 
-    msg = Message(subject="testing",
-                        recipients=["to@example.com"],
-                        attachments=[attachement],
-                        body="test mail body")
-    
+    attachement = directory + "/files/attachement.txt"
+
     with open(attachement, "w") as file:
         file.write(CONTENT)
+
+    msg = Message(
+        subject="testing",
+        recipients=["to@example.com"],
+        attachments=[attachement],
+        body="test mail body",
+    )
 
     assert len(msg.attachments) == 1
 
 
 def test_plain_message_with_attach_method():
     directory = os.getcwd()
-    attachement  = directory + "/files/attachement_1.txt"
- 
-    msg = Message(subject="testing",
-                        recipients=["to@example.com"],
-                        body="test mail body")
-    
+    attachement = directory + "/files/attachement_1.txt"
+
+    msg = Message(
+        subject="testing", recipients=["to@example.com"], body="test mail body"
+    )
+
     with open(attachement, "w") as file:
         file.write(CONTENT)
 
@@ -118,32 +120,28 @@ def test_plain_message_with_attach_method():
 
 def test_empty_subject_header():
     message = Message(
-        subject="",
-        recipients=["uzezio22@gmail.com"],
-        body="test",
-        subtype="plain"
+        subject="", recipients=["uzezio22@gmail.com"], body="test", subtype="plain"
     )
 
     assert len(message.subject) == 0
 
 
 def test_bcc():
-    msg = Message(subject="subject", recipients=[],
-                        bcc=["bcc@example.com"])
+    msg = Message(subject="subject", recipients=[], bcc=["bcc@example.com"])
 
     assert len(msg.bcc) == 1
     assert msg.bcc == ["bcc@example.com"]
 
+
 def test_replyto():
-    msg = Message(subject="subject", recipients=[],
-                        reply_to=["replyto@example.com"])
+    msg = Message(subject="subject", recipients=[], reply_to=["replyto@example.com"])
 
     assert len(msg.reply_to) == 1
     assert msg.reply_to == ["replyto@example.com"]
 
+
 def test_cc():
-    msg = Message(subject="subject", recipients=[],
-                        cc=["cc@example.com"])
+    msg = Message(subject="subject", recipients=[], cc=["cc@example.com"])
 
     assert len(msg.cc) == 1
     assert msg.cc == ["cc@example.com"]
@@ -154,9 +152,9 @@ def test_multipart_subtype():
         subject="test subject",
         recipients=["to@example.com"],
         body="test",
-        subtype="plain"
+        subtype="plain",
     )
-    assert  message.multipart_subtype == MultipartSubtypeEnum.mixed
+    assert message.multipart_subtype == MultipartSubtypeEnum.mixed
 
 
 @pytest.mark.asyncio
@@ -165,12 +163,12 @@ async def test_msgid_header():
         subject="test subject",
         recipients=["sp001@gmail.com"],
         body="test",
-        subtype="plain"
+        subtype="plain",
     )
 
     msg = MailMsg(**message.dict())
-    msg_object = await msg._message('test@example.com')
-    assert msg_object['Message-ID'] is not None
+    msg_object = await msg._message("test@example.com")
+    assert msg_object["Message-ID"] is not None
 
 
 @pytest.mark.asyncio
@@ -179,10 +177,10 @@ async def test_message_charset():
         subject="test subject",
         recipients=["uzezio22@gmail.com"],
         body="test",
-        subtype="plain"
+        subtype="plain",
     )
 
     msg = MailMsg(**message.dict())
-    msg_object = await msg._message('test@example.com')
+    msg_object = await msg._message("test@example.com")
     assert msg_object._charset is not None
     assert msg_object._charset == "utf-8"

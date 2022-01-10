@@ -1,25 +1,20 @@
-import os
 import io
+import os
 from enum import Enum
-from typing import (
-    List, 
-    Union, 
-    Any, 
-    Optional, 
-    Dict, 
-    Literal,
-    )
 from mimetypes import MimeTypes
+from typing import Any, Dict, List, Literal, Optional, Union
 
-from pydantic import BaseModel, validator, EmailStr
+from pydantic import BaseModel, EmailStr, validator
 from werkzeug.datastructures import FileStorage
+
 from .errors import WrongFile
 
 
 class MultipartSubtypeEnum(Enum):
-    '''
+    """
     for more info about Multipart subtypes visit: https://en.wikipedia.org/wiki/MIME#Multipart_subtypes
-    '''
+    """
+
     mixed = "mixed"
     digest = "digest"
     alternative = "alternative"
@@ -34,7 +29,7 @@ class MultipartSubtypeEnum(Enum):
 
 class Message(BaseModel):
     recipients: List["EmailStr"]
-    attachments: List[Any] = []
+    attachments: List[Union[FileStorage, Dict, str]] = []
     subject: str = ""
     body: Optional[Union[str, list]] = None
     template_body: Optional[Union[list, dict]] = None
@@ -49,9 +44,9 @@ class Message(BaseModel):
 
     @validator("template_params")
     def validate_template_params(cls, value, values):
-        
-        if values.get('template_body', None) is None:
-            values['template_body'] = value
+
+        if values.get("template_body", None) is None:
+            values["template_body"] = value
         return value
 
     @validator("attachments")
@@ -60,32 +55,38 @@ class Message(BaseModel):
         mime = MimeTypes()
 
         for file in v:
+            file_meta = None
+            if isinstance(file, dict):
+                keys = file.keys()
+                if "file" not in keys:
+                    raise WrongFile('missing "file" key')
+                file_meta = dict.copy(file)
+                del file_meta["file"]
+                file = file["file"]
             if isinstance(file, str):
-                if os.path.isfile(file) and os.access(file, os.R_OK) and validate_path(file):
+                if (
+                    os.path.isfile(file)
+                    and os.access(file, os.R_OK)
+                    and validate_path(file)
+                ):
                     mime_type = mime.guess_type(file)
                     f = open(file, mode="rb")
                     _, file_name = os.path.split(f.name)
                     u = FileStorage(f, file_name, content_type=mime_type[0])
-                    temp.append(u)
+                    temp.append((u, file_meta))
                 else:
                     raise WrongFile(
-                        "incorrect file path for attachment or not readable")
+                        "incorrect file path for attachment or not readable"
+                    )
             elif isinstance(file, FileStorage):
-                temp.append(file)
+                temp.append((file, file_meta))
             else:
                 raise WrongFile(
-                    "attachments field type incorrect, must be FileStorage or path")
+                    "attachments field type incorrect, must be FileStorage or path"
+                )
         return temp
 
-    @validator('subtype')
-    def validate_subtype(cls, value, values, config, field):
-        """Validate subtype field."""
-        if values['template_body']:
-            return 'html'
-        return value
-
-    
-    def add_recipient(self, recipient:str) -> Literal[True]:
+    def add_recipient(self, recipient: str) -> Literal[True]:
         """
         Adds another recipient to the message.
 
@@ -94,15 +95,14 @@ class Message(BaseModel):
         self.recipients.append(recipient)
         return True
 
-
     def attach(
         self,
-        filename:str,
-        data:Union[bytes,str],
-        content_type:dict=None,
-        disposition:str='attachment',
-        headers:dict={}
-        ) -> Literal[True]:
+        filename: str,
+        data: Union[bytes, str],
+        content_type: dict = None,
+        disposition: str = "attachment",
+        headers: dict = {},
+    ) -> Literal[True]:
         """
         Adds an attachment to the message.
 
@@ -116,15 +116,22 @@ class Message(BaseModel):
             mime = MimeTypes()
             content_type = mime.guess_type(filename)
 
-        fsob:"FileStorage" = FileStorage(
-            io.BytesIO(data), 
-            filename, 
-            content_type=content_type, 
-            headers=headers
-            )
+        fsob: "FileStorage" = FileStorage(
+            io.BytesIO(data), filename, content_type=content_type, headers=headers
+        )
         fsob.disposition = disposition
         self.attachments.append(fsob)
         return True
+
+    @validator("subtype")
+    def validate_subtype(cls, value, values, config, field):
+        """Validate subtype field."""
+        if values.get("template_body"):
+            return "html"
+        return value
+
+    class Config:
+        arbitrary_types_allowed = True
 
 
 def validate_path(path):

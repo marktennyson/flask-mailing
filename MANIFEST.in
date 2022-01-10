@@ -1,1 +1,3 @@
 recursive-exclude flask-mailing/examples *
+recursive-exclude test.py
+recursive-exclude tests

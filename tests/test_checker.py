@@ -1,5 +1,6 @@
 import pytest
 from pydantic import EmailError
+
 from flask_mailing.utils.errors import DBProvaiderError
 
 

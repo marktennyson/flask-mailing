@@ -1,14 +1,14 @@
+import typing as t
 from contextlib import contextmanager
 
 import blinker
-import typing as t
 from pydantic import BaseModel
 
 from .config import ConnectionConfig
 from .connection import Connection
-from .schemas import Message
-from .msg import MailMsg
 from .errors import PydanticClassRequired
+from .msg import MailMsg
+from .schemas import Message
 
 if t.TYPE_CHECKING:
     from flask import Flask
@@ -56,30 +56,32 @@ class Mail(_MailMixin):
 
     """
 
-    def __init__(self, app:t.Optional["Flask"]=None) -> None:
+    def __init__(self, app: t.Optional["Flask"] = None) -> None:
 
         if app is not None:
             self.init_app(app)
-            
 
-    def init_app(self, app:"Flask") -> None:
+    def init_app(self, app: "Flask") -> None:
 
         self.config = ConnectionConfig(
-                MAIL_USERNAME = app.config.get("MAIL_USERNAME"),
-                MAIL_PASSWORD = app.config.get("MAIL_PASSWORD"),
-                MAIL_PORT = app.config.get("MAIL_PORT", 465),
-                MAIL_SERVER = app.config.get("MAIL_SERVER"),
-                MAIL_TLS = app.config.get("MAIL_USE_TLS", False),
-                MAIL_SSL = app.config.get("MAIL_USE_SSL", True),
-                MAIL_DEBUG= app.config.get("MAIL_DEBUG", 0),
-                MAIL_FROM_NAME = app.config.get("MAIL_FROM_NAME",None),
-                MAIL_TEMPLATE_FOLDER = app.config.get("MAIL_TEMPLATE_FOLDER",None),
-                SUPPRESS_SEND = app.config.get("SUPPRESS_SEND", 0),
-                USE_CREDENTIALS = app.config.get("USE_CREDENTIALS", True),
-                VALIDATE_CERTS = app.config.get("VALIDATE_CERTS", True),
-                MAIL_FROM = app.config.get("MAIL_FROM", app.config.get("MAIL_DEFAULT_SENDER", app.config.get("MAIL_USERNAME")))
-                )   
-        app.extensions['mailing'] = self
+            MAIL_USERNAME=app.config.get("MAIL_USERNAME"),
+            MAIL_PASSWORD=app.config.get("MAIL_PASSWORD"),
+            MAIL_PORT=app.config.get("MAIL_PORT", 465),
+            MAIL_SERVER=app.config.get("MAIL_SERVER"),
+            MAIL_USE_TLS=app.config.get("MAIL_USE_TLS", False),
+            MAIL_USE_SSL=app.config.get("MAIL_USE_SSL", True),
+            MAIL_DEBUG=app.config.get("MAIL_DEBUG", 0),
+            MAIL_FROM_NAME=app.config.get("MAIL_FROM_NAME", None),
+            MAIL_TEMPLATE_FOLDER=app.config.get("MAIL_TEMPLATE_FOLDER", None),
+            SUPPRESS_SEND=app.config.get("SUPPRESS_SEND", 0),
+            USE_CREDENTIALS=app.config.get("USE_CREDENTIALS", True),
+            VALIDATE_CERTS=app.config.get("VALIDATE_CERTS", True),
+            MAIL_FROM=app.config.get(
+                "MAIL_FROM",
+                app.config.get("MAIL_DEFAULT_SENDER", app.config.get("MAIL_USERNAME")),
+            ),
+        )
+        app.extensions["mailing"] = self
 
     async def get_mail_template(self, env_path, template_name):
         return env_path.get_template(template_name)
@@ -89,19 +91,27 @@ class Mail(_MailMixin):
         try:
             return dict(data)
         except ValueError:
-            raise ValueError(f"Unable to build template data dictionary - {type(data)} is an invalid source data type")
+            raise ValueError(
+                f"Unable to build template data dictionary - {type(data)} is an invalid source data type"
+            )
 
     async def __prepare_message(self, message: Message, template=None):
         if template is not None:
             template_body = message.template_body
             if template_body and not message.html:
-                template_data = self.make_dict(template_body)
-                message.template_body = template.render(**template_data)
+                if isinstance(template_body, list):
+                    message.template_body = template.render({"body": template_body})
+                else:
+                    template_data = self.make_dict(template_body)
+                    message.template_body = template.render(**template_data)
+
                 message.subtype = "html"
             elif message.html:
-                template_data = self.make_dict(message.html)
-                message.html = template.render(**template_data)
-
+                if isinstance(template_body, list):
+                    message.template_body = template.render({"body": template_body})
+                else:
+                    template_data = self.make_dict(template_body)
+                    message.template_body = template.render(**template_data)
         msg = MailMsg(**message.dict())
         if self.config.MAIL_FROM_NAME is not None:
             sender = f"{self.config.MAIL_FROM_NAME} <{self.config.MAIL_FROM}>"
@@ -112,12 +122,16 @@ class Mail(_MailMixin):
     async def send_message(self, message: Message, template_name=None):
 
         if not issubclass(message.__class__, BaseModel):
-            raise PydanticClassRequired('''Message schema should be provided from Message class, check example below:
+            raise PydanticClassRequired(
+                """Message schema should be provided from Message class, check example below:
          \nfrom flask_mailing import Message  \nmessage = Message(\nsubject = "subject",\nrecipients = ["list_of_recipients"],\nbody = "Hello World",\ncc = ["list_of_recipients"],\nbcc = ["list_of_recipients"],\nreply_to = ["list_of_recipients"],\nsubtype = "plain")
-         ''')
+         """
+            )
 
         if template_name:
-            template = await self.get_mail_template(self.config.template_engine(), template_name)
+            template = await self.get_mail_template(
+                self.config.template_engine(), template_name
+            )
             msg = await self.__prepare_message(message, template)
         else:
             msg = await self.__prepare_message(message)
@@ -131,7 +145,10 @@ class Mail(_MailMixin):
 
 signals = blinker.Namespace()
 
-email_dispatched = signals.signal("email-dispatched", doc="""
+email_dispatched = signals.signal(
+    "email-dispatched",
+    doc="""
 Signal sent when an email is dispatched. This signal will also be sent
 in testing mode, even though the email will not actually be sent.
-""")
+""",
+)

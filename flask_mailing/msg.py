@@ -1,13 +1,12 @@
-import time
 import sys
+import time
+import typing as t
 import warnings
-from email.mime.text import MIMEText
+from email.encoders import encode_base64
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from email.utils import formatdate, make_msgid
-from email.encoders import encode_base64
-
-import typing as t
 
 if t.TYPE_CHECKING:
     from werkzeug.datastructures import FileStorage
@@ -45,10 +44,39 @@ class MailMsg:
 
         return MIMEText(text, _subtype=subtype, _charset=self.charset)
 
-    async def attach_file(self, message, attachment:t.List["FileStorage"]):
-        for file in attachment:
+    # async def attach_file(self, message, attachment: t.List["FileStorage"]):
+    #     for file in attachment:
 
-            part = MIMEBase(_maintype="application", _subtype="octet-stream")
+    #         part = MIMEBase(_maintype="application", _subtype="octet-stream")
+
+    #         part.set_payload(file.read())
+    #         encode_base64(part)
+
+    #         filename = file.filename
+
+    #         try:
+    #             filename and filename.encode("ascii")
+    #         except UnicodeEncodeError:
+    #             if not PY3:
+    #                 filename = filename.encode("utf8")
+
+    #         filename = ("UTF8", "", filename)
+    #         disposition: str = getattr(file, "disposition", "attachment")
+    #         part.add_header("Content-Disposition", disposition, filename=filename)
+
+    #         self.message.attach(part)
+
+    #         file.close()  # close the file stream
+
+    async def attach_file(self, message, attachment):
+        """Creates a MIMEBase object"""
+        for file, file_meta in attachment:
+            if file_meta and "mime_type" in file_meta and "mime_subtype" in file_meta:
+                part = MIMEBase(
+                    _maintype=file_meta["mime_type"], _subtype=file_meta["mime_subtype"]
+                )
+            else:
+                part = MIMEBase(_maintype="application", _subtype="octet-stream")
 
             part.set_payload(file.read())
             encode_base64(part)
@@ -56,21 +84,18 @@ class MailMsg:
             filename = file.filename
 
             try:
-                filename and filename.encode('ascii')
+                filename and filename.encode("ascii")
             except UnicodeEncodeError:
                 if not PY3:
-                    filename = filename.encode('utf8')
+                    filename = filename.encode("utf8")
 
-            filename = ('UTF8', '', filename)
-            disposition:str = getattr(file, 'disposition', 'attachment')
-            part.add_header(
-                'Content-Disposition',
-                disposition,
-                filename=filename)
+            filename = ("UTF8", "", filename)
 
+            part.add_header("Content-Disposition", "attachment", filename=filename)
+            if file_meta and "headers" in file_meta:
+                for header in file_meta["headers"].keys():
+                    part.add_header(header, file_meta["headers"][header])
             self.message.attach(part)
-
-            file.close() # close the file stream
 
     async def _message(self, sender):
         """Creates the email message"""
@@ -78,32 +103,36 @@ class MailMsg:
         self.message = MIMEMultipart(self.multipart_subtype.value)
 
         self.message.set_charset(self.charset)
-        self.message['Date'] = formatdate(time.time(), localtime=True)
-        self.message['Message-ID'] = self.msgId
-        self.message["To"] = ', '.join(self.recipients)
+        self.message["Date"] = formatdate(time.time(), localtime=True)
+        self.message["Message-ID"] = self.msgId
+        self.message["To"] = ", ".join(self.recipients)
         self.message["From"] = sender
 
         if self.subject:
-            self.message["Subject"] = (self.subject)
+            self.message["Subject"] = self.subject
 
         if self.cc:
-            self.message["Cc"] = ', '.join(self.cc)
+            self.message["Cc"] = ", ".join(self.cc)
 
         if self.bcc:
-            self.message["Bcc"] = ', '.join(self.bcc)
+            self.message["Bcc"] = ", ".join(self.bcc)
 
         if self.reply_to:
-            self.message["Reply-To"] = ', '.join(self.reply_to)
+            self.message["Reply-To"] = ", ".join(self.reply_to)
 
         if self.body:
             self.message.attach(self._mimetext(self.body))
 
         if self.template_body or self.body:
-            if not self.html and self.subtype == 'html':
+            if not self.html and self.subtype == "html":
                 if self.body:
-                    warnings.warn("Use ``template_body`` instead of ``body`` to pass data into Jinja2 template",
-                                  DeprecationWarning)
-                self.message.attach(self._mimetext(self.template_body or self.body, self.subtype))
+                    warnings.warn(
+                        "Use ``template_body`` instead of ``body`` to pass data into Jinja2 template",
+                        DeprecationWarning,
+                    )
+                self.message.attach(
+                    self._mimetext(self.template_body or self.body, self.subtype)
+                )
             elif self.template_body:
                 raise ValueError("tried to send jinja2 template and html")
         elif self.html:

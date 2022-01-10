@@ -1,7 +1,9 @@
 from pathlib import Path
 
+import fakeredis
 import pytest
-import fakeredis.aioredis
+from flask import Flask
+
 from flask_mailing.utils import DefaultChecker
 
 
@@ -16,7 +18,7 @@ def default_checker():
 @pytest.mark.asyncio
 async def redis_checker(scope="redis_config"):
     test = DefaultChecker(db_provider="redis")
-    test.redis_client = await  fakeredis.aioredis.create_redis_pool(encoding="UTF-8")
+    test.redis_client = await fakeredis.aioredis.create_redis_pool(encoding="UTF-8")
     await test.init_redis()
     yield test
     await test.redis_client.flushall()
@@ -29,7 +31,7 @@ def mail_config():
     html = home / "files"
     env = {
         "MAIL_USERNAME": "example@test.com",
-        "MAIL_PASSWORD":"strong",
+        "MAIL_PASSWORD": "strong",
         "MAIL_FROM": "example@test.com",
         "MAIL_FROM_NAME": "example",
         "MAIL_PORT": 25,
@@ -40,7 +42,16 @@ def mail_config():
         "SUPPRESS_SEND": 1,
         "USE_CREDENTIALS": False,
         "VALIDATE_CERTS": False,
-        "TEMPLATE_FOLDER": html,
+        "MAIL_TEMPLATE_FOLDER": html,
     }
 
-    yield env
+    return env
+
+
+@pytest.fixture(autouse=True)
+def app(mail_config) -> "Flask":
+    app = Flask("test_app")
+    app.secret_key = "top-secret-key"
+    app.testing = True
+    app.config.update(mail_config)
+    return app

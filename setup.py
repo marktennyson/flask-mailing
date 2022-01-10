@@ -3,7 +3,7 @@ from setuptools import (
     find_packages
     )
 
-VERSION = (0, 0, 8)
+VERSION = (0, 1, 0)
 AUTHOR = "Aniket Sarkar"
 AUTHOR_EMAIL = "aniketsarkar@yahoo.com"
 
@@ -45,7 +45,7 @@ setup(
         "pydantic>=1.8.2",
         "email-validator>=1.1.3",
         "typing-extensions>=3.10.0.0",
-        "httpx>=0.19.0",
+        "httpx>=0.21.3",
         "flask>=2.0.0"
     ],
     extras_require={},
