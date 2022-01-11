@@ -1,5 +1,5 @@
 from setuptools import (
-    setup, 
+    setup,
     find_packages
     )
 
@@ -24,20 +24,20 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     keywords=[
-        "flask", 
-        'flask-mail', 
-        'flask-mailing', 
-        'async-flask', 
+        "flask",
+        'flask-mail',
+        'flask-mailing',
+        'async-flask',
         'asynchroniously-send-email-in-flask',
-        'async-mailer', 
-        'flask-email', 
+        'async-mailer',
+        'flask-email',
         'flask-mailman'
         ],
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
     platforms="any",
-    install_requires=[ 
+    install_requires=[
         "aiosmtplib>=1.1.6",
         "aioredis>=2.0.0",
         "asgiref>=3.4.1",
