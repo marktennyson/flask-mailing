@@ -8,7 +8,7 @@ jobs:
     strategy:
       max-parallel: 5
       matrix:
-        python-version: [3.7]
+        python-version: [3.9]
 
     steps:
     - uses: actions/checkout@v1
@@ -22,8 +22,8 @@ jobs:
         pip install tox tox-gh-actions
     - name: Test with tox
       run: tox
-    - name: Test with pytest
-      run: |
-        pip install pytest
-        pip install -r tests/requirements.testing.txt
-        pytest tests
+    # - name: Test with pytest
+    #   run: |
+    #     pip install pytest
+    #     pip install -r tests/requirements.testing.txt
+    #     pytest tests
