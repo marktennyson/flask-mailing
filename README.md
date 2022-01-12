@@ -45,7 +45,6 @@ python -m pip install .
 from flask import Flask, jsonify
 from flask_mailing import Mail, Message
 
-
 app = Flask(__name__)
 
 app.config['MAIL_USERNAME'] = "YourUserName"
