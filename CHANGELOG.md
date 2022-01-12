@@ -19,15 +19,17 @@
 - Solved the `long description not found` on the PYPI website.
 
 ## 0.1.0 [Upcoming]
-- Fixed issue #20 
-- Now the user can pass template parameters by using `template_params` variable on the `schemas.Message` class.
-- Dependencies update.
-- Added `future roadmap` on the docs.
-- Major typo fixed at setup.py
-- Updated the `MANIFEST.in` file.
-- Python version 3.10.0 compatibility. 
-- Fixed some broken test cases.
-- Added some more test cases.
-- Fixed the Variable name issue at `config.ConnectionConfig` class.
-- Now the users are allowed to create custom headers for attachments.
-- Fixed Literal import for Python 3.6 and 3.7
+- `Fixed` issue #20 . Now the user can pass template parameters by using `template_params` variable on the `schemas.Message` class.
+- `Fixed` major typo at setup.py
+- `Fixed` some broken test cases.
+- `Fixed` the Variable name issue at `config.ConnectionConfig` class.
+- `Fixed` Literal import for Python 3.6 and 3.7
+
+- `Added` module docstring.
+- `Added` `future roadmap` on the docs.
+- `Added` some more test cases.
+- `Added` the compatibility for Python 3.10
+- `Added` the feature to allow users to create custom headers for attachments.
+
+- `Updated` the `MANIFEST.in` file.
+- `Updated` the required dependencies.
