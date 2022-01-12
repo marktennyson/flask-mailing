@@ -22,8 +22,9 @@ jobs:
         pip install tox tox-gh-actions
     - name: Test with tox
       run: tox
-    # - name: Test with pytest
-    #   run: |
-    #     pip install pytest
-    #     pip install -r tests/requirements.testing.txt
-    #     pytest tests
+    - name: Test with pytest
+      run: |
+        pip install pytest
+        pip install -r tests/requirements.testing.txt
+        python setup.py install
+        pytest tests
