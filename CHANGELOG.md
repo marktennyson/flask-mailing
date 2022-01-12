@@ -18,7 +18,7 @@
 ## 0.0.7
 - Solved the `long description not found` on the PYPI website.
 
-## 0.1.0 [Upcoming]
+## 0.1.0
 - `Fixed` issue #20 . Now the user can pass template parameters by using `template_params` variable on the `schemas.Message` class.
 - `Fixed` major typo at setup.py
 - `Fixed` some broken test cases.
