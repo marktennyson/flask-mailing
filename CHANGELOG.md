@@ -30,3 +30,4 @@
 - Added some more test cases.
 - Fixed the Variable name issue at `config.ConnectionConfig` class.
 - Now the users are allowed to create custom headers for attachments.
+- Fixed Literal import for Python 3.6 and 3.7

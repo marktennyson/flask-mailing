@@ -1,4 +1,4 @@
-import os as os
+import os
 import typing as t
 
 import pytest as pt

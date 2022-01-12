@@ -44,31 +44,7 @@ class MailMsg:
 
         return MIMEText(text, _subtype=subtype, _charset=self.charset)
 
-    # async def attach_file(self, message, attachment: t.List["FileStorage"]):
-    #     for file in attachment:
-
-    #         part = MIMEBase(_maintype="application", _subtype="octet-stream")
-
-    #         part.set_payload(file.read())
-    #         encode_base64(part)
-
-    #         filename = file.filename
-
-    #         try:
-    #             filename and filename.encode("ascii")
-    #         except UnicodeEncodeError:
-    #             if not PY3:
-    #                 filename = filename.encode("utf8")
-
-    #         filename = ("UTF8", "", filename)
-    #         disposition: str = getattr(file, "disposition", "attachment")
-    #         part.add_header("Content-Disposition", disposition, filename=filename)
-
-    #         self.message.attach(part)
-
-    #         file.close()  # close the file stream
-
-    async def attach_file(self, message, attachment):
+    async def attach_file(self, message, attachment: t.List["FileStorage"]):
         """Creates a MIMEBase object"""
         for file, file_meta in attachment:
             if file_meta and "mime_type" in file_meta and "mime_subtype" in file_meta:

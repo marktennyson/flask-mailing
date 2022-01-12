@@ -8,7 +8,7 @@ format:
 	black $(sources) tests
 
 # lint:
-# 	flake8 $(sources) tests
+# 	pylint $(sources) tests
 
 unittest:
 	pytest

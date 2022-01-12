@@ -1,6 +1,6 @@
-import sys
 import io
 import os
+import sys
 from enum import Enum
 from mimetypes import MimeTypes
 from typing import Dict, List, Optional, Union
@@ -9,7 +9,6 @@ if sys.version_info >= (3, 8):
     from typing import Literal
 else:
     from typing_extensions import Literal
-
 
 from pydantic import BaseModel, EmailStr, validator
 from werkzeug.datastructures import FileStorage

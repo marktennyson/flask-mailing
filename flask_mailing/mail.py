@@ -50,7 +50,8 @@ class _MailMixin:
 
 class Mail(_MailMixin):
     """
-    Fastapi mail system sending mails(individual, bulk) attachments(individual, bulk)
+    Fastapi mail system sending mails(individual, bulk)
+    attachments(individual, bulk).
 
     :param config: Connection config to be passed
 

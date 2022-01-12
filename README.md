@@ -5,8 +5,6 @@ Flask-Mailing adds SMTP mail sending to your Flask applications
 
 **Flask_Mail** is dead now. This is the time to migrate a fully asynchronous based mailer library to send emails while using a Flask based application. Now Flask 2.0 supports the asynchronous view function then who is stopping you to use __Flask-Mailing__ ?
 
-Flask-Mailing is a fork of `Sabuhi's` Fastapi-Mail package, providing similar functionality. 99% of the work was done by him, and the fork was made mainly provide the same features and the apis for the Flask Microframework.
-
 __The key features are:__
 
 -  Most of the Apis are very familiar with `Flask-Mail` module.
@@ -97,6 +95,7 @@ Thanks goes to these wonderful people ([🚧]):
 <tr>
     <td align="center"><a href="https://github.com/marktennyson"><img src="https://avatars.githubusercontent.com/u/46404058?v=4" width="100px;" alt=""/><br /><sub><b>Aniket Sarkar</b></sub></a><br /><a href="#maintenance-tbenning" title="Answering Questions">💬</a> <a href="https://github.com/marktennyson/flask-mailing" title="Reviewed Pull Requests">👀</a> <a href="#maintenance-jakebolam" title="Maintenance">🚧</a></td><br>
     <td align="center"><a href="https://github.com/jfkinslow"><img src="https://avatars.githubusercontent.com/u/4458739?v=4" width="100px;" alt=""/><br /><sub><b>Joshua Kinslow</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/agramfort"><img src="https://avatars.githubusercontent.com/u/161052?v=4" width="100px;" alt=""/><br /><sub><b>Alexandre Gramfort</b></sub></a><br /></td>
 </tr>
 </table>
 
