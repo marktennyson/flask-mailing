@@ -1,5 +1,6 @@
 import inspect
 from abc import ABC, abstractmethod
+from typing import Any, List, Set
 
 import aioredis
 import dns.exception
@@ -12,35 +13,35 @@ from .errors import ApiError, DBProvaiderError
 
 class AbstractEmailChecker(ABC):
     @abstractmethod
-    def validate_email(self):
+    def validate_email(self, email: str) -> bool:
         pass
 
     @abstractmethod
-    def is_dispasoble(self):
+    async def is_dispasoble(self, email: str):
         pass
 
     @abstractmethod
-    def check_mx_record(self):
+    async def check_mx_record(self, domain: str, full_result: bool = False):
         pass
 
     @abstractmethod
-    def blacklist_add_email(self):
+    async def blacklist_add_email(self, email: str):
         pass
 
     @abstractmethod
-    def blacklist_add_domain(self):
+    async def blacklist_add_domain(self, domain: str):
         pass
 
     @abstractmethod
-    def add_temp_domain(self):
+    async def add_temp_domain(self, domain_lists: List[str]):
         pass
 
     @abstractmethod
-    def is_blocked_domain(self):
+    async def is_blocked_domain(self, domain: str):
         pass
 
     @abstractmethod
-    def is_blocked_address(self):
+    async def is_blocked_address(self, email: str):
         pass
 
     @abstractmethod
@@ -58,7 +59,7 @@ class DefaultChecker(AbstractEmailChecker):
     :param db_provider: switch to redis
 
     example:
-        from utils import DefaultChecker
+        from flask_mailing.utils import DefaultChecker
         import asyncio
 
         a = DefaultChecker(db_provider="redis") # if you use redis
@@ -67,9 +68,9 @@ class DefaultChecker(AbstractEmailChecker):
     ```
     """
 
-    TEMP_EMAIL_DOMAINS = []
-    BLOCKED_DOMAINS = set()
-    BLOCKED_ADDRESSES = set()
+    TEMP_EMAIL_DOMAINS: List[str] = []
+    BLOCKED_DOMAINS: Set[str] = set()
+    BLOCKED_ADDRESSES: Set[str] = set()
 
     def __init__(
         self,
@@ -77,7 +78,7 @@ class DefaultChecker(AbstractEmailChecker):
         db_provider: str = None,
         *,
         redis_host: str = "redis://localhost",
-        redis_port: str = 6379,
+        redis_port: int = 6379,
         redis_db: int = 0,
         redis_pass: str = None,
         **options: dict,
@@ -85,7 +86,7 @@ class DefaultChecker(AbstractEmailChecker):
 
         self.source = (
             source
-            or "https://gist.githubusercontent.com/Turall/3f32cb57270aed30d0c7f5e0800b2a92/raw/dcd9b47506e9da26d5772ccebf6913343e53cec9/temporary-email-address-domains"
+            or "https://gist.githubusercontent.com/Turall/3f32cb57270aed30d0c7f5e0800b2a92/raw/dcd9b47506e9da26d5772ccebf6913343e53cec9/temporary-email-address-domains"  # noqa: E501
         )
         self.redis_enabled = False
 
@@ -100,14 +101,15 @@ class DefaultChecker(AbstractEmailChecker):
 
     def catch_all_check(self):
         raise NotImplementedError(
-            f"Func named {inspect.currentframe().f_code.co_name} not implemented for class {self.__class__.__name__}"
+            f"Func named {inspect.currentframe().f_code.co_name} not implemented"
+            f" for class {self.__class__.__name__}"
         )
 
     async def init_redis(self):
         if not self.redis_enabled:
             raise DBProvaiderError(self.redis_error_msg)
         if not hasattr(self, "redis_client"):
-            self.redis_client = await aioredis.create_redis_pool(
+            self.redis_client = await aioredis.from_url(
                 address=f"{self.redis_host}:{self.redis_port}",
                 db=self.redis_db,
                 password=self.redis_pass,
@@ -136,10 +138,10 @@ class DefaultChecker(AbstractEmailChecker):
 
         return True
 
-    def validate_email(self, email: str):
+    def validate_email(self, email: str) -> bool:
         """Validate email address"""
-        if EmailStr.validate(email):
-            return True
+        EmailStr.validate(email)
+        return True
 
     async def fetch_temp_email_domains(self):
         """Async request to source param resource"""
@@ -160,8 +162,6 @@ class DefaultChecker(AbstractEmailChecker):
         else:
             self.BLOCKED_DOMAINS.add(domain)
 
-        return True
-
     async def blacklist_rm_domain(self, domain: str):
         if self.redis_enabled:
             res = await self.redis_client.hdel("blocked_domains", domain)
@@ -169,7 +169,6 @@ class DefaultChecker(AbstractEmailChecker):
                 await self.redis_client.decr("domain_counter")
         else:
             self.BLOCKED_DOMAINS.remove(domain)
-        return True
 
     async def blacklist_add_email(self, email: str):
         """Add email address to blacklist"""
@@ -181,7 +180,6 @@ class DefaultChecker(AbstractEmailChecker):
                     await self.redis_client.hset("blocked_emails", email, inc)
             else:
                 self.BLOCKED_ADDRESSES.add(email)
-            return True
 
     async def blacklist_rm_email(self, email: str):
         if self.redis_enabled:
@@ -190,9 +188,8 @@ class DefaultChecker(AbstractEmailChecker):
                 await self.redis_client.decr("email_counter")
         else:
             self.BLOCKED_ADDRESSES.remove(email)
-        return True
 
-    async def add_temp_domain(self, domain_lists: list):
+    async def add_temp_domain(self, domain_lists: List[str]):
         """Manually add temporary email"""
         if self.redis_enabled:
             for domain in domain_lists:
@@ -202,7 +199,6 @@ class DefaultChecker(AbstractEmailChecker):
                     await self.redis_client.hset("temp_domains", domain, incr)
         else:
             self.TEMP_EMAIL_DOMAINS.extend(domain_lists)
-        return True
 
     async def blacklist_rm_temp(self, domain: str):
         if self.redis_enabled:
@@ -213,7 +209,7 @@ class DefaultChecker(AbstractEmailChecker):
             self.TEMP_EMAIL_DOMAINS.remove(domain)
         return True
 
-    async def is_dispasoble(self, email: str):
+    async def is_dispasoble(self, email: str) -> bool:
         """Check email address is temporary or not"""
         if self.validate_email(email):
             _, domain = email.split("@")
@@ -222,6 +218,7 @@ class DefaultChecker(AbstractEmailChecker):
                 result = await self.redis_client.hget("temp_domains", domain)
                 return bool(result)
             return domain in self.TEMP_EMAIL_DOMAINS
+        return False
 
     async def is_blocked_domain(self, domain: str):
         """Check blocked email domain"""
@@ -280,8 +277,7 @@ class DefaultChecker(AbstractEmailChecker):
     async def close_connections(self):
         """for correctly close connection from redis"""
         if self.redis_enabled:
-            self.redis_client.close()
-            await self.redis_client.wait_closed()
+            await self.redis_client.close()
             return True
         raise DBProvaiderError(self.redis_error_msg)
 
@@ -295,7 +291,7 @@ class WhoIsXmlApi:
     :param email: email for checking
 
     example:
-        from utils import WhoIsXmlApi
+        from email_utils import WhoIsXmlApi
 
         who_is = WhoIsXmlApi(token="Your access token", email = "your@mailaddress.com")
 
@@ -315,7 +311,7 @@ class WhoIsXmlApi:
         self.free_check = bool()
         self.disposable = bool()
         self.catch_all = bool()
-        self.mx_records = []
+        self.mx_records: List[Any] = []
         self.host = "https://emailverification.whoisxmlapi.com/api/v1"
 
     async def fetch_info(self):
@@ -348,11 +344,12 @@ class WhoIsXmlApi:
     def catch_all_check(self):
         """
         Tells you whether or not this mail server has a “catch-all” address.
-        This refers to a special type of address that can receive emails for any number of non-existent email addresses
-        under a particular domain. Catch-all addresses are common in businesses where if you send an email to test@hi.com and
-        another email to non-existent test2@hi.com, both of those emails will go into the same inbox.
+        This refers to a special type of address that can receive emails for any number of
+        non-existent email addresses under a particular domain.
+        Catch-all addresses are common in businesses where if you send an email to test@hi.com and
+        another email to non-existent test2@hi.com, both of those emails will go into the same
+        inbox.
         Possible values are 'true' or 'false'. May be 'null' for invalid or non-existing emails.
-
         """
         return self.catch_all
 
@@ -372,8 +369,10 @@ class WhoIsXmlApi:
 
     def is_dispasoble(self):
         """
-        Tells you whether or not the email address is disposable (created via a service like Mailinator).
-        This helps you check for abuse. This value will be 'false' if the email is not disposable, and 'true' otherwise.
+        Tells you whether or not the email address is disposable (created via a service like
+        Mailinator).
+        This helps you check for abuse. This value will be 'false' if the email is not disposable,
+        and 'true' otherwise.
         May be 'null' for invalid or non-existing emails.
 
         """
@@ -406,25 +405,30 @@ class WhoIsXmlApi:
 
     def blacklist_add_email(self):
         raise NotImplementedError(
-            f"Func named {inspect.currentframe().f_code.co_name} not implemented for class {self.__class__.__name__}"
+            f"Func named {inspect.currentframe().f_code.co_name} not implemented "
+            f"for class {self.__class__.__name__}"
         )
 
     def blacklist_add_domain(self):
         raise NotImplementedError(
-            f"Func named {inspect.currentframe().f_code.co_name} not implemented for  class {self.__class__.__name__}"
+            f"Func named {inspect.currentframe().f_code.co_name} not implemented "
+            f"for class {self.__class__.__name__}"
         )
 
     def add_temp_domain(self):
         raise NotImplementedError(
-            f"Func named {inspect.currentframe().f_code.co_name} not implemented for class {self.__class__.__name__}"
+            f"Func named {inspect.currentframe().f_code.co_name} not implemented "
+            f"for class {self.__class__.__name__}"
         )
 
     def is_blocked_domain(self):
         raise NotImplementedError(
-            f"Func named {inspect.currentframe().f_code.co_name} not implemented for class {self.__class__.__name__}"
+            f"Func named {inspect.currentframe().f_code.co_name} not implemented "
+            f"for class {self.__class__.__name__}"
         )
 
     def is_blocked_address(self):
         raise NotImplementedError(
-            f"Func named {inspect.currentframe().f_code.co_name} not implemented for class {self.__class__.__name__}"
+            f"Func named {inspect.currentframe().f_code.co_name} not implemented "
+            f"for class {self.__class__.__name__}"
         )
