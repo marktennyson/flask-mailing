@@ -16,7 +16,7 @@
 - Now the user can access the `Mail` object from the app extension dictionary: `app.extension['mailing']`
 
 ## 0.0.7
-- Solved the `long description not found` on the PYPI website.
+- `Fixed` the `long description not found` on the PYPI website.
 
 ## 0.1.0
 - `Fixed` issue #20 . Now the user can pass template parameters by using `template_params` variable on the `schemas.Message` class.
@@ -32,4 +32,12 @@
 - `Added` the feature to allow users to create custom headers for attachments.
 
 - `Updated` the `MANIFEST.in` file.
+- `Updated` the required dependencies.
+
+## 0.1.1
+- `Fixed` broken test cases for fake redis client.
+- `Fixed` some typo at `utils.email_check` file.
+- `Added` `aioredis > 2.0.0` compatibility.
+- `Added` fully asynchronous support for `utils.email_check.EmailChecker` class.
+- `Updated` the `utils.email_check.EmailChecker` class for the new version of `aioredis`.
 - `Updated` the required dependencies.

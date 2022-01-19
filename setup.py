@@ -3,7 +3,7 @@ from setuptools import (
     find_packages
     )
 
-VERSION = (0, 1, 0)
+VERSION = (0, 1, 1)
 AUTHOR = "Aniket Sarkar"
 AUTHOR_EMAIL = "aniketsarkar@yahoo.com"
 
