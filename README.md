@@ -21,6 +21,9 @@ More information on [Getting-Started](https://marktennyson.github.io/flask-maili
 [![Downloads](https://pepy.tech/badge/flask-mailing)](https://pepy.tech/project/flask-mailing) [![Downloads](https://pepy.tech/badge/flask-mailing/month)](https://pepy.tech/project/flask-mailing) [![Downloads](https://pepy.tech/badge/flask-mailing/week)](https://pepy.tech/project/flask-mailing)
 <br>
 
+# 🚑 Package health score by [snyk.io](https://snyk.io)
+[![Flask-Mailing](https://snyk.io/advisor/python/Flask-Mailing/badge.svg)](https://snyk.io/advisor/python/Flask-Mailing)
+
 # 🔗 Important Links
 #### ❤️ [Github](https://github.com/marktennyson/flask-mailing)    
 #### 📄 [Documentation](https://marktennyson.github.io/flask-mailing)    
