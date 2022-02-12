@@ -29,6 +29,41 @@ async def test_connection(app: "Flask"):
     assert not message.template_body
     assert not message.html
 
+@pt.mark.asyncio
+async def test_send_mail_method(app: "Flask"):
+    fm = Mail(app)
+
+    with fm.record_messages() as outbox:
+        await fm.send_mail(subject="test subject", message="test", recipients=["sabuhi.shukurov@gmail.com"])
+
+        assert len(outbox) == 1
+        mail = outbox[0]
+        assert mail["To"] == "sabuhi.shukurov@gmail.com"
+        assert mail["Subject"] == "test subject"
+
+@pt.mark.asyncio
+async def test_send_mass_mail_method(app: "Flask"):
+    fm = Mail(app)
+
+    with fm.record_messages() as outbox:
+        datatuple = (
+            ("test-subject-1", "message-body-1", ["sabuhi.shukurov@gmail.com"]),
+            ("test-subject-2", "message-body-2", ["sabuhi.shukurov@gmail.com"]),
+            ("test-subject-3", "message-body-3", ["sabuhi.shukurov@gmail.com"])
+        )
+        await fm.send_mass_mail(datatuple)
+
+        assert len(outbox) == 3
+        mail1, mail2, mail3 = tuple(outbox)
+        assert mail1["To"] == "sabuhi.shukurov@gmail.com"
+        assert mail1["Subject"] == "test-subject-1"
+
+        assert mail2["To"] == "sabuhi.shukurov@gmail.com"
+        assert mail2["Subject"] == "test-subject-2"
+
+        assert mail3["To"] == "sabuhi.shukurov@gmail.com"
+        assert mail3["Subject"] == "test-subject-3"
+
 
 @pt.mark.asyncio
 async def test_html_message(app: "Flask"):
@@ -155,7 +190,7 @@ async def test_jinja_message_dict(app: "Flask"):
     to = "to@example.com"
     person = {"name": "Andrej"}
 
-    msg = Message(subject=subject, recipients=[to], template_body=person)
+    msg = Message(subject=subject, recipients=[to], template_params=person)
     fm = Mail(app)
 
     with fm.record_messages() as outbox:

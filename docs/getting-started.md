@@ -26,9 +26,21 @@ class has following attributes
 ### ```Mail``` class
 class has following attributes and methods
 
-- send_message : The methods has two atributes, message: Message, template_name=None
+- `send_message` : The methods has two atributes, message: Message, template_name=None
     - message : where you define message sturcture for email
     - template_name : if you are using jinja2 consider template_name as well for passing HTML.
+
+- `send_mail` : sending emails with message string and recipients very similar to Django.
+    - subject : A String containing the subject of the message.
+    - message : A string containing the message body.
+    - recipients : A list of strings, each an email address. Each member of recipients will see the other recipients in the “To:” field of the email message.
+    - msgkwargs : the kwargs based parameters for `Message` class.
+
+- `send_mass_mail` : To handle mass mailing.
+    - datatuple : is a tuple in which each element is in this format:
+        ```bash
+        (subject, message, recipients)
+        ```
 
 
 ### ```Message``` class

@@ -91,10 +91,6 @@ from .mail import Mail
 from .schemas import Message as Message
 from .schemas import MultipartSubtypeEnum as MultipartSubtypeEnum
 
-version_info = (0, 1, 1)
-
-__version__ = ".".join([str(v) for v in version_info])
-
 
 __author__ = "aniketsarkar@yahoo.com"
 

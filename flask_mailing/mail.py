@@ -2,7 +2,7 @@ import typing as t
 from contextlib import contextmanager
 
 import blinker
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 from .config import ConnectionConfig
 from .connection import Connection
@@ -13,7 +13,7 @@ from .schemas import Message
 if t.TYPE_CHECKING:
     from flask import Flask
 
-version_info = (0, 0, 8)
+version_info = (0, 2, 0)
 
 
 class _MailMixin:
@@ -53,7 +53,7 @@ class Mail(_MailMixin):
     Flask mail system sending mails(individual, bulk)
     attachments(individual, bulk).
 
-    :param config: Connection config to be passed
+    :param app: Optional param, the Flask application.
 
     """
 
@@ -121,7 +121,26 @@ class Mail(_MailMixin):
         return await msg._message(sender)
 
     async def send_message(self, message: Message, template_name=None):
+        """
+        to send the message object.
 
+        :param message: The object of the Message pydantic class.
+        :param template_name: if you are about to render any template 
+        with the mail please provide the name of the template by using this param.
+
+        ### For example => 
+        ```python
+        @app.get("/email")
+        async def simple_send():
+            message = Message(
+                subject="Flask-Mailing module",
+                recipients=["aniketsarkar@yahoo.com"],
+                body="This is the basic email body",
+                )
+            await mail.send_message(message)
+            return jsonify(status_code=200, content={"message": "email has been sent"})
+        ```
+        """
         if not issubclass(message.__class__, BaseModel):
             raise PydanticClassRequired(
                 """Message schema should be provided from Message class, check example below:
@@ -143,13 +162,65 @@ class Mail(_MailMixin):
 
             email_dispatched.send(msg)
 
+    async def send_mail(
+        self,
+        subject:str,
+        message:str,
+        recipients:t.List[EmailStr],
+        html_message:t.Optional[str]=None,
+        **msgkwargs
+        ) -> None:
+        """
+        send a simple email by using this simple `send_mail` method.
+
+        :param `subject`: A String containing the subject of the message.
+        :param `message`: A string containing the message body.
+        :param `recipients`: A list of strings, each an email address. 
+        Each member of recipients will see the other recipients 
+        in the “To:” field of the email message
+        :param `msgkwargs` : the kwargs based parameters for `Message` class.
+
+        ### For example => 
+        ```python
+        @app.get('/send-mail')
+        async def send_mail():
+            await mail.send_mail('subject', "message-new", [recipient@email.com])
+            return {'msg' : 'success'}
+        ```
+        """
+        message = Message(
+            subject=subject,
+            recipients=recipients,
+            body=message,
+            html=html_message,
+            **msgkwargs
+        )
+
+        await self.send_message(message)
+
+    async def send_mass_mail(
+        self,
+        datatuple:t.Tuple[t.Tuple[str, str, t.List[EmailStr]]]
+        ):
+        """
+        To handle mass mailing.
+
+        :param datatuple: is a tuple in which each element is in this format:
+        ```bash
+        (subject, message, recipients)
+        ```
+        """
+        for data in datatuple:
+            subject, message, recipients = data
+            await self.send_mail(subject, message, recipients)
+
 
 signals = blinker.Namespace()
 
 email_dispatched = signals.signal(
     "email-dispatched",
     doc="""
-Signal sent when an email is dispatched. This signal will also be sent
-in testing mode, even though the email will not actually be sent.
-""",
+    Signal sent when an email is dispatched. This signal will also be sent
+    in testing mode, even though the email will not actually be sent.
+    """,
 )
