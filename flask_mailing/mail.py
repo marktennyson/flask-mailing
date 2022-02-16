@@ -124,8 +124,8 @@ class Mail(_MailMixin):
         """
         to send the message object.
 
-        :param `message`: The object of the Message pydantic class.
-        :param `template_name`: if you are about to render any template 
+        :param message: The object of the Message pydantic class.
+        :param template_name: if you are about to render any template 
         with the mail please provide the name of the template by using this param.
 
         ### For example => 
@@ -195,6 +195,7 @@ class Mail(_MailMixin):
             html=html_message,
             **msgkwargs
         )
+
         await self.send_message(message)
 
     async def send_mass_mail(
@@ -204,13 +205,14 @@ class Mail(_MailMixin):
         """
         To handle mass mailing.
 
-        :param `datatuple`: is a tuple in which each element is in this format:
+        :param datatuple: is a tuple in which each element is in this format:
         ```bash
         (subject, message, recipients)
         ```
         """
         for data in datatuple:
-            await self.send_mail(*data)
+            subject, message, recipients = data
+            await self.send_mail(subject, message, recipients)
 
 
 signals = blinker.Namespace()

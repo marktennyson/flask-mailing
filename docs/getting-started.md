@@ -48,16 +48,14 @@ class has following attributes
 
 
 -  recipients  : List of recipients.
--  attachments : attachments within mail.
--  subject  : subject content of the mail.
--  body : body of the message.
--  template_body: parameters for the jinja template.
--  template_params: parameters for the jinja template.
--  cc : cc recipients of the mail.
--  bcc : bcc recipients of the mail.
--  reply_to : Reply-To recipients in the mail.
--  charset : charset defaults to utf-8.
--  subtype : subtype of the mail defaults to plain.
+-  attachments : attachments within mail
+-  subject  : subject content of the mail
+-  body : body of the message
+-  cc : cc recipients of the mail
+-  bcc : bcc recipients of the mail
+-  reply_to : Reply-To recipients in the mail
+-  charset : charset defaults to utf-8
+-  subtype : subtype of the mail defaults to plain
 - add_recipient : a method to add additional recipients.
 - attach : a method to add additional attachments.
 
