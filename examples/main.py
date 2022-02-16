@@ -6,6 +6,7 @@ from flask_mailing import Mail, Message
 
 import os as os
 
+
 mail = Mail()
 
 
@@ -21,6 +22,21 @@ mail.init_app(app)
 @app.get('/')
 def index():
     return jsonify(index=True)
+
+@app.get('/send-mail')
+async def send_mail():
+    await mail.send_mail('subject', "message-new", [os.environ['MAIL_RECIPIENT']])
+    return {'msg' : 'success'}
+
+@app.get('/send-mass-mail')
+async def send_mass_mail():
+    datatuple = (
+        ('subject-1', 'body-1', [os.environ['MAIL_RECIPIENT']]),
+        ('subject-2', 'body-2', [os.environ['MAIL_RECIPIENT']]),
+        ('subject-3', 'body-3', [os.environ['MAIL_RECIPIENT']]),
+    )
+    await mail.send_mass_mail(datatuple)
+    return {'msg' : 'success'}
 
 #test email standart sending mail 
 @app.get("/email")
