@@ -42,8 +42,8 @@
 - `Updated` the `utils.email_check.EmailChecker` class for the new version of `aioredis`.
 - `Updated` the required dependencies.
 
-## 0.2.0[Upcoming]
+## 0.2.0
 - `Added` `send_mail`, `send_mass_mail` methods very similar to `Django` or `Flask-Mailman`.
-- `Added` more docstring for better understanding of all the apis.
-- `Fixed` several typos.
+- `Added` more docstrings for better understanding of all the apis.
+- `Added` few more test cases.
 - `Fixed` major bug at `MAIL_START_TLS`/`MAIL_START_SSL` configuration at `ConnectionConfig`.
