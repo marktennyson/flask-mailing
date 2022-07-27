@@ -1,6 +1,6 @@
 # Example
 
-## Sending emails using Falsk-Email
+## Sending emails using Flask-Mailing
 
 ## List of Examples 
 
