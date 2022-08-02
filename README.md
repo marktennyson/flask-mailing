@@ -98,6 +98,8 @@ Thanks goes to these wonderful people ([🚧]):
     <td align="center"><a href="https://github.com/marktennyson"><img src="https://avatars.githubusercontent.com/u/46404058?v=4" width="100px;" alt=""/><br /><sub><b>Aniket Sarkar</b></sub></a><br /><a href="#maintenance-tbenning" title="Answering Questions">💬</a> <a href="https://github.com/marktennyson/flask-mailing" title="Reviewed Pull Requests">👀</a> <a href="#maintenance-jakebolam" title="Maintenance">🚧</a></td><br>
     <td align="center"><a href="https://github.com/jfkinslow"><img src="https://avatars.githubusercontent.com/u/4458739?v=4" width="100px;" alt=""/><br /><sub><b>Joshua Kinslow</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/agramfort"><img src="https://avatars.githubusercontent.com/u/161052?v=4" width="100px;" alt=""/><br /><sub><b>Alexandre Gramfort</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/ahmetkurukose"><img src="https://avatars.githubusercontent.com/u/1325263?v=4" width="100px;" alt=""/><br /><sub><b>
+ahmetkurukose</b></sub></a><br /></td>
 </tr>
 </table>
 
