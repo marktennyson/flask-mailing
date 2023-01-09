@@ -2,10 +2,22 @@ import inspect
 from abc import ABC, abstractmethod
 from typing import Any, List, Set
 
-import aioredis
+
 import dns.exception
 import dns.resolver
-import httpx
+
+try:
+    import aioredis
+    redis_lib = True
+except:
+    redis_lib = False
+
+try:
+    import httpx
+    request_lib = True
+except:
+    request_lib = False
+
 from pydantic import EmailStr
 
 from .errors import ApiError, DBProvaiderError
@@ -83,6 +95,15 @@ class DefaultChecker(AbstractEmailChecker):
         redis_pass: str = None,
         **options: dict,
     ):
+        if not redis_lib:
+            raise ImportError(
+                'You must install aioredis from https://pypi.org/project/aioredis in order to run functionality'
+            )
+
+        if not request_lib:
+            raise ImportError(
+                'You must install httpx from https://pypi.org/project/httpx in order to run functionality'
+            )
 
         self.source = (
             source
