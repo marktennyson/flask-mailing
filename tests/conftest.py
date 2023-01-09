@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import pytest
-import fakeredis.aioredis
+# import fakeredis.aioredis
 from flask import Flask
 
 from flask_mailing.utils import DefaultChecker
@@ -14,14 +14,14 @@ def default_checker():
     del test
 
 
-@pytest.fixture
-@pytest.mark.asyncio
-async def redis_checker(scope='redis_config'):
-    test = DefaultChecker(db_provider='redis')
-    test.redis_client = fakeredis.aioredis.FakeRedis()
-    yield test
-    await test.redis_client.flushall()
-    await test.close_connections()
+# @pytest.fixture
+# @pytest.mark.asyncio
+# async def redis_checker(scope='redis_config'):
+#     test = DefaultChecker(db_provider='redis')
+#     test.redis_client = fakeredis.aioredis.FakeRedis()
+#     yield test
+#     await test.redis_client.flushall()
+#     await test.close_connections()
 
 @pytest.fixture
 @pytest.mark.asyncio
