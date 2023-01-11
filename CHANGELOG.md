@@ -47,3 +47,7 @@
 - `Added` more docstrings for better understanding of all the apis.
 - `Added` few more test cases.
 - `Fixed` major bug at `MAIL_START_TLS`/`MAIL_START_SSL` configuration at `ConnectionConfig`.
+
+## 0.2.1
+- `Fixed` aioredis issue with python 3.11.    
+- `Fixed` httpx library issue.      
