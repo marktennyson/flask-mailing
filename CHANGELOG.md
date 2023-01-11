@@ -50,5 +50,4 @@
 
 ## 0.2.1
 - `Fixed` aioredis issue with python 3.11.    
-- `Fixed` httpx library issue.    
-- `Fixed` fakeredis issue.   
+- `Fixed` httpx library issue.      
