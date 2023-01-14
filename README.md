@@ -3,17 +3,17 @@
 
 Flask-Mailing adds SMTP mail sending to your Flask applications
 
-**Flask_Mail** is dead now. This is the time to migrate a fully asynchronous based mailer library to send emails while using a Flask based application. Now Flask 2.0 supports the asynchronous view function then who is stopping you to use __Flask-Mailing__ ?
+**Flask_Mail** is dead now. This is the time to migrate a fully asynchronous mailer library to send emails using a Flask-based application. If Flask 2.0 supports the asynchronous view function, then who stops you from using __Flask-Mailing__ ?
 
 __The key features are:__
 
--  Most of the Apis are very similar to `Flask-Mail` module.
--  sending emails with either with Flask or using asyncio module 
--  sending files either from form-data or files from server
--  Using Jinja2 HTML Templates
--  email utils (utility allows you to check temporary email addresses, you can block any email or domain)
--  email utils has two available classes ```DefaultChecker``` and  ```WhoIsXmlApi```
--  Unittests using Mail
+-  Most of the Apis is very similar to the `Flask-Mail` module.
+-  sending emails to either with Flask or using asyncio module. 
+-  sending files either from form-data or files from the server.
+-  Using Jinja2 HTML Templates.
+-  email utils (utility allows you to check temporary email addresses, you can block any email or domain).
+-  email utils has two available classes ```DefaultChecker``` and  ```WhoIsXmlApi```.
+-  Unit tests using Mail.
 
 More information on [Getting-Started](https://marktennyson.github.io/flask-mailing/getting-started)
 
@@ -34,7 +34,7 @@ More information on [Getting-Started](https://marktennyson.github.io/flask-maili
 ```bash
  pip install flask-mailing
 ```
-or install from source code
+or install from the source code
 ```bash
 git clone https://github.com/marktennyson/flask-mailing.git && cd flask-mailing
 python -m pip install .
@@ -90,7 +90,7 @@ Feel free to open issues and send pull requests.
 
 ## 😀 Contributors ✨
 
-Thanks goes to these wonderful people ([🚧]):
+Thanks go to these wonderful people ([🚧]):
 
 
 <table>

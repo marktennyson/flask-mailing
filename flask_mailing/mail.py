@@ -13,7 +13,7 @@ from .schemas import Message
 if t.TYPE_CHECKING:
     from flask import Flask
 
-version_info = (0, 2, 0)
+version_info = (0, 2, 2)
 
 
 class _MailMixin:
