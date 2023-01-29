@@ -56,3 +56,4 @@
 - `Updated` setup.py. 
 - `Updated` Readme file. 
 - `Fixed` version number issue. 
+- `Added` the compatibility for Python 3.11. 
