@@ -180,7 +180,7 @@ message = Message(
         ],
 )
 
-fm = FastMail(conf)
+fm = Mail(conf)
 await fm.send_message(message)
 ```
 
