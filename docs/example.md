@@ -180,8 +180,7 @@ message = Message(
         ],
 )
 
-fm = Mail(conf)
-await fm.send_message(message)
+await mail.send_message(message)
 ```
 
 ##  Guide for email utils
