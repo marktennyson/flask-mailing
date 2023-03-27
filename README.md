@@ -11,7 +11,7 @@ Whether you're building a small-scale application or a large-scale enterprise sy
 
 __The key features are:__
 
-### Key Features
+### Key Features :sparkles:
 
 1. :arrows_counterclockwise: Supports asynchronous email sending using the built-in `asyncio` library in Python 3.5+.
 2. :link: Easily integrates with Flask applications using the provided `Mail` extension.
