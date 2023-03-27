@@ -9,23 +9,35 @@ Moreover, Flask-Mailing offers a simple and intuitive API that allows developers
 
 Whether you're building a small-scale application or a large-scale enterprise system, Flask-Mailing provides a reliable and scalable solution for Asynchronous email messaging in Flask applications.
 
-__The key features are:__
 
 ### Key Features :sparkles:
 
 1. :arrows_counterclockwise: Supports asynchronous email sending using the built-in `asyncio` library in Python 3.5+.
+
 2. :link: Easily integrates with Flask applications using the provided `Mail` extension.
+
 3. :gear: Offers simple and intuitive configuration options for email providers such as SMTP, Sendgrid, and Mailgun.
+
 4. :envelope: Supports HTML and plain-text message formats, as well as the option to send both formats in a multi-part message.
+
 5. :paperclip: Provides support for file attachments in emails.
+
 6. :art: Includes customizable email templates and support for Jinja2 templates.
+
 7. :rocket: Offers a simple API for sending email messages, allowing for quick and easy implementation in any Flask project.
+
 8. :email: Supports bulk email sending, allowing for the efficient delivery of messages to large email lists.
+
 9. :bookmark_tabs: Provides options for customizing email headers and message priority levels.
+
 10. :chart_with_upwards_trend: Supports email tracking through message IDs and delivery status notifications.
+
 11. :microscope: Includes a comprehensive testing suite for ensuring the correct configuration and behavior of the email sending functionality.
+
 12. :lock: Supports email encryption and authentication using TLS and SSL protocols.
+
 13. :warning: Offers error handling and logging functionality for tracking and resolving email sending issues.
+
 14. :book: Provides detailed documentation and active community support for resolving any issues or questions related to the package.
 
 
