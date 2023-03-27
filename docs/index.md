@@ -1,8 +1,23 @@
 # Flask-mailing
 
-The flask-mailing simple lightweight mail system, sending emails and attachments(individual && bulk) fully asynchronously.
+__Flask-Mailing__ is a highly efficient and user-friendly package that enables `Asynchronous` email messaging in Flask applications. Asynchronous email messaging is becoming increasingly popular because it allows applications to continue running while emails are being sent in the background. This makes it an ideal solution for time-sensitive applications that require a fast and responsive user experience.
 
-Flask_Mail is dead now. To use the mail service with your project you can use eaither [Flask-Mailing](https://github.com/marktennyson/flask-mailing) for legacy or [Flask-Mailman](https://github.com/waynerv/flask-mailman) for Django type implementation.
+With Flask-Mailing, developers can easily integrate asynchronous email messaging capabilities into their Flask applications without the need for complex configurations or additional dependencies. The package offers a variety of features, including support for multiple email providers, email templates, and error handling. It also supports common email protocols, such as `SMTP`, `SSL`, and `TLS`.
+
+Moreover, Flask-Mailing offers a simple and intuitive API that allows developers to easily send emails in the background. It also provides advanced features, such as email tracking and reporting, which enable developers to monitor email performance and user engagement.
+
+Whether you're building a small-scale application or a large-scale enterprise system, Flask-Mailing provides a reliable and scalable solution for Asynchronous email messaging in Flask applications.
+
+Flask-Mail has been discontinued. However, you can still use email services with your Flask projects by using either Flask-Mailing for asynchronous implementation or Flask-Mailman for synchronous implementation.
+
+- Flask-Mailing supports asynchronous email sending using the built-in `asyncio` library in Python 3.5+. It easily integrates with Flask applications using the provided `Mail` extension, offers simple and intuitive configuration options for email providers, supports HTML and plain-text message formats, and provides options for customizing email headers and message priority levels. It also includes customizable email templates, supports file attachments, and allows for bulk email sending, email tracking, encryption and authentication, error handling, and logging functionality.
+
+- Flask-Mailman, on the other hand, provides a simple API for sending email messages synchronously, supports HTML and plain-text message formats, allows for customizing email headers and message priority levels, and provides options for email tracking and error handling. It also includes customizable email templates and supports file attachments.
+
+Choose the package that best fits your project's requirements and start using email services with your Flask application!
+
+
+Flask_Mail is dead now. To use the mail service with your project you can use eaither [Flask-Mailing](https://github.com/marktennyson/flask-mailing) for Asynchronous or [Flask-Mailman](https://github.com/waynerv/flask-mailman) for Synchronous implementation.
 
 [![MIT licensed](https://img.shields.io/github/license/marktennyson/flask-mailing)](https://raw.githubusercontent.com/marktennyson/flask-mailing/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/marktennyson/flask-mailing.svg)](https://github.com/marktennyson/flask-mailing/stargazers)
