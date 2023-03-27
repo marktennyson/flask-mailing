@@ -11,13 +11,23 @@ Whether you're building a small-scale application or a large-scale enterprise sy
 
 __The key features are:__
 
--  Most of the Apis is very similar to the `Flask-Mail` module.
--  sending emails to either with Flask or using asyncio module. 
--  sending files either from form-data or files from the server.
--  Using Jinja2 HTML Templates.
--  email utils (utility allows you to check temporary email addresses, you can block any email or domain).
--  email utils has two available classes ```DefaultChecker``` and  ```WhoIsXmlApi```.
--  Unit tests using Mail.
+### Key Features
+
+1. :arrows_counterclockwise: Supports asynchronous email sending using the built-in `asyncio` library in Python 3.5+.
+2. :link: Easily integrates with Flask applications using the provided `Mail` extension.
+3. :gear: Offers simple and intuitive configuration options for email providers such as SMTP, Sendgrid, and Mailgun.
+4. :envelope: Supports HTML and plain-text message formats, as well as the option to send both formats in a multi-part message.
+5. :paperclip: Provides support for file attachments in emails.
+6. :art: Includes customizable email templates and support for Jinja2 templates.
+7. :rocket: Offers a simple API for sending email messages, allowing for quick and easy implementation in any Flask project.
+8. :email: Supports bulk email sending, allowing for the efficient delivery of messages to large email lists.
+9. :bookmark_tabs: Provides options for customizing email headers and message priority levels.
+10. :chart_with_upwards_trend: Supports email tracking through message IDs and delivery status notifications.
+11. :microscope: Includes a comprehensive testing suite for ensuring the correct configuration and behavior of the email sending functionality.
+12. :lock: Supports email encryption and authentication using TLS and SSL protocols.
+13. :warning: Offers error handling and logging functionality for tracking and resolving email sending issues.
+14. :book: Provides detailed documentation and active community support for resolving any issues or questions related to the package.
+
 
 More information on [Getting-Started](https://marktennyson.github.io/flask-mailing/getting-started)
 
@@ -73,14 +83,12 @@ html = """
 
 @app.post("/email")
 async def simple_send():
-
     message = Message(
         subject="Flask-Mailing module",
         recipients=["recipients@email-domain.com"],  # List of recipients, as many as you can pass 
         body=html,
         subtype="html"
         )
-
     await mail.send_message(message)
     return jsonify(status_code=200, content={"message": "email has been sent"})     
 ```
@@ -116,4 +124,4 @@ Before you start please read [CONTRIBUTING](https://github.com/marktennyson/flas
 
 # 📝 LICENSE
 
-[MIT](LICENSE)
+[MIT](https://raw.githubusercontent.com/marktennyson/flask-mailing/development/LICENSE)
