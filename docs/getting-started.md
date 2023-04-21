@@ -13,7 +13,7 @@ class has following attributes
 -  **MAIL_PASSWORD** : Password for authentication
 -  **MAIL_SERVER**  : SMTP Mail server.
 -  **MAIL_USE_TLS** : For TLS connection
--  **MAIL_USE_SSL** : For TLS connection
+-  **MAIL_USE_SSL** : For SSL connection
 -  **MAIL_DEBUG** : Debug mode for while sending mails, defaults 0.
 -  **MAIL_FROM** : Sender address
 - **MAIL_DEFAULT_SENDER** : Sender address
