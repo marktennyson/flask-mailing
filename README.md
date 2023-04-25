@@ -124,6 +124,8 @@ Thanks go to these wonderful people ([🚧]):
     <td align="center"><a href="https://github.com/agramfort"><img src="https://avatars.githubusercontent.com/u/161052?v=4" width="100px;" alt=""/><br /><sub><b>Alexandre Gramfort</b></sub></a><br /></td>
     <td align="center"><a href="https://github.com/ahmetkurukose"><img src="https://avatars.githubusercontent.com/u/1325263?v=4" width="100px;" alt=""/><br /><sub><b>
 ahmetkurukose</b></sub></a><br /></td>
+<td align="center"><a href="https://github.com/Sriram-bb63"><img src="https://avatars.githubusercontent.com/u/71959217?v=4" width="100px;" alt=""/><br /><sub><b>
+Sriram</b></sub></a><br /></td>
 </tr>
 </table>
 
