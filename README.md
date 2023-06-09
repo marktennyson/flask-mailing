@@ -9,6 +9,11 @@ Moreover, Flask-Mailing offers a simple and intuitive API that allows developers
 
 Whether you're building a small-scale application or a large-scale enterprise system, Flask-Mailing provides a reliable and scalable solution for Asynchronous email messaging in Flask applications.
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=marktennyson/flask-mailing&type=Date)](https://star-history.com/#marktennyson/flask-mailing&Date)
+
+
 
 ### Key Features :sparkles:
 
