@@ -34,23 +34,22 @@ class MultipartSubtypeEnum(Enum):
 
 
 class Message(BaseModel):
-    recipients: List["EmailStr"]
+    recipients: List[EmailStr]
     attachments: List[Union[FileStorage, Dict, str]] = []
     subject: str = ""
     body: Optional[Union[str, list]] = None
     template_body: Optional[Union[list, dict]] = None
     template_params: Optional[Union[list, dict]] = None
     html: Optional[Union[str, List, Dict]] = None
-    cc: List["EmailStr"] = []
-    bcc: List["EmailStr"] = []
-    reply_to: List["EmailStr"] = []
+    cc: List[EmailStr] = []
+    bcc: List[EmailStr] = []
+    reply_to: List[EmailStr] = []
     charset: str = "utf-8"
     subtype: Optional[str] = None
     multipart_subtype: MultipartSubtypeEnum = MultipartSubtypeEnum.mixed
 
-    @validator("template_params")
+    @validator("template_params", pre=True, always=True)
     def validate_template_params(cls, value, values):
-
         if values.get("template_body", None) is None:
             values["template_body"] = value
         return value
@@ -129,8 +128,8 @@ class Message(BaseModel):
         self.attachments.append(fsob)
         return True
 
-    @validator("subtype")
-    def validate_subtype(cls, value, values, config, field):
+    @validator("subtype", pre=True, always=True)
+    def validate_subtype(cls, value, values):
         """Validate subtype field."""
         if values.get("template_body"):
             return "html"
@@ -138,7 +137,6 @@ class Message(BaseModel):
 
     class Config:
         arbitrary_types_allowed = True
-
 
 def validate_path(path):
     cur_dir = os.path.abspath(os.curdir)
