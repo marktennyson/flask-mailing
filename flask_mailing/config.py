@@ -5,7 +5,7 @@ from typing import Optional
 from flask.globals import current_app
 from jinja2 import Environment, FileSystemLoader
 from pydantic_settings import BaseSettings as Settings
-from pydantic import DirectoryPath, EmailStr, conint, validator
+from pydantic import DirectoryPath, EmailStr, conint, field_validator
 
 from .errors import TemplateFolderDoesNotExist
 
@@ -25,7 +25,7 @@ class ConnectionConfig(Settings):
     USE_CREDENTIALS: bool = True
     VALIDATE_CERTS: bool = True
 
-    @validator("MAIL_TEMPLATE_FOLDER")
+    @field_validator("MAIL_TEMPLATE_FOLDER")
     def template_folder_validator(cls, v):
         """Validate the template folder directory."""
         if not v:

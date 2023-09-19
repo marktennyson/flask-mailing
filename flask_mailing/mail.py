@@ -13,7 +13,7 @@ from .schemas import Message
 if t.TYPE_CHECKING:
     from flask import Flask
 
-version_info = (0, 2, 2)
+version_info = (0, 2, 3)
 
 
 class _MailMixin:
@@ -113,7 +113,7 @@ class Mail(_MailMixin):
                 else:
                     template_data = self.make_dict(template_body)
                     message.template_body = template.render(**template_data)
-        msg = MailMsg(**message.dict())
+        msg = MailMsg(**message.model_dump())
         if self.config.MAIL_FROM_NAME is not None:
             sender = f"{self.config.MAIL_FROM_NAME} <{self.config.MAIL_FROM}>"
         else:

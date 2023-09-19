@@ -57,3 +57,7 @@
 - `Updated` Readme file. 
 - `Fixed` version number issue. 
 - `Added` the compatibility for Python 3.11. 
+
+## 0.2.3
+- `Added` compatibility for Pydantic V2.
+- `Fixed` several bugs.

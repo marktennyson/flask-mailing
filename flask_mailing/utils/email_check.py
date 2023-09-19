@@ -161,7 +161,7 @@ class DefaultChecker(AbstractEmailChecker):
 
     def validate_email(self, email: str) -> bool:
         """Validate email address"""
-        EmailStr.validate(email)
+        EmailStr._validate(email, {})
         return True
 
     async def fetch_temp_email_domains(self):
@@ -359,7 +359,7 @@ class WhoIsXmlApi:
 
     def validate_email(self, email: str):
         """Validate email address"""
-        if EmailStr.validate(email):
+        if EmailStr._validate(email, {}):
             return True
 
     def catch_all_check(self):

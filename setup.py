@@ -3,7 +3,7 @@ from setuptools import (
     find_packages
     )
 
-VERSION = (0, 2, 2)
+VERSION = (0, 2, 3)
 AUTHOR = "Aniket Sarkar"
 AUTHOR_EMAIL = "aniketsarkar@yahoo.com"
 
@@ -43,6 +43,7 @@ setup(
         "asgiref>=3.4.1",
         "blinker>=1.4",
         "pydantic>=1.8.2",
+        "pydantic-settings>=2.0.3",
         "email-validator>=1.1.3",
         "typing-extensions>=3.10.0.0",
         "httpx>=0.21.3",

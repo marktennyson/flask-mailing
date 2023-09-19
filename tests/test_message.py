@@ -166,7 +166,7 @@ async def test_msgid_header():
         subtype="plain",
     )
 
-    msg = MailMsg(**message.dict())
+    msg = MailMsg(**message.model_dump())
     msg_object = await msg._message("test@example.com")
     assert msg_object["Message-ID"] is not None
 
@@ -180,7 +180,7 @@ async def test_message_charset():
         subtype="plain",
     )
 
-    msg = MailMsg(**message.dict())
+    msg = MailMsg(**message.model_dump())
     msg_object = await msg._message("test@example.com")
     assert msg_object._charset is not None
     assert msg_object._charset == "utf-8"

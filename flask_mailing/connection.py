@@ -19,7 +19,7 @@ class Connection:
          """
             )
 
-        self.settings = settings.dict()
+        self.settings = settings.model_dump()
 
     async def __aenter__(self):  # setting up a connection
         await self._configure_connection()
