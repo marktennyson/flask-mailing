@@ -91,7 +91,6 @@ from .mail import Mail
 from .schemas import Message as Message
 from .schemas import MultipartSubtypeEnum as MultipartSubtypeEnum
 
-
 __author__ = "aniketsarkar@yahoo.com"
 
 

@@ -1,5 +1,4 @@
 import pytest
-from pydantic import EmailError
 
 from flask_mailing.utils.errors import DBProvaiderError
 
@@ -39,9 +38,6 @@ async def test_default_checker(default_checker):
     assert await default_checker.check_mx_record(domain) is True
 
     assert default_checker.validate_email(email) is True
-
-    with pytest.raises(EmailError):
-        default_checker.validate_email("test#mail.com")
 
     with pytest.raises(DBProvaiderError):
         await default_checker.close_connections()

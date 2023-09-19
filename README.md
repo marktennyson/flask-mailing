@@ -9,6 +9,11 @@ Moreover, Flask-Mailing offers a simple and intuitive API that allows developers
 
 Whether you're building a small-scale application or a large-scale enterprise system, Flask-Mailing provides a reliable and scalable solution for Asynchronous email messaging in Flask applications.
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=marktennyson/flask-mailing&type=Date)](https://star-history.com/#marktennyson/flask-mailing&Date)
+
+
 
 ### Key Features :sparkles:
 
@@ -126,6 +131,7 @@ Thanks go to these wonderful people ([🚧]):
 ahmetkurukose</b></sub></a><br /></td>
 <td align="center"><a href="https://github.com/Sriram-bb63"><img src="https://avatars.githubusercontent.com/u/71959217?v=4" width="100px;" alt=""/><br /><sub><b>
 Sriram</b></sub></a><br /></td>
+<td align="center"><a href="https://github.com/CharlesTWood"><img src="https://avatars.githubusercontent.com/u/31315150?v=4" width="100px;" alt=""/><br/><sub><b>CharlesTWood</b></sub></a><br /></td>
 </tr>
 </table>
 

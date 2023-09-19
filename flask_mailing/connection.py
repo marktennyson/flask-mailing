@@ -1,5 +1,5 @@
 import aiosmtplib
-from pydantic import BaseSettings as Settings
+from pydantic_settings import BaseSettings as Settings
 
 from .config import ConnectionConfig
 from .errors import ConnectionErrors, PydanticClassRequired
@@ -11,7 +11,6 @@ class Connection:
     """
 
     def __init__(self, settings: ConnectionConfig):
-
         if not issubclass(settings.__class__, Settings):
             raise PydanticClassRequired(
                 """Email configuruation should be provided from ConnectionConfig class, check example below:
@@ -19,7 +18,7 @@ class Connection:
          """
             )
 
-        self.settings = settings.dict()
+        self.settings = settings.model_dump()
 
     async def __aenter__(self):  # setting up a connection
         await self._configure_connection()

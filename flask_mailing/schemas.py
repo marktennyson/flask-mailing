@@ -10,7 +10,7 @@ if sys.version_info >= (3, 8):
 else:
     from typing_extensions import Literal
 
-from pydantic import BaseModel, EmailStr, validator
+from pydantic import BaseModel, EmailStr, field_validator
 from werkzeug.datastructures import FileStorage
 
 from .errors import WrongFile
@@ -34,28 +34,34 @@ class MultipartSubtypeEnum(Enum):
 
 
 class Message(BaseModel):
-    recipients: List["EmailStr"]
+    recipients: List[EmailStr]
     attachments: List[Union[FileStorage, Dict, str]] = []
     subject: str = ""
     body: Optional[Union[str, list]] = None
     template_body: Optional[Union[list, dict]] = None
     template_params: Optional[Union[list, dict]] = None
     html: Optional[Union[str, List, Dict]] = None
-    cc: List["EmailStr"] = []
-    bcc: List["EmailStr"] = []
-    reply_to: List["EmailStr"] = []
+    cc: List[EmailStr] = []
+    bcc: List[EmailStr] = []
+    reply_to: List[EmailStr] = []
     charset: str = "utf-8"
     subtype: Optional[str] = None
     multipart_subtype: MultipartSubtypeEnum = MultipartSubtypeEnum.mixed
 
-    @validator("template_params")
-    def validate_template_params(cls, value, values):
-
-        if values.get("template_body", None) is None:
-            values["template_body"] = value
+    @field_validator("template_params")
+    def validate_template_params(cls, value, info):
+        if info.data.get("template_body", None) is None:
+            info.data["template_body"] = value
         return value
 
-    @validator("attachments")
+    @field_validator("subtype")
+    def validate_subtype(cls, value, info):
+        """Validate subtype field."""
+        if info.data.get("template_body", None):
+            return "html"
+        return value
+
+    @field_validator("attachments")
     def validate_file(cls, v):
         temp = []
         mime = MimeTypes()
@@ -128,13 +134,6 @@ class Message(BaseModel):
         fsob.disposition = disposition
         self.attachments.append(fsob)
         return True
-
-    @validator("subtype")
-    def validate_subtype(cls, value, values, config, field):
-        """Validate subtype field."""
-        if values.get("template_body"):
-            return "html"
-        return value
 
     class Config:
         arbitrary_types_allowed = True
