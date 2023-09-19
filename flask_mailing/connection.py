@@ -1,5 +1,5 @@
 import aiosmtplib
-from pydantic import BaseSettings as Settings
+from pydantic_settings import BaseSettings as Settings
 
 from .config import ConnectionConfig
 from .errors import ConnectionErrors, PydanticClassRequired

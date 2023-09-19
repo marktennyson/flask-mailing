@@ -4,7 +4,7 @@ from typing import Optional
 
 from flask.globals import current_app
 from jinja2 import Environment, FileSystemLoader
-from pydantic import BaseSettings as Settings
+from pydantic_settings import BaseSettings as Settings
 from pydantic import DirectoryPath, EmailStr, conint, validator
 
 from .errors import TemplateFolderDoesNotExist
