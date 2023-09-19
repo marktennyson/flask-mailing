@@ -131,6 +131,7 @@ Thanks go to these wonderful people ([🚧]):
 ahmetkurukose</b></sub></a><br /></td>
 <td align="center"><a href="https://github.com/Sriram-bb63"><img src="https://avatars.githubusercontent.com/u/71959217?v=4" width="100px;" alt=""/><br /><sub><b>
 Sriram</b></sub></a><br /></td>
+<td align="center"><a href="https://github.com/CharlesTWood"><img src="https://avatars.githubusercontent.com/u/31315150?v=4" width="100px;" alt=""/><br/><sub><b>CharlesTWood</b></sub></a><br /></td>
 </tr>
 </table>
 
