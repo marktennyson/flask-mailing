@@ -2,18 +2,19 @@ import inspect
 from abc import ABC, abstractmethod
 from typing import Any, List, Set
 
-
 import dns.exception
 import dns.resolver
 
 try:
     import aioredis
+
     redis_lib = True
 except:
     redis_lib = False
 
 try:
     import httpx
+
     request_lib = True
 except:
     request_lib = False
@@ -97,12 +98,12 @@ class DefaultChecker(AbstractEmailChecker):
     ):
         if not redis_lib:
             raise ImportError(
-                'You must install aioredis from https://pypi.org/project/aioredis in order to run functionality'
+                "You must install aioredis from https://pypi.org/project/aioredis in order to run functionality"
             )
 
         if not request_lib:
             raise ImportError(
-                'You must install httpx from https://pypi.org/project/httpx in order to run functionality'
+                "You must install httpx from https://pypi.org/project/httpx in order to run functionality"
             )
 
         self.source = (
@@ -274,7 +275,6 @@ class DefaultChecker(AbstractEmailChecker):
             dns.resolver.NoNameservers,
             dns.exception.Timeout,
         ):
-
             return False
 
     async def blocked_email_count(self):

@@ -11,7 +11,6 @@ class Connection:
     """
 
     def __init__(self, settings: ConnectionConfig):
-
         if not issubclass(settings.__class__, Settings):
             raise PydanticClassRequired(
                 """Email configuruation should be provided from ConnectionConfig class, check example below:

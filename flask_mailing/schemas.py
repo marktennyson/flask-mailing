@@ -53,7 +53,7 @@ class Message(BaseModel):
         if info.data.get("template_body", None) is None:
             info.data["template_body"] = value
         return value
-    
+
     @field_validator("subtype")
     def validate_subtype(cls, value, info):
         """Validate subtype field."""
@@ -137,6 +137,7 @@ class Message(BaseModel):
 
     class Config:
         arbitrary_types_allowed = True
+
 
 def validate_path(path):
     cur_dir = os.path.abspath(os.curdir)

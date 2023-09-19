@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import pytest
+
 # import fakeredis.aioredis
 from flask import Flask
 

@@ -17,7 +17,6 @@ version_info = (0, 2, 3)
 
 
 class _MailMixin:
-
     name = "Flask Mailing"
     version = ".".join([str(v) for v in version_info])
 
@@ -58,12 +57,10 @@ class Mail(_MailMixin):
     """
 
     def __init__(self, app: t.Optional["Flask"] = None) -> None:
-
         if app is not None:
             self.init_app(app)
 
     def init_app(self, app: "Flask") -> None:
-
         self.config = ConnectionConfig(
             MAIL_USERNAME=app.config.get("MAIL_USERNAME"),
             MAIL_PASSWORD=app.config.get("MAIL_PASSWORD"),
@@ -125,10 +122,10 @@ class Mail(_MailMixin):
         to send the message object.
 
         :param `message`: The object of the Message pydantic class.
-        :param `template_name`: if you are about to render any template 
+        :param `template_name`: if you are about to render any template
         with the mail please provide the name of the template by using this param.
 
-        ### For example => 
+        ### For example =>
         ```python
         @app.get("/email")
         async def simple_send():
@@ -164,23 +161,23 @@ class Mail(_MailMixin):
 
     async def send_mail(
         self,
-        subject:str,
-        message:str,
-        recipients:t.List[EmailStr],
-        html_message:t.Optional[str]=None,
-        **msgkwargs
-        ) -> None:
+        subject: str,
+        message: str,
+        recipients: t.List[EmailStr],
+        html_message: t.Optional[str] = None,
+        **msgkwargs,
+    ) -> None:
         """
         send a simple email by using this simple `send_mail` method.
 
         :param `subject`: A String containing the subject of the message.
         :param `message`: A string containing the message body.
-        :param `recipients`: A list of strings, each an email address. 
-        Each member of recipients will see the other recipients 
+        :param `recipients`: A list of strings, each an email address.
+        Each member of recipients will see the other recipients
         in the “To:” field of the email message
         :param `msgkwargs` : the kwargs based parameters for `Message` class.
 
-        ### For example => 
+        ### For example =>
         ```python
         @app.get('/send-mail')
         async def send_mail():
@@ -193,14 +190,13 @@ class Mail(_MailMixin):
             recipients=recipients,
             body=message,
             html=html_message,
-            **msgkwargs
+            **msgkwargs,
         )
         await self.send_message(message)
 
     async def send_mass_mail(
-        self,
-        datatuple:t.Tuple[t.Tuple[str, str, t.List[EmailStr]]]
-        ):
+        self, datatuple: t.Tuple[t.Tuple[str, str, t.List[EmailStr]]]
+    ):
         """
         To handle mass mailing.
 
