@@ -103,7 +103,7 @@ class MailMsg:
             if not self.html and self.subtype == "html":
                 if self.body:
                     warnings.warn(
-                        "Use ``template_body`` instead of ``body`` to pass data into Jinja2 template",
+                        "Use ``template_body`` instead of ``body`` to pass data into Jinja2 template. Use ``html`` instead of ``body`` to send a simple html message.",
                         DeprecationWarning,
                     )
                 self.message.attach(
