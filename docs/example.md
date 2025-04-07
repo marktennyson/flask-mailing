@@ -65,7 +65,7 @@ async def html_email():
     message = Message(
         subject="Flask-Mailing module test html mail",
         recipients=["aniketsarkar@yahoo.com"],
-        body=html,
+        html=html,
         subtype="html"
         )
 
