@@ -1,4 +1,4 @@
-# ✉️ Flask-Mailing v3.0.0 - 2026 Ready! 🚀
+# ✉️ Flask-Mailing v3.0.0 🚀
 ![Flask mail logo](https://github.com/marktennyson/flask-mailing/blob/main/logo/flask-mailing-logo-cropped.png?raw=true)
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
