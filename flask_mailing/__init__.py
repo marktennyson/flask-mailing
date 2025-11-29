@@ -27,11 +27,11 @@ Flask-Mailing v3.0.0 is built for the future with:
 - **Improved async patterns**
 - **Better error reporting**
 
-### 🔗 Important Links 
+### 🔗 Important Links
 
-#### ❤️ [Github](https://github.com/marktennyson/flask-mailing)    
-#### 📄 [Documentation](https://marktennyson.github.io/flask-mailing)    
-#### 🐍 [PYPI](https://pypi.org/project/flask-mailing)    
+#### ❤️ [Github](https://github.com/marktennyson/flask-mailing)
+#### 📄 [Documentation](https://marktennyson.github.io/flask-mailing)
+#### 🐍 [PYPI](https://pypi.org/project/flask-mailing)
 
 ## 🔨 Installation
 

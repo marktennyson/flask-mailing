@@ -22,12 +22,14 @@ HTTPX_AVAILABLE = False
 
 try:
     import redis.asyncio as aioredis
+
     REDIS_AVAILABLE = True
 except ImportError:
     aioredis = None  # type: ignore[assignment]
 
 try:
     import httpx
+
     HTTPX_AVAILABLE = True
 except ImportError:
     httpx = None  # type: ignore[assignment]
@@ -72,7 +74,6 @@ class AbstractEmailChecker(ABC):
 
 
 class DefaultChecker(AbstractEmailChecker):
-
     """
     Default class for checking email from collected public resource.
     The class makes it possible to use redis to save data.
@@ -185,6 +186,7 @@ class DefaultChecker(AbstractEmailChecker):
         """Validate email address"""
         try:
             from email_validator import validate_email as validator
+
             validator(email)
             return True
         except Exception:

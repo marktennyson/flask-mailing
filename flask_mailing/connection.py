@@ -21,10 +21,10 @@ if TYPE_CHECKING:
 class Connection:
     """
     Manages async SMTP connections with proper resource cleanup.
-    
+
     Provides an async context manager for handling SMTP connections safely.
     Supports TLS, SSL, and credential-based authentication.
-    
+
     Example:
         async with Connection(config) as conn:
             await conn.session.send_message(message)
@@ -39,10 +39,10 @@ class Connection:
     def __init__(self, settings: ConnectionConfig) -> None:
         """
         Initialize connection with configuration.
-        
+
         Args:
             settings: ConnectionConfig instance with SMTP settings
-            
+
         Raises:
             PydanticClassRequired: If settings is not a valid ConnectionConfig
         """
@@ -68,7 +68,7 @@ class Connection:
     async def __aenter__(self) -> Connection:
         """
         Set up an SMTP connection asynchronously.
-        
+
         Returns:
             Self for use in async with statement
         """
@@ -83,7 +83,7 @@ class Connection:
     ) -> None:
         """
         Close the SMTP connection gracefully.
-        
+
         Handles cleanup even if an exception occurred during email sending.
         """
         if self._connected and not self.settings.get("SUPPRESS_SEND"):
@@ -98,7 +98,7 @@ class Connection:
     async def _configure_connection(self) -> None:
         """
         Configure and establish SMTP connection.
-        
+
         Raises:
             ConnectionErrors: If connection or authentication fails
         """
@@ -140,8 +140,7 @@ class Connection:
             ) from connect_error
         except aiosmtplib.SMTPException as smtp_error:
             raise ConnectionErrors(
-                f"SMTP error: {smtp_error}. "
-                "Check your email server configuration."
+                f"SMTP error: {smtp_error}. " "Check your email server configuration."
             ) from smtp_error
         except TimeoutError as timeout_error:
             raise ConnectionErrors(

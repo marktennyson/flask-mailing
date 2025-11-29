@@ -55,18 +55,18 @@ class _MailMixin:
     def record_messages(self) -> Generator[list[MIMEMultipart], None, None]:
         """
         Context manager to record all messages sent.
-        
+
         Use in unit tests to capture sent emails without actually sending them.
-        
+
         Example:
             with mail.record_messages() as outbox:
                 response = app.test_client.get("/email-sending-view/")
                 assert len(outbox) == 1
                 assert outbox[0]["Subject"] == "testing"
-        
+
         Yields:
             List that will be populated with sent message objects
-            
+
         Raises:
             RuntimeError: If blinker is not installed
         """
@@ -89,13 +89,13 @@ class _MailMixin:
 class Mail(_MailMixin):
     """
     Flask mail system for sending individual and bulk emails with attachments.
-    
+
     Provides async email sending with full Flask integration, template support,
     and comprehensive error handling.
-    
+
     Attributes:
         config: ConnectionConfig instance with SMTP settings
-        
+
     Example:
         app = Flask(__name__)
         app.config.update(
@@ -106,7 +106,7 @@ class Mail(_MailMixin):
             MAIL_USE_TLS=True,
         )
         mail = Mail(app)
-        
+
         @app.post("/send")
         async def send():
             message = Message(
@@ -122,7 +122,7 @@ class Mail(_MailMixin):
     def __init__(self, app: Flask | None = None) -> None:
         """
         Initialize Mail extension.
-        
+
         Args:
             app: Optional Flask application. If provided, init_app is called.
         """
@@ -132,12 +132,12 @@ class Mail(_MailMixin):
     def init_app(self, app: Flask) -> None:
         """
         Initialize the Mail extension with a Flask application.
-        
+
         Reads configuration from Flask app.config and sets up the mail system.
-        
+
         Args:
             app: Flask application instance
-            
+
         Raises:
             ValueError: If required configuration is missing
         """
@@ -145,9 +145,7 @@ class Mail(_MailMixin):
         required_configs = ["MAIL_USERNAME", "MAIL_PASSWORD", "MAIL_SERVER"]
         missing = [key for key in required_configs if not app.config.get(key)]
         if missing:
-            raise ValueError(
-                f"Missing required configuration: {', '.join(missing)}"
-            )
+            raise ValueError(f"Missing required configuration: {', '.join(missing)}")
 
         # Determine sender email
         mail_from = app.config.get(
@@ -185,11 +183,11 @@ class Mail(_MailMixin):
     ) -> Template:
         """
         Load a mail template from the configured template folder.
-        
+
         Args:
             env_path: Jinja2 Environment instance
             template_name: Name of the template file
-            
+
         Returns:
             Loaded Jinja2 Template
         """
@@ -199,13 +197,13 @@ class Mail(_MailMixin):
     def make_dict(data: Any) -> dict[str, Any]:
         """
         Convert data to dictionary for template rendering.
-        
+
         Args:
             data: Data to convert (dict, BaseModel, or dict-like object)
-            
+
         Returns:
             Dictionary representation of data
-            
+
         Raises:
             ValueError: If data cannot be converted to dict
         """
@@ -226,11 +224,11 @@ class Mail(_MailMixin):
     ) -> MIMEMultipart:
         """
         Prepare email message for sending.
-        
+
         Args:
             message: Message instance with email content
             template: Optional Jinja2 template for HTML rendering
-            
+
         Returns:
             Prepared MIMEMultipart message ready for sending
         """
@@ -268,14 +266,14 @@ class Mail(_MailMixin):
     ) -> None:
         """
         Send an email message.
-        
+
         Args:
             message: Message instance with email content
             template_name: Optional template file name for HTML rendering
-            
+
         Raises:
             PydanticClassRequired: If message is not a Message instance
-            
+
         Example:
             message = Message(
                 subject="Flask-Mailing module",
@@ -319,17 +317,17 @@ class Mail(_MailMixin):
     ) -> None:
         """
         Send a simple email using keyword arguments.
-        
+
         This is a convenience method for quick email sending without
         creating a Message object manually.
-        
+
         Args:
             subject: Email subject line
             message: Plain text email body
             recipients: List of recipient email addresses
             html_message: Optional HTML email body
             **msgkwargs: Additional Message parameters
-            
+
         Example:
             await mail.send_mail(
                 subject="Hello",
@@ -353,10 +351,10 @@ class Mail(_MailMixin):
     ) -> None:
         """
         Send multiple emails efficiently.
-        
+
         Args:
             datatuple: Tuple of (subject, message, recipients) tuples
-            
+
         Example:
             emails = (
                 ("Subject 1", "Message 1", ["user1@example.com"]),

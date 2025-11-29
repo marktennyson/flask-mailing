@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 class ConnectionConfig(BaseSettings):
     """
     Email connection configuration with Pydantic v2 validation.
-    
+
     Attributes:
         MAIL_USERNAME: SMTP username for authentication
         MAIL_PASSWORD: SMTP password for authentication
@@ -67,7 +67,7 @@ class ConnectionConfig(BaseSettings):
     def validate_template_folder(cls, v: str | Path | None) -> Path | None:
         """
         Validate the template folder directory with enhanced security checks.
-        
+
         Ensures the folder exists, is readable, and prevents path traversal attacks.
         """
         if not v:
@@ -77,9 +77,7 @@ class ConnectionConfig(BaseSettings):
 
         # Check if folder exists and is readable
         if not folder_path.exists():
-            raise TemplateFolderDoesNotExist(
-                f"Template folder {v!r} does not exist"
-            )
+            raise TemplateFolderDoesNotExist(f"Template folder {v!r} does not exist")
 
         if not folder_path.is_dir():
             raise TemplateFolderDoesNotExist(
@@ -87,9 +85,7 @@ class ConnectionConfig(BaseSettings):
             )
 
         if not os.access(str(folder_path), os.R_OK):
-            raise TemplateFolderDoesNotExist(
-                f"Template folder {v!r} is not readable"
-            )
+            raise TemplateFolderDoesNotExist(f"Template folder {v!r} is not readable")
 
         # Enhanced path traversal protection
         try:
@@ -118,10 +114,10 @@ class ConnectionConfig(BaseSettings):
     def template_engine(self) -> Environment:
         """
         Return Jinja2 template environment.
-        
+
         Uses Flask's jinja_env if no custom template folder is specified,
         otherwise creates a new environment with the specified folder.
-        
+
         Returns:
             Jinja2 Environment configured for email templates
         """
@@ -139,10 +135,10 @@ class ConnectionConfig(BaseSettings):
 def validate_path_traversal(file_path: Path) -> bool:
     """
     Check for path traversal vulnerabilities.
-    
+
     Args:
         file_path: Path to validate
-        
+
     Returns:
         True if path is safe, False if path traversal detected
     """

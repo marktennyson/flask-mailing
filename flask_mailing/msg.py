@@ -19,18 +19,17 @@ if TYPE_CHECKING:
     from werkzeug.datastructures import FileStorage
 
 
-
 class MailMsg:
     """
     MIME message builder for email construction.
-    
+
     Constructs properly formatted email messages with support for:
     - Plain text and HTML content
     - Multiple recipients (To, CC, BCC)
     - File attachments with custom MIME types
     - Template-rendered content
     - Custom headers and charset
-    
+
     Attributes:
         subject: Email subject header
         recipients: List of primary recipient email addresses
@@ -66,7 +65,7 @@ class MailMsg:
     def __init__(self, **entries: Any) -> None:
         """
         Initialize message with provided values.
-        
+
         Args:
             **entries: Message attributes as keyword arguments
         """
@@ -99,11 +98,11 @@ class MailMsg:
     def _mimetext(self, text: str, subtype: str = "plain") -> MIMEText:
         """
         Create a MIMEText object.
-        
+
         Args:
             text: Text content
             subtype: MIME subtype (plain or html)
-            
+
         Returns:
             MIMEText object with specified content and subtype
         """
@@ -116,7 +115,7 @@ class MailMsg:
     ) -> None:
         """
         Attach files to the message.
-        
+
         Args:
             message: MIMEMultipart message to attach files to
             attachment: List of (FileStorage, metadata) tuples
@@ -150,7 +149,9 @@ class MailMsg:
                     filename = filename.encode("utf8").decode("utf8")
 
             filename_header = ("UTF8", "", filename or "attachment")
-            part.add_header("Content-Disposition", "attachment", filename=filename_header)
+            part.add_header(
+                "Content-Disposition", "attachment", filename=filename_header
+            )
 
             # Add custom headers if provided
             if file_meta and isinstance(file_meta, dict) and "headers" in file_meta:
@@ -164,13 +165,13 @@ class MailMsg:
     async def _message(self, sender: str) -> MIMEMultipart:
         """
         Build the complete email message.
-        
+
         Args:
             sender: Sender email address (with optional display name)
-            
+
         Returns:
             Complete MIMEMultipart message ready for sending
-            
+
         Raises:
             ValueError: If both template_body and html are set
         """
@@ -229,10 +230,10 @@ class MailMsg:
     async def as_string(self, sender: str = "") -> str:
         """
         Get message as string.
-        
+
         Args:
             sender: Sender email address
-            
+
         Returns:
             Message as formatted string
         """
@@ -242,10 +243,10 @@ class MailMsg:
     async def as_bytes(self, sender: str = "") -> bytes:
         """
         Get message as bytes.
-        
+
         Args:
             sender: Sender email address
-            
+
         Returns:
             Message as bytes
         """

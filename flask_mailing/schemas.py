@@ -22,7 +22,7 @@ from .errors import WrongFile
 class MultipartSubtypeEnum(str, Enum):
     """
     MIME multipart subtypes for email messages.
-    
+
     For more info about Multipart subtypes visit:
     https://en.wikipedia.org/wiki/MIME#Multipart_subtypes
     """
@@ -42,7 +42,7 @@ class MultipartSubtypeEnum(str, Enum):
 class Message(BaseModel):
     """
     Email message model with Pydantic v2 validation.
-    
+
     Attributes:
         recipients: List of recipient email addresses
         attachments: List of file attachments (paths, FileStorage, or dicts)
@@ -60,7 +60,9 @@ class Message(BaseModel):
     """
 
     recipients: list[EmailStr]
-    attachments: list[Any] = []  # Processed by validator to list of (FileStorage, dict|None) tuples
+    attachments: list[Any] = (
+        []
+    )  # Processed by validator to list of (FileStorage, dict|None) tuples
     subject: str = ""
     body: str | list[Any] | None = None
     template_body: str | list[Any] | dict[str, Any] | None = None
@@ -107,7 +109,7 @@ class Message(BaseModel):
     ) -> list[tuple[FileStorage, dict[str, Any] | None]]:
         """
         Validate and process file attachments.
-        
+
         Supports:
         - File paths as strings
         - FileStorage objects
@@ -159,10 +161,10 @@ class Message(BaseModel):
     def add_recipient(self, recipient: str) -> Literal[True]:
         """
         Add another recipient to the message.
-        
+
         Args:
             recipient: Email address of recipient
-            
+
         Returns:
             True on success
         """
@@ -179,14 +181,14 @@ class Message(BaseModel):
     ) -> Literal[True]:
         """
         Add an attachment to the message.
-        
+
         Args:
             filename: Name for the attached file
             data: Raw file data as bytes or string
             content_type: MIME type (auto-detected if not provided)
             disposition: Content-Disposition header value
             headers: Additional headers for the attachment
-            
+
         Returns:
             True on success
         """
@@ -216,10 +218,10 @@ class Message(BaseModel):
 def _validate_attachment_path(path: str) -> bool:
     """
     Validate attachment file path for security and accessibility.
-    
+
     Args:
         path: The file path to validate
-        
+
     Returns:
         True if path is safe and accessible, False otherwise
     """

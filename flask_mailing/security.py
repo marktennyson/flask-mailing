@@ -18,18 +18,18 @@ from pydantic import BaseModel, EmailStr, Field
 class RateLimiter:
     """
     Async-safe in-memory rate limiter for email sending.
-    
+
     Implements a sliding window rate limiting algorithm to prevent
     email sending abuse. For production use with multiple workers,
     consider using Redis-based rate limiting.
-    
+
     Attributes:
         max_emails: Maximum emails allowed per time window
         window_seconds: Time window duration in seconds
-        
+
     Example:
         rate_limiter = RateLimiter(max_emails=100, window_seconds=3600)
-        
+
         if await rate_limiter.is_allowed(client_ip):
             await mail.send_message(message)
         else:
@@ -45,7 +45,7 @@ class RateLimiter:
     ) -> None:
         """
         Initialize rate limiter.
-        
+
         Args:
             max_emails: Maximum emails allowed per window (default: 100)
             window_seconds: Time window in seconds (default: 3600 = 1 hour)
@@ -58,10 +58,10 @@ class RateLimiter:
     async def is_allowed(self, identifier: str) -> bool:
         """
         Check if the identifier is allowed to send an email.
-        
+
         Args:
             identifier: Unique identifier (e.g., IP address, user ID)
-            
+
         Returns:
             True if allowed, False if rate limited
         """
@@ -86,10 +86,10 @@ class RateLimiter:
     async def get_remaining(self, identifier: str) -> int:
         """
         Get remaining emails allowed for identifier.
-        
+
         Args:
             identifier: Unique identifier
-            
+
         Returns:
             Number of remaining emails allowed in current window
         """
@@ -108,7 +108,7 @@ class RateLimiter:
     async def reset(self, identifier: str) -> None:
         """
         Reset rate limit for an identifier.
-        
+
         Args:
             identifier: Unique identifier to reset
         """
@@ -118,10 +118,10 @@ class RateLimiter:
     async def get_reset_time(self, identifier: str) -> float | None:
         """
         Get time until rate limit resets for identifier.
-        
+
         Args:
             identifier: Unique identifier
-            
+
         Returns:
             Seconds until reset, or None if not rate limited
         """
@@ -137,22 +137,22 @@ class RateLimiter:
 class EmailSecurityValidator(BaseModel):
     """
     Enhanced email validation with security checks.
-    
+
     Validates email addresses against common security concerns including
     disposable email providers and role-based addresses.
-    
+
     Attributes:
         email: Email address to validate
         allow_disposable: Whether to allow disposable email addresses
         allow_role_based: Whether to allow role-based emails (admin@, etc.)
-        
+
     Example:
         validator = EmailSecurityValidator(
             email="user@example.com",
             allow_disposable=False,
             allow_role_based=True
         )
-        
+
         result = validator.validate_security()
         if not result["is_valid"]:
             print(f"Validation failed: {result['warnings']}")
@@ -169,52 +169,56 @@ class EmailSecurityValidator(BaseModel):
     )
 
     # Common disposable email domains
-    DISPOSABLE_DOMAINS: ClassVar[frozenset[str]] = frozenset({
-        "10minutemail.com",
-        "guerrillamail.com",
-        "mailinator.com",
-        "tempmail.org",
-        "yopmail.com",
-        "sharklasers.com",
-        "throwaway.email",
-        "temp-mail.org",
-        "fakeinbox.com",
-        "trashmail.com",
-        "dispostable.com",
-        "mailnesia.com",
-        "tempail.com",
-        "getnada.com",
-    })
+    DISPOSABLE_DOMAINS: ClassVar[frozenset[str]] = frozenset(
+        {
+            "10minutemail.com",
+            "guerrillamail.com",
+            "mailinator.com",
+            "tempmail.org",
+            "yopmail.com",
+            "sharklasers.com",
+            "throwaway.email",
+            "temp-mail.org",
+            "fakeinbox.com",
+            "trashmail.com",
+            "dispostable.com",
+            "mailnesia.com",
+            "tempail.com",
+            "getnada.com",
+        }
+    )
 
     # Common role-based email prefixes
-    ROLE_BASED_PREFIXES: ClassVar[frozenset[str]] = frozenset({
-        "admin",
-        "administrator",
-        "support",
-        "help",
-        "info",
-        "contact",
-        "sales",
-        "marketing",
-        "noreply",
-        "no-reply",
-        "webmaster",
-        "postmaster",
-        "hostmaster",
-        "abuse",
-        "security",
-        "billing",
-        "jobs",
-        "careers",
-        "hr",
-        "legal",
-        "privacy",
-    })
+    ROLE_BASED_PREFIXES: ClassVar[frozenset[str]] = frozenset(
+        {
+            "admin",
+            "administrator",
+            "support",
+            "help",
+            "info",
+            "contact",
+            "sales",
+            "marketing",
+            "noreply",
+            "no-reply",
+            "webmaster",
+            "postmaster",
+            "hostmaster",
+            "abuse",
+            "security",
+            "billing",
+            "jobs",
+            "careers",
+            "hr",
+            "legal",
+            "privacy",
+        }
+    )
 
     def validate_security(self) -> dict[str, Any]:
         """
         Perform security validation on the email address.
-        
+
         Returns:
             Dictionary containing validation results:
             - email: The validated email
@@ -268,14 +272,14 @@ class EmailSecurityValidator(BaseModel):
 def sanitize_email_content(content: str, max_length: int = 1_000_000) -> str:
     """
     Sanitize email content to prevent injection attacks.
-    
+
     Removes or escapes potentially dangerous patterns that could be
     used for SMTP injection or header manipulation.
-    
+
     Args:
         content: Raw email content
         max_length: Maximum content length (default: 1MB)
-        
+
     Returns:
         Sanitized content string
     """
@@ -307,13 +311,13 @@ def validate_attachment_security(
 ) -> dict[str, Any]:
     """
     Validate attachment security.
-    
+
     Checks attachments for potentially dangerous file types and patterns.
-    
+
     Args:
         filename: Name of the attachment file
         content_type: MIME type of the attachment (optional)
-        
+
     Returns:
         Dictionary containing:
         - filename: The validated filename
@@ -327,11 +331,34 @@ def validate_attachment_security(
     }
 
     # Dangerous file extensions
-    dangerous_extensions = frozenset({
-        ".exe", ".bat", ".cmd", ".com", ".pif", ".scr", ".vbs", ".js",
-        ".jar", ".sh", ".ps1", ".msi", ".dll", ".sys", ".reg", ".hta",
-        ".cpl", ".msc", ".inf", ".scf", ".lnk", ".ws", ".wsf", ".wsh",
-    })
+    dangerous_extensions = frozenset(
+        {
+            ".exe",
+            ".bat",
+            ".cmd",
+            ".com",
+            ".pif",
+            ".scr",
+            ".vbs",
+            ".js",
+            ".jar",
+            ".sh",
+            ".ps1",
+            ".msi",
+            ".dll",
+            ".sys",
+            ".reg",
+            ".hta",
+            ".cpl",
+            ".msc",
+            ".inf",
+            ".scf",
+            ".lnk",
+            ".ws",
+            ".wsf",
+            ".wsh",
+        }
+    )
 
     # Extract extension
     if "." in filename:
@@ -341,9 +368,7 @@ def validate_attachment_security(
 
     if extension in dangerous_extensions:
         results["is_safe"] = False
-        results["warnings"].append(
-            f"Potentially dangerous file extension: {extension}"
-        )
+        results["warnings"].append(f"Potentially dangerous file extension: {extension}")
 
     # Check filename length
     if len(filename) > 255:
@@ -362,13 +387,15 @@ def validate_attachment_security(
 
     # Validate content type if provided
     if content_type:
-        suspicious_types = frozenset({
-            "application/x-executable",
-            "application/x-msdownload",
-            "application/x-msdos-program",
-            "application/x-sh",
-            "application/x-shellscript",
-        })
+        suspicious_types = frozenset(
+            {
+                "application/x-executable",
+                "application/x-msdownload",
+                "application/x-msdos-program",
+                "application/x-sh",
+                "application/x-shellscript",
+            }
+        )
 
         if content_type in suspicious_types:
             results["warnings"].append(f"Suspicious content type: {content_type}")
@@ -379,10 +406,10 @@ def validate_attachment_security(
 def is_valid_email_header(header_value: str) -> bool:
     """
     Validate email header value for injection attacks.
-    
+
     Args:
         header_value: The header value to validate
-        
+
     Returns:
         True if the header value is safe, False otherwise
     """
