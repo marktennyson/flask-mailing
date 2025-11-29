@@ -1,327 +1,270 @@
-# Example
+# Examples
 
-## Sending emails using Flask-Mailing
+## Sending Emails with Flask-Mailing v3.0.0
 
-## List of Examples 
+This guide covers common email sending patterns with Flask-Mailing.
 
-### Basic configuration
+## Basic Configuration
 
 ```python
-
 from flask import Flask, jsonify
 from flask_mailing import Mail, Message
 
-mail = Mail()
+app = Flask(__name__)
 
+# Modern Flask 3.1+ configuration
+app.config.update(
+    MAIL_USERNAME="your-email@your-domain.com",
+    MAIL_PASSWORD="your_app_password",
+    MAIL_PORT=587,
+    MAIL_SERVER="smtp.gmail.com",
+    MAIL_USE_TLS=True,
+    MAIL_USE_SSL=False,
+    USE_CREDENTIALS=True,
+    VALIDATE_CERTS=True,
+    MAIL_DEFAULT_SENDER="your-email@your-domain.com",
+    MAIL_FROM_NAME="Your App Name"
+)
+
+mail = Mail(app)
+
+# Using application factory pattern
 def create_app():
     app = Flask(__name__)
-
-
-    app.config['MAIL_USERNAME'] = "your-email@your-domain.com"
-    app.config['MAIL_PASSWORD'] = "world_top_secret_password"
-    app.config['MAIL_PORT'] = 587
-    app.config['MAIL_SERVER'] = "your-email-server.com"
-    app.config['MAIL_USE_TLS'] = True
-    app.config['MAIL_USE_SSL'] = False
+    app.config.update(...)
     mail.init_app(app)
-
     return app
 
-#send a simple email using flask_mailing module.
-
-app = create_app()
-
-@app.get("/email")
+@app.post("/send-email")
 async def simple_send():
-
     message = Message(
-        subject="Flask-Mailing module",
-        recipients=["aniketsarkar@yahoo.com"],
-        body="This is the basic email body",
-        )
-
+        subject="Flask-Mailing v3.0.0",
+        recipients=["recipient@example.com"],
+        body="Hello from Flask-Mailing!",
+        subtype="plain"
+    )
     
     await mail.send_message(message)
-    return jsonify(status_code=200, content={"message": "email has been sent"})
+    return jsonify({"message": "Email sent successfully!"})
 ```
 
 #### Add recipient using `add_recipient` method
 
 ```python
-message.add_recipient("recipient@emldomain.com")
+message.add_recipient("another@example.com")
 ```
 
 
-### Send a simple html message
+## Send HTML Email
+
 ```python
-
-html = """
-<p>Hi this test mail, thanks for using Flask-Mailing</p> 
-"""
-
-@app.get("/html-email")
+@app.post("/html-email")
 async def html_email():
-
+    html_content = """
+    <html>
+        <body style="font-family: Arial, sans-serif;">
+            <h1 style="color: #2c3e50;">Hello! 👋</h1>
+            <p>This is an HTML email from Flask-Mailing v3.0.0</p>
+        </body>
+    </html>
+    """
+    
     message = Message(
-        subject="Flask-Mailing module test html mail",
-        recipients=["aniketsarkar@yahoo.com"],
-        body=html,
+        subject="Flask-Mailing HTML Email",
+        recipients=["recipient@example.com"],
+        html=html_content,
         subtype="html"
-        )
-
+    )
     
     await mail.send_message(message)
-    return jsonify(status_code=200, content={"message": "email has been sent"})
+    return jsonify({"message": "HTML email sent!"})
 ```
 
-### Sending files
+## Sending Files
 
 ```python
-@app.get("/mail-file")
+@app.post("/email-with-file")
 async def mail_file():
     message = Message(
-        subject = "attachments based email",
-        recipients = ["aniketsarkar@yahoo.com"],
-        body = "email with attachments, email body.",
-        attachments = ['attachments/attachment.txt']
+        subject="Email with Attachment",
+        recipients=["recipient@example.com"],
+        body="Please find the attached file.",
+        attachments=["attachments/document.pdf"]
     )
     await mail.send_message(message)
-    return jsonify(message="email sent")
+    return jsonify({"message": "Email with attachment sent!"})
 ```
-#### Sending files using `attach` method
+
+### Using `attach` method
+
 ```python
-with app.open_resource("attachments/example.txt") as fp:
+with open("attachments/example.txt", "rb") as fp:
     message.attach("example.txt", fp.read())
 ```
 
-### Using Jinja2 HTML Templates
+## Using Jinja2 HTML Templates
 
-You can enable Jinja2 HTML Template emails by setting the `TEMPLATE_FOLDER` configuration option, and supplying a value (which is just the name of the template file within the `TEMPLATE_FOLDER` dir) for the `template_name` parameter in `Mail.send_message()`. You then can pass a Dict as the `template_body` property of your `Message` object. If you haven't provided the `TEMPLATE_FOLDER` configuration option, then the module will take the app's jinja2 environment for templating and you can use templates from app's default template folder:
+Enable Jinja2 template emails by setting `TEMPLATE_FOLDER` or use the app's default template folder:
 
 ```python
 from pathlib import Path
 
+# Optional: Set custom template folder
 app.config["TEMPLATE_FOLDER"] = Path(__file__).parent / 'email-templates'
-"""
-Don't use this configuration if you want to use the default jinja2 environment.
-"""
-@app.get("/mail-html")
+
+@app.post("/email-with-template")
 async def mail_html():
-    
     message = Message(
-        subject = "html template based email",
-        recipients = ["aniketsarkar@yahoo.com"],
-        template_body = {
-                        "first_name": "Hare",
-                        "last_name": "Krishna"
-                        }
-        # attachments = ['attachments/attachment.txt']
+        subject="Welcome Email",
+        recipients=["recipient@example.com"],
+        template_body={
+            "first_name": "John",
+            "last_name": "Doe"
+        }
     )
-    #or
+    # Or use template_params (same effect)
     message = Message(
-        subject = "html template based email",
-        recipients = ["aniketsarkar@yahoo.com"],
-        template_params = {
-                        "first_name": "Hare",
-                        "last_name": "Krishna"
-                        }
-        # attachments = ['attachments/attachment.txt']
+        subject="Welcome Email",
+        recipients=["recipient@example.com"],
+        template_params={
+            "first_name": "John",
+            "last_name": "Doe"
+        }
     )
 
-    await mail.send_message(message, template_name="test.html")
-    return jsonify(message="email sent")
+    await mail.send_message(message, template_name="welcome.html")
+    return jsonify({"message": "Template email sent!"})
 ```
-For example, assume we pass a `template_body` of:
-```python
-{
-  "first_name": "Hare",
-  "last_name": "Krishna"
-}
-```
-We can reference the variables in our Jinja templates as per normal:
+
+### Template Example
+
+In your Jinja2 template (`welcome.html`):
+
 ```html
-...
-<span>Hello, {{ first_name }}!</span>
-...
-```
-#### Legacy Behaviour
-
-The original behaviour was to wrap the Dict you provide in a variable named `body` when it was provided to 
-Jinja behind the scenes. In these versions, you can then access your dict in your template like so:
-
-
-```
-...
-<span>Hello,  body.first_name !</span>
-...
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Hello, {{ first_name }} {{ last_name }}!</h1>
+    <p>Welcome to our service.</p>
+</body>
+</html>
 ```
 
+## Customizing Attachments with Headers and MIME Type
 
-As you can see our keys in our dict are no longer the top level, they are part of the `body` variable. Nesting works 
-as per normal below this level also. 
-
-### Customizing attachments by headers and MIME type
-
-Used for example for referencing Content-ID images in html of email
+Add custom headers and MIME types for attachments (e.g., inline images):
 
 ```python
 message = Message(
-    subject='Flask-Mailing module',
-    recipients=recipients,
+    subject="Email with Inline Image",
+    recipients=["recipient@example.com"],
     html="<img src='cid:logo_image'>",
-    subtype='html',
+    subtype="html",
     attachments=[
-            {
-                "file": "/path/to/file.png"),
-                "headers": {"Content-ID": "<logo_image>"},
-                "mime_type": "image",
-                "mime_subtype": "png",
-            }
-        ],
+        {
+            "file": "/path/to/logo.png",
+            "headers": {"Content-ID": "<logo_image>"},
+            "mime_type": "image",
+            "mime_subtype": "png",
+        }
+    ],
 )
 
 await mail.send_message(message)
 ```
 
-##  Guide for email utils
+## Email Utilities
 
-The utility allows you to check temporary email addresses, you can block any email or domain. 
-You can connect Redis to save and check email addresses. If you do not provide a Redis configuration, 
-then the utility will save it in the list or set by default.
+!!! note "Optional Dependency"
+    Requires `pip install flask-mailing[email-checking]`
 
-### Check dispasoble email address
+The utility allows you to check temporary/disposable email addresses and block emails or domains.
+
+### Check Disposable Email
+
 ```python
-async def default_checker():
-    checker = DefaultChecker()  # you can pass source argument for your own email domains
-    await checker.fetch_temp_email_domains() # require to fetch temporary email domains
+from flask_mailing.utils import DefaultChecker
+
+async def get_checker():
+    checker = DefaultChecker()
+    await checker.fetch_temp_email_domains()
     return checker
 
-@app.get('/email/dispasoble')
-async def simple_send():
-    domain = "gmail.com, 
-    checker = await default_checker()
-    if await checker.is_dispasoble(domain):
-        return jsonify(status_code=400, content={'message': 'this is dispasoble domain'})
-
-    return jsonify(status_code=200, content={'message': 'email has been sent'})
-```
-
-### Add dispasoble email address
-
-```python
-@app.get('/email/dispasoble')
-async def add_disp_domain():
-    domains: list = ["gmail.com"]
-    checker: DefaultChecker = await default_checker()
-
-    res = await checker.add_temp_domain(domains)
-
-    return jsonify(status_code=200, content={'result': res})
-```
-### Add domain to blocked list
-
-```python
-@app.get('/email/blocked/domains')
-async def block_domain():
-    domain: str = "gmail.com"
-    checker: DefaultChecker = await default_checker()
-
-    await checker.blacklist_add_domain(domain)
-
-    return jsonify(status_code=200, content={'message': f'{domain} added to blacklist'})
-```
-### Check domain blocked or not
-
-```python
-@app.get('/email/blocked/check-domains')
-async def get_blocked_domain():
-    domain: str ='gmail.com'
-    checker: DefaultChecker = await default_checker()
-    res = await checker.is_blocked_domain(domain)
-
-    return jsonify(status_code=200, content={"result": res})
-```
-
-### Add email address to blocked list
-
-```python
-@app.get('/email/blocked/address')
-async def block_address():
-    email: str ='hacker@gmail.com'
-    checker: DefaultChecker = await default_checker()
-    await checker.blacklist_add_email(email)
-
-    return jsonify(status_code=200, content={"result": True})
-```
-
-### Check email blocked or not
-
-```python
-@app.get('/email/blocked/address')
-async def get_block_address():
-    email: str ='hacker@gmail.com'
-    checker: DefaultChecker = await default_checker()
-    res = await checker.is_blocked_address(email)
-
-    return jsonify(status_code=200, content={"result": res})
-```
-
-### Check MX record
-
-```python
-@app.get("/email/check-mx")
-async def check_mx_record():
-    checker = await default_checker()
-    domain = "gmail.com"
-    res = await checker.check_mx_record(domain, False)
+@app.post("/check-email")
+async def check_email():
+    email = "test@tempmail.com"
+    checker = await get_checker()
     
-    return jsonify(status_code=200, content={'result': res})
+    if await checker.is_dispasoble(email):
+        return jsonify({"error": "Disposable emails not allowed"}), 400
+    
+    return jsonify({"message": "Email is valid"})
 ```
 
-### Remove email address from blocked list
-```python
-@app.get('/email/blocked/address')
-async def del_blocked_address():
-    checker = await default_checker()
-    email = "hacker@gmail.com"
-    res = await checker.blacklist_rm_email(email)
+### Add Disposable Domain
 
-    return jsonify(status_code=200, content={"result": res})
+```python
+@app.post("/add-disposable")
+async def add_disp_domain():
+    domains = ["tempmail.com", "throwaway.com"]
+    checker = await get_checker()
+    result = await checker.add_temp_domain(domains)
+    return jsonify({"result": result})
 ```
 
-### Remove domain from blocked list
+### Block Domain
 
 ```python
-@app.get('/email/blocked/domains')
-async def del_blocked_domain():
-    checker = await default_checker()
+@app.post("/block-domain")
+async def block_domain():
+    domain = "spam-domain.com"
+    checker = await get_checker()
+    await checker.blacklist_add_domain(domain)
+    return jsonify({"message": f"{domain} added to blacklist"})
+```
+
+### Check if Domain is Blocked
+
+```python
+@app.post("/check-domain")
+async def check_blocked_domain():
+    domain = "spam-domain.com"
+    checker = await get_checker()
+    is_blocked = await checker.is_blocked_domain(domain)
+    return jsonify({"blocked": is_blocked})
+```
+
+### Block Email Address
+
+```python
+@app.post("/block-email")
+async def block_email():
+    email = "spammer@example.com"
+    checker = await get_checker()
+    await checker.blacklist_add_email(email)
+    return jsonify({"message": f"{email} blocked"})
+```
+
+### Check MX Record
+
+```python
+@app.post("/check-mx")
+async def check_mx():
     domain = "gmail.com"
-    res = await checker.blacklist_rm_domain(domain)
-
-    return jsonify(status_code=200, content={"result": res})
+    checker = await get_checker()
+    has_mx = await checker.check_mx_record(domain)
+    return jsonify({"has_mx_record": has_mx})
 ```
 
-### Remove domain from temporary list
+### WhoIsXmlApi Integration
 
-```python
-@app.get('/email/dispasoblee')
-async def del_disp_domain():
-    checker = await default_checker()
-    domains = ["gmail.com"]
-    res = await checker.blacklist_rm_temp(domains)
-
-    return jsonify(status_code=200, content={'result': res})
-```
-
-###  WhoIsXmlApi
 ```python
 from flask_mailing.utils import WhoIsXmlApi
 
-who_is = WhoIsXmlApi(token="Your access token", email="your@mailaddress.com")
+who_is = WhoIsXmlApi(token="your_api_token", email="test@example.com")
 
-print(who_is.smtp_check_())    #check smtp server
-print(who_is.is_dispasoble()) # check email is disposable or not
-print(who_is.check_mx_record()) # check domain mx records 
-print(who_is.free_check) # check email domain is free or not
-
+print(who_is.smtp_check_())      # Check SMTP server
+print(who_is.is_dispasoble())    # Check if disposable
+print(who_is.check_mx_record())  # Check MX records
+print(who_is.free_check)         # Check if free email provider
 ```

@@ -1,23 +1,41 @@
-# Flask-mailing
+# Flask-Mailing v3.0.0 🚀
 
-__Flask-Mailing__ is a highly efficient and user-friendly package that enables `Asynchronous` email messaging in Flask applications. Asynchronous email messaging is becoming increasingly popular because it allows applications to continue running while emails are being sent in the background. This makes it an ideal solution for time-sensitive applications that require a fast and responsive user experience.
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Flask 3.1+](https://img.shields.io/badge/flask-3.1+-green.svg)](https://flask.palletsprojects.com/)
+[![Pydantic v2.11+](https://img.shields.io/badge/pydantic-2.11+-red.svg)](https://pydantic.dev/)
 
-With Flask-Mailing, developers can easily integrate asynchronous email messaging capabilities into their Flask applications without the need for complex configurations or additional dependencies. The package offers a variety of features, including support for multiple email providers, email templates, and error handling. It also supports common email protocols, such as `SMTP`, `SSL`, and `TLS`.
+**Flask-Mailing** is a highly efficient and user-friendly package that enables `Asynchronous` email messaging in Flask applications. Built for **2026 and beyond**, it combines cutting-edge Python 3.10+ features, Flask 3.1+ compatibility, and enterprise-grade security.
 
-Moreover, Flask-Mailing offers a simple and intuitive API that allows developers to easily send emails in the background. It also provides advanced features, such as email tracking and reporting, which enable developers to monitor email performance and user engagement.
+## ✨ What's New in v3.0.0
 
-Whether you're building a small-scale application or a large-scale enterprise system, Flask-Mailing provides a reliable and scalable solution for Asynchronous email messaging in Flask applications.
+- **🐍 Python 3.10-3.14 Support** - Modern union syntax (`str | None`) and built-in generics
+- **⚡ Flask 3.1+ Compatibility** - Full async support with latest Flask
+- **📦 Pydantic v2.11+** - Latest validation with enhanced performance
+- **🔒 Enhanced Security** - Rate limiting, email validation, path traversal protection
+- **🏗️ Modern Build System** - Ruff, Black, isort, mypy integration
+- **🧪 Comprehensive Testing** - Full test coverage with pytest-asyncio
 
-Flask-Mail has been discontinued. However, you can still use email services with your Flask projects by using either Flask-Mailing for asynchronous implementation or Flask-Mailman for synchronous implementation.
+## Why Flask-Mailing?
 
-- Flask-Mailing supports asynchronous email sending using the built-in `asyncio` library in Python 3.5+. It easily integrates with Flask applications using the provided `Mail` extension, offers simple and intuitive configuration options for email providers, supports HTML and plain-text message formats, and provides options for customizing email headers and message priority levels. It also includes customizable email templates, supports file attachments, and allows for bulk email sending, email tracking, encryption and authentication, error handling, and logging functionality.
+Asynchronous email messaging allows applications to continue running while emails are being sent in the background. This makes it ideal for time-sensitive applications requiring a fast and responsive user experience.
 
-- Flask-Mailman, on the other hand, provides a simple API for sending email messages synchronously, supports HTML and plain-text message formats, allows for customizing email headers and message priority levels, and provides options for email tracking and error handling. It also includes customizable email templates and supports file attachments.
+With Flask-Mailing, developers can easily integrate asynchronous email messaging capabilities into their Flask applications without complex configurations. The package offers:
 
-Choose the package that best fits your project's requirements and start using email services with your Flask application!
+- Support for multiple email providers
+- Email templates with Jinja2
+- Comprehensive error handling
+- Common email protocols (`SMTP`, `SSL`, `TLS`)
+- Advanced features like email tracking and reporting
 
+Whether you're building a small-scale application or a large-scale enterprise system, Flask-Mailing provides a reliable and scalable solution.
 
-Flask_Mail is dead now. To use the mail service with your project you can use eaither [Flask-Mailing](https://github.com/marktennyson/flask-mailing) for Asynchronous or [Flask-Mailman](https://github.com/waynerv/flask-mailman) for Synchronous implementation.
+## Flask-Mailing vs Flask-Mailman
+
+Flask-Mail has been discontinued. Choose between:
+
+- **Flask-Mailing** (this package) - Asynchronous email with Python 3.10+ and Flask 3.1+ support
+- **Flask-Mailman** - Synchronous email implementation
+
 
 [![MIT licensed](https://img.shields.io/github/license/marktennyson/flask-mailing)](https://raw.githubusercontent.com/marktennyson/flask-mailing/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/marktennyson/flask-mailing.svg)](https://github.com/marktennyson/flask-mailing/stargazers)
@@ -25,46 +43,49 @@ Flask_Mail is dead now. To use the mail service with your project you can use ea
 [![GitHub issues](https://img.shields.io/github/issues-raw/marktennyson/flask-mailing)](https://github.com/marktennyson/flask-mailing/issues)
 [![Downloads](https://pepy.tech/badge/flask-mailing)](https://pepy.tech/project/flask-mailing)
 
-## A Basic Demo for better understanding
+## 📋 Requirements
+
+- **Python 3.10+** (3.14 compatible!)
+- **Flask 3.1+** with async support
+
+## Quick Start
 
 ```python
-
 from flask import Flask, jsonify
 from flask_mailing import Mail, Message
 
-mail = Mail()
+app = Flask(__name__)
 
-def create_app():
-    app = Flask(__name__)
+# Modern Flask 3.1+ configuration
+app.config.update(
+    MAIL_USERNAME="your-email@your-domain.com",
+    MAIL_PASSWORD="your_app_password",
+    MAIL_PORT=587,
+    MAIL_SERVER="smtp.gmail.com",
+    MAIL_USE_TLS=True,
+    MAIL_USE_SSL=False,
+    USE_CREDENTIALS=True,
+    VALIDATE_CERTS=True,
+    MAIL_DEFAULT_SENDER="your-email@your-domain.com",
+    MAIL_FROM_NAME="Your App Name"
+)
 
+mail = Mail(app)
 
-    app.config['MAIL_USERNAME'] = "your-email@your-domain.com"
-    app.config['MAIL_PASSWORD'] = "world_top_secret_password"
-    app.config['MAIL_PORT'] = 587
-    app.config['MAIL_SERVER'] = "your-email-server.com"
-    app.config['MAIL_USE_TLS'] = True
-    app.config['MAIL_USE_SSL'] = False
-    app.config['MAIL_DEFAULT_SENDER'] = "your-email@your-domain.com"
-    mail.init_app(app)
-
-    return app
-
-#send a simple email using flask_mailing module.
-
-app = create_app()
-
-@app.get("/email")
-async def simple_send():
-
+@app.post("/send-email")
+async def send_email():
     message = Message(
-        subject="Flask-Mailing module",
-        recipients=["aniketsarkar@yahoo.com"],
-        body="This is the basic email body",
-        )
-
+        subject="Flask-Mailing v3.0.0 Test",
+        recipients=["recipient@example.com"],
+        body="Hello from Flask-Mailing v3.0.0! 🚀",
+        subtype="plain"
+    )
     
     await mail.send_message(message)
-    return jsonify(status_code=200, content={"message": "email has been sent"})
+    return jsonify({"status": "Email sent successfully!"})
+
+if __name__ == "__main__":
+    app.run(debug=True)
 ```
 
 ## Using Jinja2 HTML Templates

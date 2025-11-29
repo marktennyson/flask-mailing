@@ -1,20 +1,22 @@
 # Changelog  
 
 ## Version 3.0.0 🚀 2026-Ready Release
-**Release Date:** September 27, 2025  
+**Release Date:** November 29, 2025  
 
 ### 🌟 Future-Proof Architecture
 This major release transforms Flask-Mailing into a 2026-ready email solution with cutting-edge Python features, enhanced security, and modern development practices.
 
 ### 🔥 Breaking Changes  
 - **Minimum Python version raised to 3.10** (modern union syntax support)
+- **Minimum Flask version raised to 3.1** (latest Flask with async support)
+- **Pydantic v2.11+ required** (latest validation with ConfigDict)
 - **Dependencies updated to latest stable versions**
 - **Enhanced type safety with stricter validation**
 - **Improved async context manager patterns**
 
 ### ✨ New Features  
-- 🚀 **Modern Python 3.10+ type hints** with union operators (`|`) and built-in generics
-- 🛡️ **Advanced security module** with rate limiting and email validation
+- 🚀 **Python 3.10-3.14 support** with modern union operators (`|`) and built-in generics
+- 🛡️ **Advanced security module** with `RateLimiter` and `EmailSecurityValidator`
 - ⚡ **Enhanced async/await patterns** with proper context managers
 - 🔒 **Improved path traversal protection** and content sanitization
 - 📊 **Rate limiting system** to prevent abuse
@@ -22,16 +24,20 @@ This major release transforms Flask-Mailing into a 2026-ready email solution wit
 - 🏗️ **Modern build system** with ruff, mypy, and enhanced tooling
 
 ### 📦 Updated Dependencies  
-- `aiosmtplib >= 4.0.1` (latest async SMTP client)
+- `aiosmtplib >= 4.0.2` (latest async SMTP client)
 - `flask >= 3.1.0` (latest Flask with all security updates)
-- `pydantic >= 2.10.0` (modern validation with v2 API)
-- `email-validator >= 3.0.0` (enhanced email validation)
-- `werkzeug >= 3.1.0` (latest WSGI utilities)
-- `jinja2 >= 3.2.0` (modern templating)
+- `pydantic >= 2.11.0` (modern validation with v2.11 API)
+- `pydantic-settings >= 2.9.0` (settings management)
+- `email-validator >= 2.3.0` (enhanced email validation)
+- `werkzeug >= 3.1.3` (latest WSGI utilities)
+- `jinja2 >= 3.1.6` (modern templating)
+- `typing-extensions >= 4.13.0` (extended typing support)
+- `asgiref >= 3.9.0` (ASGI utilities)
+- `blinker >= 1.9.0` (signals support)
 
 ### 🛠️ Developer Experience  
 - ✅ **Modern pyproject.toml** with ruff, black, isort, mypy configuration
-- ✅ **Enhanced CI/CD pipeline** with Python 3.10-3.13 support
+- ✅ **Enhanced CI/CD pipeline** with Python 3.10-3.14 support
 - ✅ **Docker containerization** support
 - ✅ **Comprehensive security scanning**
 - ✅ **Better error messages** with exception chaining
@@ -42,6 +48,12 @@ This major release transforms Flask-Mailing into a 2026-ready email solution wit
 - 🔄 **Better connection cleanup** in async contexts  
 - 📈 **Improved memory usage** with modern Python features
 - 🛡️ **Enhanced error recovery** mechanisms
+
+### 📚 Documentation
+- Updated all documentation for v3.0.0
+- Modern code examples with Flask 3.1+ patterns
+- Comprehensive API reference tables
+- Installation guide with optional dependencies
 
 ## Version 2.1.0
 **Release Date:** August 30, 2025  
