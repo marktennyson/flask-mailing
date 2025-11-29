@@ -201,7 +201,7 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 - `flask>=3.1.0` - Web framework
 - `pydantic>=2.11.0` - Data validation
 - `pydantic-settings>=2.9.0` - Settings management
-- `email-validator>=2.3.1` - Email validation
+- `email-validator>=2.3.0` - Email validation
 - `jinja2>=3.1.6` - Template engine
 
 ### Optional Dependencies

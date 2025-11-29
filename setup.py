@@ -47,7 +47,7 @@ setup(
         "blinker>=1.9.0",
         "pydantic>=2.11.0",
         "pydantic-settings>=2.9.0",
-        "email-validator>=2.3.1",
+        "email-validator>=2.3.0",
         "typing-extensions>=4.14.0",
         "flask>=3.1.1",
         "jinja2>=3.1.6",
