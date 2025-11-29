@@ -5,6 +5,8 @@ This file exists for backwards compatibility with older pip versions.
 For new installations, pyproject.toml is the primary configuration.
 """
 
+from pathlib import Path
+
 from setuptools import find_packages, setup
 
 VERSION = (3, 0, 0)
@@ -12,8 +14,7 @@ AUTHOR = "Aniket Sarkar"
 AUTHOR_EMAIL = "aniketsarkar@yahoo.com"
 
 
-with open("README.md", "r", encoding="utf-8") as f:
-    long_description = f.read()
+long_description = Path("README.md").read_text(encoding="utf-8")
 
 
 setup(

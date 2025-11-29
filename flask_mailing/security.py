@@ -361,11 +361,7 @@ def validate_attachment_security(
     )
 
     # Extract extension
-    extension = (
-        "." + filename.rsplit(".", 1)[-1].lower()
-        if "." in filename
-        else ""
-    )
+    extension = "." + filename.rsplit(".", 1)[-1].lower() if "." in filename else ""
 
     if extension in dangerous_extensions:
         results["is_safe"] = False

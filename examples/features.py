@@ -96,6 +96,7 @@ async def del_disp_domain():
 
     return jsonify(status_code=200, content={"result": res})
 
+
 def show_whois_examples() -> None:
     who_is = WhoIsXmlApi(token="Your access token", email="your@mailaddress.com")
 
