@@ -190,7 +190,7 @@ python -m pytest tests/ -v
 tox
 ```
 
-## 🤝 Contributing
+## 🤝 Contributing 
 
 We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
