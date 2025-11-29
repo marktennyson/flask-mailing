@@ -57,7 +57,7 @@ setup(
         "email-checking": [
             "redis>=5.3.0",
             "httpx>=0.28.1",
-            "dnspython>=2.9.0",
+            "dnspython>=2.8.0",
         ],
         "dev": [
             "pytest>=8.4.0",
