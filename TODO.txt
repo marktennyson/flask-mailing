@@ -1,0 +1,8 @@
+1. More test cases
+2. detailed docs
+3. more functionalities
+4. make it full production ready
+5. remove unwanted codes.
+6. add more details to make it perfect for a opensource standard.
+7. remove any personal details including emails.
+

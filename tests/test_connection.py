@@ -1,18 +1,25 @@
-import os
-import typing as t
+"""
+Flask-Mailing v3.0.0 - Connection Tests
+"""
 
-import pytest as pt
+from __future__ import annotations
+
+import os
+from typing import TYPE_CHECKING
+
+import pytest
 
 from flask_mailing import Mail, Message
 
-CONTENT = "file test content"
-
-if t.TYPE_CHECKING is True:
+if TYPE_CHECKING:
     from flask import Flask
 
+CONTENT = "file test content"
 
-@pt.mark.asyncio
-async def test_connection(app: "Flask"):
+
+@pytest.mark.asyncio
+async def test_connection(app: Flask) -> None:
+    """Test basic email sending."""
     message = Message(
         subject="test subject",
         recipients=["sabuhi.shukurov@gmail.com"],
@@ -30,8 +37,9 @@ async def test_connection(app: "Flask"):
     assert not message.html
 
 
-@pt.mark.asyncio
-async def test_send_mail_method(app: "Flask"):
+@pytest.mark.asyncio
+async def test_send_mail_method(app: Flask) -> None:
+    """Test send_mail convenience method."""
     fm = Mail(app)
 
     with fm.record_messages() as outbox:
@@ -47,8 +55,9 @@ async def test_send_mail_method(app: "Flask"):
         assert mail["Subject"] == "test subject"
 
 
-@pt.mark.asyncio
-async def test_send_mass_mail_method(app: "Flask"):
+@pytest.mark.asyncio
+async def test_send_mass_mail_method(app: Flask) -> None:
+    """Test bulk email sending."""
     fm = Mail(app)
 
     with fm.record_messages() as outbox:
@@ -71,8 +80,9 @@ async def test_send_mass_mail_method(app: "Flask"):
         assert mail3["Subject"] == "test-subject-3"
 
 
-@pt.mark.asyncio
-async def test_html_message(app: "Flask"):
+@pytest.mark.asyncio
+async def test_html_message(app: Flask) -> None:
+    """Test HTML email sending."""
     sender = f"{app.config['MAIL_FROM_NAME']} <{app.config['MAIL_FROM']}>"
     subject = "testing"
     to = "to@example.com"
@@ -91,12 +101,13 @@ async def test_html_message(app: "Flask"):
     assert msg.html == "html test"
 
 
-@pt.mark.asyncio
-async def test_attachement_message(app: "Flask"):
+@pytest.mark.asyncio
+async def test_attachement_message(app: Flask) -> None:
+    """Test email with attachment."""
     directory = os.getcwd()
-    attachement = directory + "/files/attachement.txt"
+    attachment = directory + "/files/attachement.txt"
 
-    with open(attachement, "w") as file:
+    with open(attachment, "w") as file:
         file.write(CONTENT)
 
     subject = "testing"
@@ -106,7 +117,7 @@ async def test_attachement_message(app: "Flask"):
         recipients=[to],
         html="html test",
         subtype="html",
-        attachments=[attachement],
+        attachments=[attachment],
     )
     fm = Mail(app)
 
@@ -122,12 +133,13 @@ async def test_attachement_message(app: "Flask"):
         )
 
 
-@pt.mark.asyncio
-async def test_attachement_message_with_headers(app: "Flask"):
+@pytest.mark.asyncio
+async def test_attachement_message_with_headers(app: Flask) -> None:
+    """Test email with attachment and custom headers."""
     directory = os.getcwd()
-    attachement = directory + "/files/attachement.txt"
+    attachment = directory + "/files/attachement.txt"
 
-    with open(attachement, "w") as file:
+    with open(attachment, "w") as file:
         file.write(CONTENT)
 
     subject = "testing"
@@ -139,7 +151,7 @@ async def test_attachement_message_with_headers(app: "Flask"):
         subtype="html",
         attachments=[
             {
-                "file": attachement,
+                "file": attachment,
                 "headers": {"Content-ID": "test ID"},
                 "mime_type": "image",
                 "mime_subtype": "png",
@@ -166,8 +178,9 @@ async def test_attachement_message_with_headers(app: "Flask"):
         ].get("headers").get("Content-ID")
 
 
-@pt.mark.asyncio
-async def test_jinja_message_list(app: "Flask"):
+@pytest.mark.asyncio
+async def test_jinja_message_list(app: Flask) -> None:
+    """Test Jinja2 template rendering with list."""
     sender = f"{app.config['MAIL_FROM_NAME']} <{app.config['MAIL_FROM']}>"
     subject = "testing"
     to = "to@example.com"
@@ -189,8 +202,9 @@ async def test_jinja_message_list(app: "Flask"):
     assert msg.template_body == ("\n    \n    \n        Andrej\n    \n\n")
 
 
-@pt.mark.asyncio
-async def test_jinja_message_dict(app: "Flask"):
+@pytest.mark.asyncio
+async def test_jinja_message_dict(app: Flask) -> None:
+    """Test Jinja2 template rendering with dict."""
     sender = f"{app.config['MAIL_FROM_NAME']} <{app.config['MAIL_FROM']}>"
     subject = "testing"
     to = "to@example.com"
@@ -211,8 +225,9 @@ async def test_jinja_message_dict(app: "Flask"):
     assert msg.template_body == ("\n   Andrej\n")
 
 
-@pt.mark.asyncio
-async def test_send_msg(app: "Flask"):
+@pytest.mark.asyncio
+async def test_send_msg(app: Flask) -> None:
+    """Test send message with suppress."""
     msg = Message(subject="testing", recipients=["to@example.com"], body="html test")
 
     sender = f"{app.config['MAIL_FROM_NAME']} <{app.config['MAIL_FROM']}>"
@@ -227,8 +242,9 @@ async def test_send_msg(app: "Flask"):
         assert outbox[0]["To"] == "to@example.com"
 
 
-@pt.mark.asyncio
-async def test_send_msg_with_subtype(app: "Flask"):
+@pytest.mark.asyncio
+async def test_send_msg_with_subtype(app: Flask) -> None:
+    """Test HTML subtype handling."""
     msg = Message(
         subject="testing",
         recipients=["to@example.com"],
@@ -250,8 +266,9 @@ async def test_send_msg_with_subtype(app: "Flask"):
     assert msg.subtype == "html"
 
 
-@pt.mark.asyncio
-async def test_jinja_message_with_html(app: "Flask"):
+@pytest.mark.asyncio
+async def test_jinja_message_with_html(app: Flask) -> None:
+    """Test error when using both template and HTML."""
     persons = [
         {"name": "Andrej"},
     ]
@@ -264,7 +281,7 @@ async def test_jinja_message_with_html(app: "Flask"):
     )
     fm = Mail(app)
 
-    with pt.raises(ValueError):
+    with pytest.raises(ValueError):
         await fm.send_message(message=msg, template_name="email.html")
 
     assert msg.template_body == ("\n    \n    \n        Andrej\n    \n\n")

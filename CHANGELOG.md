@@ -1,5 +1,103 @@
 # Changelog  
 
+## Version 3.0.0 🚀 2026-Ready Release
+**Release Date:** September 27, 2025  
+
+### 🌟 Future-Proof Architecture
+This major release transforms Flask-Mailing into a 2026-ready email solution with cutting-edge Python features, enhanced security, and modern development practices.
+
+### 🔥 Breaking Changes  
+- **Minimum Python version raised to 3.10** (modern union syntax support)
+- **Dependencies updated to latest stable versions**
+- **Enhanced type safety with stricter validation**
+- **Improved async context manager patterns**
+
+### ✨ New Features  
+- 🚀 **Modern Python 3.10+ type hints** with union operators (`|`) and built-in generics
+- 🛡️ **Advanced security module** with rate limiting and email validation
+- ⚡ **Enhanced async/await patterns** with proper context managers
+- 🔒 **Improved path traversal protection** and content sanitization
+- 📊 **Rate limiting system** to prevent abuse
+- 🔐 **Email security validation** with disposable email detection
+- 🏗️ **Modern build system** with ruff, mypy, and enhanced tooling
+
+### 📦 Updated Dependencies  
+- `aiosmtplib >= 4.0.1` (latest async SMTP client)
+- `flask >= 3.1.0` (latest Flask with all security updates)
+- `pydantic >= 2.10.0` (modern validation with v2 API)
+- `email-validator >= 3.0.0` (enhanced email validation)
+- `werkzeug >= 3.1.0` (latest WSGI utilities)
+- `jinja2 >= 3.2.0` (modern templating)
+
+### 🛠️ Developer Experience  
+- ✅ **Modern pyproject.toml** with ruff, black, isort, mypy configuration
+- ✅ **Enhanced CI/CD pipeline** with Python 3.10-3.13 support
+- ✅ **Docker containerization** support
+- ✅ **Comprehensive security scanning**
+- ✅ **Better error messages** with exception chaining
+- ✅ **Type safety improvements** throughout codebase
+
+### 🔧 Performance & Reliability
+- ⚡ **Connection timeout handling** (30s default)
+- 🔄 **Better connection cleanup** in async contexts  
+- 📈 **Improved memory usage** with modern Python features
+- 🛡️ **Enhanced error recovery** mechanisms
+
+## Version 2.1.0
+**Release Date:** August 30, 2025  
+
+### 🚀 Major Release - Python 3.13 & Flask 3 Ready
+This is a major modernization release that brings Flask-Mailing to 2026 standards.
+
+### Breaking Changes  
+- **Minimum Python version raised to 3.9** (was 3.6+)
+- **Minimum Flask version raised to 3.0** (was 2.0+)  
+- **Updated all dependencies to modern versions**
+- **Removed deprecated Python 2/3.6/3.7/3.8 compatibility code**
+
+### Added  
+- ✅ **Full Python 3.13 compatibility**
+- ✅ **Full Flask 3.x compatibility** 
+- ✅ **Modern pyproject.toml configuration**
+- ✅ **Type annotations improvements**
+- ✅ **Better error handling and validation**
+- ✅ **py.typed file for better IDE support**
+
+### Updated  
+- 📦 **Dependencies modernized:**
+  - `aiosmtplib >= 3.0.0`
+  - `flask >= 3.0.0`
+  - `pydantic >= 2.0.0`
+  - `email-validator >= 2.0.0`
+  - `httpx >= 0.25.0`
+  - `werkzeug >= 3.0.0`
+  - `typing-extensions >= 4.0.0`
+
+### Fixed  
+- 🐛 **Pydantic v2 compatibility** - Fixed deprecated `Config` class usage
+- 🐛 **Type annotation improvements** - Better type safety
+- 🐛 **Email validation modernized** - Uses latest email-validator
+- 🐛 **Async/await patterns improved** - Better async support
+- 🐛 **Import error handling** - Graceful dependency handling
+
+### Deprecated  
+- ⚠️ **Python < 3.9 support removed**
+- ⚠️ **Flask < 3.0 support removed**
+
+### Development & Testing  
+- 🧪 **Test suite updated for modern pytest**
+- 🧪 **Tox configuration updated for Python 3.9-3.13**
+- 🧪 **CI/CD ready for modern Python versions**
+
+### Migration Guide  
+To upgrade to v3.0.0:
+1. **Upgrade Python to 3.9+** (recommended: 3.11+ for best performance)
+2. **Upgrade Flask to 3.0+**
+3. **Update your requirements.txt** with new minimum versions
+4. **Test your application** - most APIs remain the same
+
+---
+
 ## Version 0.2.3  
 **Release Date:** September 19, 2023  
 

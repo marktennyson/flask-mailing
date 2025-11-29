@@ -1,9 +1,18 @@
+"""
+Flask-Mailing v3.0.0 - Redis Config Tests (Disabled)
+
+These tests require a running Redis instance and are currently disabled.
+To enable, uncomment the tests and ensure Redis is available.
+"""
+
+from __future__ import annotations
+
 # import pytest
 
 
 # @pytest.mark.asyncio
-# async def test_redis_checker(redis_checker):
-
+# async def test_redis_checker(redis_checker) -> None:
+#     """Test Redis-backed email checker functionality."""
 #     redis_checker.TEMP_EMAIL_DOMAINS = []
 #     redis_checker.BLOCKED_ADDRESSES = {}
 #     redis_checker.BLOCKED_DOMAINS = {}

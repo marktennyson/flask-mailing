@@ -1,27 +1,36 @@
+"""
+Flask-Mailing v3.0.0 - Email Checker Module
+
+Email validation utilities with optional Redis and HTTP support.
+"""
+
+from __future__ import annotations
+
 import inspect
 from abc import ABC, abstractmethod
-from typing import Any, List, Set
+from typing import Any
 
 import dns.exception
 import dns.resolver
-
-try:
-    import aioredis
-
-    redis_lib = True
-except:
-    redis_lib = False
-
-try:
-    import httpx
-
-    request_lib = True
-except:
-    request_lib = False
-
 from pydantic import EmailStr
 
 from .errors import ApiError, DBProvaiderError
+
+# Optional imports with better error handling
+REDIS_AVAILABLE = False
+HTTPX_AVAILABLE = False
+
+try:
+    import redis.asyncio as aioredis
+    REDIS_AVAILABLE = True
+except ImportError:
+    aioredis = None  # type: ignore[assignment]
+
+try:
+    import httpx
+    HTTPX_AVAILABLE = True
+except ImportError:
+    httpx = None  # type: ignore[assignment]
 
 
 class AbstractEmailChecker(ABC):
@@ -46,7 +55,7 @@ class AbstractEmailChecker(ABC):
         pass
 
     @abstractmethod
-    async def add_temp_domain(self, domain_lists: List[str]):
+    async def add_temp_domain(self, domain_lists: list[str]):
         pass
 
     @abstractmethod
@@ -81,34 +90,44 @@ class DefaultChecker(AbstractEmailChecker):
     ```
     """
 
-    TEMP_EMAIL_DOMAINS: List[str] = []
-    BLOCKED_DOMAINS: Set[str] = set()
-    BLOCKED_ADDRESSES: Set[str] = set()
+    TEMP_EMAIL_DOMAINS: list[str] = []
+    BLOCKED_DOMAINS: set[str] = set()
+    BLOCKED_ADDRESSES: set[str] = set()
 
     def __init__(
         self,
-        source: str = None,
-        db_provider: str = None,
+        source: str | None = None,
+        db_provider: str | None = None,
         *,
         redis_host: str = "redis://localhost",
         redis_port: int = 6379,
         redis_db: int = 0,
-        redis_pass: str = None,
+        redis_pass: str | None = None,
         **options: dict,
     ):
-        if not redis_lib:
+        # Only require dependencies if using specific features
+        if db_provider == "redis" and not REDIS_AVAILABLE:
             raise ImportError(
-                "You must install aioredis from https://pypi.org/project/aioredis in order to run functionality"
-            )
-
-        if not request_lib:
-            raise ImportError(
-                "You must install httpx from https://pypi.org/project/httpx in order to run functionality"
+                "You must install aioredis from https://pypi.org/project/aioredis to use Redis functionality"
             )
 
         self.source = (
             source
-            or "https://gist.githubusercontent.com/Turall/3f32cb57270aed30d0c7f5e0800b2a92/raw/dcd9b47506e9da26d5772ccebf6913343e53cec9/temporary-email-address-domains"  # noqa: E501
+            or "https://gist.githubusercontent.com/Turall/3f32cb57270aed30d0c7f5e0800b2a92/raw/dcd9b47506e9da26d5772ccebf6913343e53cec9/temporary-email-address-domains"
+        )
+        self.redis_enabled = db_provider == "redis"
+
+        if self.redis_enabled:
+            self.redis_host = redis_host
+            self.redis_port = redis_port
+            self.redis_db = redis_db
+            self.redis_pass = redis_pass
+            self.options = options
+        self.redis_error_msg = "redis is not connected"
+
+        self.source = (
+            source
+            or "https://gist.githubusercontent.com/Turall/3f32cb57270aed30d0c7f5e0800b2a92/raw/dcd9b47506e9da26d5772ccebf6913343e53cec9/temporary-email-address-domains"
         )
         self.redis_enabled = False
 
@@ -122,20 +141,22 @@ class DefaultChecker(AbstractEmailChecker):
         self.redis_error_msg = "redis is not connected"
 
     def catch_all_check(self):
+        frame = inspect.currentframe()
+        func_name = frame.f_code.co_name if frame else "unknown"
         raise NotImplementedError(
-            f"Func named {inspect.currentframe().f_code.co_name} not implemented"
+            f"Func named {func_name} not implemented"
             f" for class {self.__class__.__name__}"
         )
 
     async def init_redis(self):
         if not self.redis_enabled:
             raise DBProvaiderError(self.redis_error_msg)
-        if not hasattr(self, "redis_client"):
+        if not hasattr(self, "redis_client") and aioredis:
             self.redis_client = await aioredis.from_url(
-                address=f"{self.redis_host}:{self.redis_port}",
+                self.redis_host,
+                port=self.redis_port,
                 db=self.redis_db,
                 password=self.redis_pass,
-                encoding="UTF-8",
                 **self.options,
             )
 
@@ -162,11 +183,18 @@ class DefaultChecker(AbstractEmailChecker):
 
     def validate_email(self, email: str) -> bool:
         """Validate email address"""
-        EmailStr._validate(email, {})
-        return True
+        try:
+            from email_validator import validate_email as validator
+            validator(email)
+            return True
+        except Exception:
+            return False
 
     async def fetch_temp_email_domains(self):
-        """Async request to source param resource"""
+        """Fetches the temp email domains from the source URL"""
+        if not httpx:
+            raise ImportError("httpx is required for fetching temp email domains")
+
         async with httpx.AsyncClient() as client:
             response = await client.get(self.source)
             if self.redis_enabled:
@@ -211,7 +239,7 @@ class DefaultChecker(AbstractEmailChecker):
         else:
             self.BLOCKED_ADDRESSES.remove(email)
 
-    async def add_temp_domain(self, domain_lists: List[str]):
+    async def add_temp_domain(self, domain_lists: list[str]):
         """Manually add temporary email"""
         if self.redis_enabled:
             for domain in domain_lists:
@@ -327,12 +355,12 @@ class WhoIsXmlApi:
         self.token = token
         self.validate_email(email)
         self.email = email
-        self.smtp_check = bool()
-        self.dns_check = bool()
-        self.free_check = bool()
-        self.disposable = bool()
-        self.catch_all = bool()
-        self.mx_records: List[Any] = []
+        self.smtp_check = False
+        self.dns_check = False
+        self.free_check = False
+        self.disposable = False
+        self.catch_all = False
+        self.mx_records: list[Any] = []
         self.host = "https://emailverification.whoisxmlapi.com/api/v1"
 
     async def fetch_info(self):
@@ -352,9 +380,7 @@ class WhoIsXmlApi:
                 return True
 
         raise ApiError(
-            "Response status code is {}, error msg {}".format(
-                response.status_code, response.text
-            )
+            f"Response status code is {response.status_code}, error msg {response.text}"
         )
 
     def validate_email(self, email: str):
