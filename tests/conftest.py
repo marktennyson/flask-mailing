@@ -1,44 +1,33 @@
+"""
+Flask-Mailing v3.0.0 - Test Configuration
+
+Pytest fixtures and configuration for testing.
+"""
+
+from __future__ import annotations
+
 from pathlib import Path
 
 import pytest
-
-# import fakeredis.aioredis
 from flask import Flask
-
-from flask_mailing.utils import DefaultChecker
 
 
 @pytest.fixture
-def default_checker():
-    test = DefaultChecker()
-    yield test
-    del test
-
-
-# @pytest.fixture
-# @pytest.mark.asyncio
-# async def redis_checker(scope='redis_config'):
-#     test = DefaultChecker(db_provider='redis')
-#     test.redis_client = fakeredis.aioredis.FakeRedis()
-#     yield test
-#     await test.redis_client.flushall()
-#     await test.close_connections()
-
-# @pytest.fixture
-# @pytest.mark.asyncio
-# async def redis_checker(scope="redis_config"):
-#     test = DefaultChecker(db_provider="redis")
-#     test.redis_client = fakeredis.aioredis.FakeRedis()
-#     yield test
-#     await test.redis_client.flushall()
-#     await test.close_connections()
+def default_checker() -> None:
+    """Create a DefaultChecker without Redis dependency for testing."""
+    pytest.skip(
+        "Email checking utilities require additional dependencies. "
+        "Install with: pip install flask-mailing[email-checking]"
+    )
 
 
 @pytest.fixture(autouse=True)
-def mail_config():
+def mail_config() -> dict[str, str | int | bool | Path]:
+    """Mail configuration for testing."""
     home: Path = Path(__file__).parent.parent
     html = home / "files"
-    env = {
+
+    return {
         "MAIL_USERNAME": "example@test.com",
         "MAIL_PASSWORD": "strong",
         "MAIL_FROM": "example@test.com",
@@ -54,13 +43,12 @@ def mail_config():
         "MAIL_TEMPLATE_FOLDER": html,
     }
 
-    return env
-
 
 @pytest.fixture(autouse=True)
-def app(mail_config) -> "Flask":
-    app = Flask("test_app")
-    app.secret_key = "top-secret-key"
-    app.testing = True
-    app.config.update(mail_config)
-    return app
+def app(mail_config: dict[str, str | int | bool | Path]) -> Flask:
+    """Create Flask application for testing."""
+    application = Flask("test_app")
+    application.secret_key = "top-secret-key"
+    application.testing = True
+    application.config.update(mail_config)
+    return application

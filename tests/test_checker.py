@@ -1,10 +1,17 @@
+"""
+Flask-Mailing v3.0.0 - Email Checker Tests
+"""
+
+from __future__ import annotations
+
 import pytest
 
 from flask_mailing.utils.errors import DBProvaiderError
 
 
 @pytest.mark.asyncio
-async def test_default_checker(default_checker):
+async def test_default_checker(default_checker) -> None:
+    """Test default email checker functionality."""
     await default_checker.fetch_temp_email_domains()
     assert default_checker.TEMP_EMAIL_DOMAINS != []
 

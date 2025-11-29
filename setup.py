@@ -1,56 +1,83 @@
-from setuptools import (
-    setup,
-    find_packages
-    )
+"""
+Flask-Mailing - Modern async email sending for Flask 3.1+
 
-VERSION = (0, 2, 3)
+This file exists for backwards compatibility with older pip versions.
+For new installations, pyproject.toml is the primary configuration.
+"""
+
+from pathlib import Path
+
+from setuptools import find_packages, setup
+
+VERSION = (3, 0, 0)
 AUTHOR = "Aniket Sarkar"
 AUTHOR_EMAIL = "aniketsarkar@yahoo.com"
 
 
-with open("README.md", "r") as f:
-    long_description = f.read()
-    pass
+long_description = Path("README.md").read_text(encoding="utf-8")
 
 
 setup(
     name="Flask-Mailing",
-    version=".".join([str(i) for i in list(VERSION)]),
+    version=".".join([str(i) for i in VERSION]),
     url="https://github.com/marktennyson/flask-mailing",
     license="MIT",
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
-    description="Flask mail system sending mails(individual, bulk) attachments(individual, bulk) fully asynchroniously",
+    description="Modern Flask mail system for 2026+ with async support, bulk operations, and full Flask 3.1+ compatibility",
     long_description=long_description,
     long_description_content_type="text/markdown",
     keywords=[
         "flask",
-        'flask-mail',
-        'flask-mailing',
-        'async-flask',
-        'asynchroniously-send-email-in-flask',
-        'async-mailer',
-        'flask-email',
-        'flask-mailman'
-        ],
-    packages=find_packages(),
+        "flask-mail",
+        "flask-mailing",
+        "async-flask",
+        "asynchronous-email",
+        "async-mailer",
+        "flask-email",
+        "smtp",
+        "email",
+    ],
+    packages=find_packages(exclude=["tests", "tests.*", "examples", "docs"]),
     include_package_data=True,
     zip_safe=False,
     platforms="any",
     install_requires=[
-        "aiosmtplib>=1.1.6",
-        "aioredis>=2.0.0",
-        "asgiref>=3.4.1",
-        "blinker>=1.4",
-        "pydantic>=1.8.2",
-        "pydantic-settings>=2.0.3",
-        "email-validator>=1.1.3",
-        "typing-extensions>=3.10.0.0",
-        "httpx>=0.21.3",
-        "flask>=2.0.0"
+        "aiosmtplib>=4.0.2",
+        "asgiref>=3.8.0",
+        "blinker>=1.9.0",
+        "pydantic>=2.11.0",
+        "pydantic-settings>=2.9.0",
+        "email-validator>=2.3.0",
+        "typing-extensions>=4.13.0",
+        "flask>=3.1.0",
+        "jinja2>=3.1.6",
+        "werkzeug>=3.1.3",
     ],
-    extras_require={},
-    python_requires=">=3.6,<4",
+    extras_require={
+        "email-checking": [
+            "redis>=5.3.0",
+            "httpx>=0.28.1",
+            "dnspython>=2.7.0",
+        ],
+        "dev": [
+            "pytest>=8.3.0",
+            "pytest-asyncio>=1.0.0",
+            "black>=25.1.0",
+            "isort>=6.0.0",
+            "mypy>=1.15.0",
+            "ruff>=0.11.0",
+            "coverage>=7.6.0",
+            "pre-commit>=4.0.0",
+        ],
+        "docs": [
+            "mkdocs>=1.6.0",
+            "mkdocs-material>=9.6.0",
+            "mkdocstrings>=0.29.0",
+            "mkdocstrings-python>=1.16.0",
+        ],
+    },
+    python_requires=">=3.10",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
@@ -61,14 +88,16 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3 :: Only",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
         "Topic :: Software Development :: Libraries :: Python Modules",
+        "Topic :: Communications :: Email",
+        "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+        "Typing :: Typed",
     ],
 )

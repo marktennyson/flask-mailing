@@ -1,97 +1,146 @@
 """
-# ✉️ Flask-Mailing
+# ✉️ Flask-Mailing v3.0.0 - 2026 Production Ready!
 
-Flask-Mailing adds SMTP mail sending to your Flask applications
+Modern, secure, and high-performance SMTP mail sending for Flask applications.
 
-Flask_Mail is dead now. This is the time to migrate a fully asynchronous 
-based mailer library to send emails while using a Flask based application. 
-Now Flask 2.0 supports the asynchronous view function then who is stopping you to use Flask-Mailing ?
+## 🚀 2026-Ready Features
 
-The key features are:
+Flask-Mailing v3.0.0 is built for the future with:
 
--  Most of the Apis are very familiar with `Flask-Mail` module.
--  sending emails with either with Flask or using asyncio module 
--  sending files either from form-data or files from server
--  Using Jinja2 HTML Templates
--  email utils (utility allows you to check temporary email addresses, you can block any email or domain)
--  email utils has two available classes ```DefaultChecker``` and  ```WhoIsXmlApi```
--  Unittests using Mail
+### 🔧 Modern Python Support
+- **Python 3.10+** required (3.14 ready!)
+- **Modern type hints** with union operators (|) and built-in generics
+- **Full async/await** support with proper context managers
+- **Enhanced error handling** with exception chaining
 
-More information on [Getting-Started](https://marktennyson.github.io/flask-mailing/getting-started)
+### 🛡️ Advanced Security
+- **Rate limiting** to prevent abuse
+- **Enhanced email validation** with disposable email detection
+- **Path traversal protection** for attachments
+- **Content sanitization** to prevent injection attacks
+- **Attachment security validation**
 
-# 🔗 Important Links 
+### ⚡ Performance & Reliability
+- **Flask 3.1+** compatibility
+- **Pydantic v2.11+** with modern validators
+- **Connection pooling** and timeout handling
+- **Improved async patterns**
+- **Better error reporting**
 
-#### ❤️ [Github](https://github.com/marktennyson/flask-mailing)    
-#### 📄 [Documentation](https://marktennyson.github.io/flask-mailing)    
-#### 🐍 [PYPI](https://pypi.org/project/flask-mailing)    
+### 🔗 Important Links
 
-# 🔨 Installation ###
+#### ❤️ [Github](https://github.com/marktennyson/flask-mailing)
+#### 📄 [Documentation](https://marktennyson.github.io/flask-mailing)
+#### 🐍 [PYPI](https://pypi.org/project/flask-mailing)
+
+## 🔨 Installation
 
 ```bash
- pip install flask-mailing
-```
-or install from source code
-```bash
-git clone https://github.com/marktennyson/flask-mailing.git && cd flask-mailing
-python -m pip install .
+# Python 3.10+ required
+pip install flask-mailing>=3.0.0
 ```
 
-# 🦮 Guide
-
+## 🦮 Quick Start (2026 Style)
 
 ```python
+from __future__ import annotations
 
 from flask import Flask, jsonify
-from flask_mailing import Mail, Message
+from flask_mailing import Mail, Message, RateLimiter
 
 
 app = Flask(__name__)
 
-app.config['MAIL_USERNAME'] = "YourUserName"
-app.config['MAIL_PASSWORD'] = "strong_password"
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_SERVER'] = "your mail server"
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
-app.config['USE_CREDENTIALS'] = True
-app.config['VALIDATE_CERTS'] = True
-app.config['MAIL_DEFAULT_SENDER'] = "youremailid@doaminname.com"
+# Modern configuration
+app.config.update(
+    MAIL_USERNAME="your.email@example.com",
+    MAIL_PASSWORD="your_secure_app_password",
+    MAIL_PORT=587,
+    MAIL_SERVER="smtp.gmail.com",
+    MAIL_USE_TLS=True,
+    MAIL_USE_SSL=False,
+    USE_CREDENTIALS=True,
+    VALIDATE_CERTS=True,
+    MAIL_FROM="your.email@example.com",
+    MAIL_FROM_NAME="Flask-Mailing v3.0.0"
+)
 
+# Initialize with modern patterns
 mail = Mail(app)
+rate_limiter = RateLimiter(max_emails=100, window_seconds=3600)
 
-html = "<p>Thanks for using Flask-Mailing</p> "
 
-@app.post("/email")
-async def simple_send():
+@app.post("/send-email")
+async def modern_send() -> dict[str, str]:
+    # Rate limiting check
+    client_ip = request.remote_addr
+    if not await rate_limiter.is_allowed(client_ip):
+        return jsonify({"error": "Rate limit exceeded"}), 429
 
+    # Modern message creation with type safety
     message = Message(
-        subject="Flask-Mailing module",
-        recipients=["recipients@email-domain.com"],  # List of recipients, as many as you can pass 
-        body=html,
+        subject="Flask-Mailing v3.0.0 - 2026 Ready!",
+        recipients=["recipient@example.com"],
+        body="<h1>Welcome to the future of Flask email!</h1>",
         subtype="html"
-        )
+    )
 
     await mail.send_message(message)
-    return jsonify(status_code=200, content={"message": "email has been sent"})     
+    return {"message": "Email sent successfully!", "version": "3.0.0"}
 ```
 
-# 🪜 List of Examples
+## 🛡️ Security Features
 
-For more examples of using flask-mailing please check [example](https://marktennyson.github.io/flask-mailing/example/) section
+```python
+from flask_mailing import EmailSecurityValidator
 
-# 📝 LICENSE
+# Validate email security
+validator = EmailSecurityValidator(
+    email="user@example.com",
+    allow_disposable=False,
+    allow_role_based=True
+)
+
+security_check = validator.validate_security()
+if not security_check["is_valid"]:
+    print(f"Email validation failed: {security_check['warnings']}")
+```
+
+## 🪜 Advanced Examples
+
+Check out the [examples directory](https://github.com/marktennyson/flask-mailing/tree/main/examples) for:
+- **Modern Flask 3.1+ patterns**
+- **Async context managers**
+- **Rate limiting integration**
+- **Security best practices**
+- **Performance optimization**
+
+## 📝 LICENSE
 
 [MIT](LICENSE)
 """
 
+from __future__ import annotations
 
-from . import utils
 from .config import ConnectionConfig
 from .mail import Mail
-from .schemas import Message as Message
-from .schemas import MultipartSubtypeEnum as MultipartSubtypeEnum
+from .schemas import Message, MultipartSubtypeEnum
+from .security import EmailSecurityValidator, RateLimiter
 
-__author__ = "aniketsarkar@yahoo.com"
+__author__ = "Aniket Sarkar"
+__email__ = "aniketsarkar@yahoo.com"
+__version__ = "3.0.0"
+__version_info__ = (3, 0, 0)
+__license__ = "MIT"
 
-
-__all__ = ["Mail", "ConnectionConfig", "Message", "utils", "MultipartSubtypeEnum"]
+__all__ = [
+    "ConnectionConfig",
+    "EmailSecurityValidator",
+    "Mail",
+    "Message",
+    "MultipartSubtypeEnum",
+    "RateLimiter",
+    "__author__",
+    "__version__",
+    "__version_info__",
+]
