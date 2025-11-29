@@ -1,6 +1,7 @@
 from base import create_app
-from flask_mailing.utils import DefaultChecker
 from flask import jsonify
+
+from flask_mailing.utils import DefaultChecker, WhoIsXmlApi
 
 app = create_app()
 
@@ -95,17 +96,15 @@ async def del_disp_domain():
 
     return jsonify(status_code=200, content={"result": res})
 
+def show_whois_examples() -> None:
+    who_is = WhoIsXmlApi(token="Your access token", email="your@mailaddress.com")
 
-# WhoIsXmlApi
-from flask_mailing.utils import WhoIsXmlApi
-
-who_is = WhoIsXmlApi(token="Your access token", email="your@mailaddress.com")
-
-print(who_is.smtp_check_())  # check smtp server
-print(who_is.is_dispasoble())  # check email is disposable or not
-print(who_is.check_mx_record())  # check domain mx records
-print(who_is.free_check)  # check email domain is free or not
+    print(who_is.smtp_check_())  # check smtp server
+    print(who_is.is_dispasoble())  # check email is disposable or not
+    print(who_is.check_mx_record())  # check domain mx records
+    print(who_is.free_check)  # check email domain is free or not
 
 
 if __name__ == "__main__":
+    show_whois_examples()
     app.run(debug=True, port=8000)

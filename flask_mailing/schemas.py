@@ -118,41 +118,41 @@ class Message(BaseModel):
         temp: list[tuple[FileStorage, dict[str, Any] | None]] = []
         mime = MimeTypes()
 
-        for file in v:
+        for file_entry in v:
             file_meta: dict[str, Any] | None = None
 
-            if isinstance(file, dict):
-                keys = file.keys()
-                if "file" not in keys:
+            if isinstance(file_entry, dict):
+                file_meta = file_entry.copy()
+                if "file" not in file_meta:
                     raise WrongFile('Missing "file" key in attachment dictionary')
-                file_meta = dict.copy(file)
-                del file_meta["file"]
-                file = file["file"]
+                file_value = file_meta.pop("file")
+            else:
+                file_value = file_entry
 
-            if isinstance(file, str):
-                if not _validate_attachment_path(file):
+            if isinstance(file_value, str):
+                file_path = Path(file_value)
+                if not _validate_attachment_path(file_path):
                     raise WrongFile(
-                        f"Invalid file path for attachment: {file!r}. "
+                        f"Invalid file path for attachment: {file_value!r}. "
                         "Path may be inaccessible or contain traversal characters."
                     )
 
-                mime_type = mime.guess_type(file)
-                with open(file, mode="rb") as f:
-                    _, file_name = os.path.split(f.name)
+                mime_type = mime.guess_type(str(file_path))
+                with file_path.open(mode="rb") as f:
                     content = f.read()
 
                 fs = FileStorage(
                     io.BytesIO(content),
-                    file_name,
+                    file_path.name,
                     content_type=mime_type[0],
                 )
                 temp.append((fs, file_meta))
 
-            elif isinstance(file, FileStorage):
-                temp.append((file, file_meta))
+            elif isinstance(file_value, FileStorage):
+                temp.append((file_value, file_meta))
             else:
                 raise WrongFile(
-                    f"Invalid attachment type: {type(file).__name__}. "
+                    f"Invalid attachment type: {type(file_value).__name__}. "
                     "Must be a file path string or FileStorage object."
                 )
 
@@ -168,7 +168,7 @@ class Message(BaseModel):
         Returns:
             True on success
         """
-        self.recipients.append(recipient)  # type: ignore
+        self.recipients.append(recipient)
         return True
 
     def attach(
@@ -211,11 +211,11 @@ class Message(BaseModel):
         if headers:
             fsob.custom_headers = headers  # type: ignore
 
-        self.attachments.append(fsob)  # type: ignore
+        self.attachments.append(fsob)
         return True
 
 
-def _validate_attachment_path(path: str) -> bool:
+def _validate_attachment_path(path: str | Path) -> bool:
     """
     Validate attachment file path for security and accessibility.
 
@@ -226,21 +226,17 @@ def _validate_attachment_path(path: str) -> bool:
         True if path is safe and accessible, False otherwise
     """
     try:
+        path_obj = Path(path)
+
         # Check basic accessibility
-        if not os.path.isfile(path):
+        if not path_obj.is_file():
             return False
-        if not os.access(path, os.R_OK):
+        if not os.access(path_obj, os.R_OK):
             return False
 
         # Security: Check for path traversal
-        path_obj = Path(path)
-        resolved = path_obj.resolve()
-
-        # Ensure the path doesn't contain suspicious patterns
-        if ".." in path or "\x00" in path:
-            return False
-
-        return True
+        path_str = str(path_obj)
+        return not (".." in path_str or "\x00" in path_str)
 
     except (OSError, ValueError, TypeError):
         return False

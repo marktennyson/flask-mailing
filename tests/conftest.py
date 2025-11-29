@@ -7,13 +7,9 @@ Pytest fixtures and configuration for testing.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING
 
 import pytest
 from flask import Flask
-
-if TYPE_CHECKING:
-    from typing import Generator
 
 
 @pytest.fixture

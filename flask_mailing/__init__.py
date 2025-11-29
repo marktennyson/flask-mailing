@@ -122,16 +122,10 @@ Check out the [examples directory](https://github.com/marktennyson/flask-mailing
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
 from .config import ConnectionConfig
 from .mail import Mail
 from .schemas import Message, MultipartSubtypeEnum
 from .security import EmailSecurityValidator, RateLimiter
-
-# Import utils for type checking only
-if TYPE_CHECKING:
-    from . import utils as utils  # noqa: F401
 
 __author__ = "Aniket Sarkar"
 __email__ = "aniketsarkar@yahoo.com"
@@ -140,17 +134,13 @@ __version_info__ = (3, 0, 0)
 __license__ = "MIT"
 
 __all__ = [
-    # Core classes
+    "ConnectionConfig",
+    "EmailSecurityValidator",
     "Mail",
     "Message",
-    "ConnectionConfig",
-    # Enums
     "MultipartSubtypeEnum",
-    # Security
     "RateLimiter",
-    "EmailSecurityValidator",
-    # Metadata
+    "__author__",
     "__version__",
     "__version_info__",
-    "__author__",
 ]

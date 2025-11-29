@@ -8,17 +8,14 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
-from typing import TYPE_CHECKING
 
 from flask.globals import current_app
 from jinja2 import Environment, FileSystemLoader
 from pydantic import DirectoryPath, EmailStr, Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from typing_extensions import Self
 
 from .errors import TemplateFolderDoesNotExist
-
-if TYPE_CHECKING:
-    from typing import Self
 
 
 class ConnectionConfig(BaseSettings):

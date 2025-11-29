@@ -1,5 +1,6 @@
+import os
+
 from flask import Flask
-import os as os
 
 
 def create_app():

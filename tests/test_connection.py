@@ -4,7 +4,7 @@ Flask-Mailing v3.0.0 - Connection Tests
 
 from __future__ import annotations
 
-import os
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
@@ -104,11 +104,9 @@ async def test_html_message(app: Flask) -> None:
 @pytest.mark.asyncio
 async def test_attachement_message(app: Flask) -> None:
     """Test email with attachment."""
-    directory = os.getcwd()
-    attachment = directory + "/files/attachement.txt"
+    attachment = Path.cwd() / "files" / "attachement.txt"
 
-    with open(attachment, "w") as file:
-        file.write(CONTENT)
+    attachment.write_text(CONTENT)
 
     subject = "testing"
     to = "to@example.com"
@@ -117,7 +115,7 @@ async def test_attachement_message(app: Flask) -> None:
         recipients=[to],
         html="html test",
         subtype="html",
-        attachments=[attachment],
+        attachments=[str(attachment)],
     )
     fm = Mail(app)
 
@@ -136,11 +134,9 @@ async def test_attachement_message(app: Flask) -> None:
 @pytest.mark.asyncio
 async def test_attachement_message_with_headers(app: Flask) -> None:
     """Test email with attachment and custom headers."""
-    directory = os.getcwd()
-    attachment = directory + "/files/attachement.txt"
+    attachment = Path.cwd() / "files" / "attachement.txt"
 
-    with open(attachment, "w") as file:
-        file.write(CONTENT)
+    attachment.write_text(CONTENT)
 
     subject = "testing"
     to = "to@example.com"
@@ -151,7 +147,7 @@ async def test_attachement_message_with_headers(app: Flask) -> None:
         subtype="html",
         attachments=[
             {
-                "file": attachment,
+                "file": str(attachment),
                 "headers": {"Content-ID": "test ID"},
                 "mime_type": "image",
                 "mime_subtype": "png",

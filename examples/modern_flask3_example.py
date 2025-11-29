@@ -10,6 +10,7 @@ Features modern type hints, async patterns, and enhanced security.
 from __future__ import annotations
 
 from flask import Flask, jsonify, request
+
 from flask_mailing import Mail, Message
 
 
@@ -100,7 +101,6 @@ def create_app() -> Flask:
                     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
                         <h1 style="color: #2c3e50;">🚀 Flask-Mailing v3.0.0</h1>
                         <p>Congratulations! You're using the modernized Flask-Mailing library.</p>
-                        
                         <h2 style="color: #34495e;">New Features in v3.0.0:</h2>
                         <ul>
                             <li>✅ Python 3.10-3.14 compatibility</li>
@@ -110,12 +110,10 @@ def create_app() -> Flask:
                             <li>✅ Enhanced type safety</li>
                             <li>✅ Better error handling</li>
                         </ul>
-                        
                         <p style="background: #ecf0f1; padding: 15px; border-radius: 5px;">
-                            <strong>Note:</strong> This library is now fully compatible with Python 3.10+ 
+                            <strong>Note:</strong> This library is now fully compatible with Python 3.10+
                             and provides excellent performance with Python 3.14.
                         </p>
-                        
                         <hr style="margin: 30px 0;">
                         <p style="color: #7f8c8d; font-size: 14px;">
                             Sent with ❤️ using Flask-Mailing v3.0.0

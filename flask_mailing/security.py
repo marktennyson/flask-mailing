@@ -361,10 +361,11 @@ def validate_attachment_security(
     )
 
     # Extract extension
-    if "." in filename:
-        extension = "." + filename.rsplit(".", 1)[-1].lower()
-    else:
-        extension = ""
+    extension = (
+        "." + filename.rsplit(".", 1)[-1].lower()
+        if "." in filename
+        else ""
+    )
 
     if extension in dangerous_extensions:
         results["is_safe"] = False
@@ -418,7 +419,4 @@ def is_valid_email_header(header_value: str) -> bool:
         return False
 
     # Check for null bytes
-    if "\x00" in header_value:
-        return False
-
-    return True
+    return "\x00" not in header_value

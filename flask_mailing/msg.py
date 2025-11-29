@@ -110,14 +110,12 @@ class MailMsg:
 
     async def attach_file(
         self,
-        message: MIMEMultipart,
         attachment: list[tuple[FileStorage, dict[str, Any] | None]],
     ) -> None:
         """
         Attach files to the message.
 
         Args:
-            message: MIMEMultipart message to attach files to
             attachment: List of (FileStorage, metadata) tuples
         """
         for file, file_meta in attachment:
@@ -210,8 +208,10 @@ class MailMsg:
                         DeprecationWarning,
                         stacklevel=2,
                     )
+                content = (self.template_body or self.body) or ""
+                subtype = self.subtype or "html"
                 self.message.attach(
-                    self._mimetext(self.template_body or self.body, self.subtype)
+                    self._mimetext(str(content), subtype)
                 )
             elif self.template_body:
                 raise ValueError(
@@ -223,7 +223,7 @@ class MailMsg:
 
         # Attach files
         if self.attachments:
-            await self.attach_file(self.message, self.attachments)
+            await self.attach_file(self.attachments)
 
         return self.message
 

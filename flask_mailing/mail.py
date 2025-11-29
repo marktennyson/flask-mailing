@@ -6,7 +6,6 @@ Core mail sending functionality with async support and Flask integration.
 
 from __future__ import annotations
 
-from collections.abc import Generator
 from contextlib import contextmanager
 from typing import TYPE_CHECKING, Any
 
@@ -20,10 +19,11 @@ from .msg import MailMsg
 from .schemas import Message
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
     from email.mime.multipart import MIMEMultipart
 
     from flask import Flask
-    from jinja2 import Template
+    from jinja2 import Environment, Template
 
 __version_info__ = (3, 0, 0)
 __version__ = ".".join(str(v) for v in __version_info__)
@@ -36,7 +36,7 @@ email_dispatched = signals.signal(
     doc="""
     Signal sent when an email is dispatched. This signal will also be sent
     in testing mode, even though the email will not actually be sent.
-    
+
     Example:
         @email_dispatched.connect
         def log_email(message):
@@ -178,7 +178,7 @@ class Mail(_MailMixin):
 
     async def get_mail_template(
         self,
-        env_path: Any,
+        env_path: Environment,
         template_name: str,
     ) -> Template:
         """

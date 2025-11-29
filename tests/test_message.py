@@ -4,7 +4,6 @@ Flask-Mailing v3.0.0 - Message Tests
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 
 import pytest
@@ -106,16 +105,13 @@ def test_message_str() -> None:
 
 def test_plain_message_with_attachments() -> None:
     """Test message with file attachment."""
-    directory = os.getcwd()
-    attachment = directory + "/files/attachement.txt"
-
-    with open(attachment, "w") as file:
-        file.write(CONTENT)
+    attachment = Path.cwd() / "files" / "attachement.txt"
+    attachment.write_text(CONTENT)
 
     msg = Message(
         subject="testing",
         recipients=["to@example.com"],
-        attachments=[attachment],
+        attachments=[str(attachment)],
         body="test mail body",
     )
 
@@ -124,8 +120,7 @@ def test_plain_message_with_attachments() -> None:
 
 def test_plain_message_with_attach_method() -> None:
     """Test message attach method."""
-    directory = os.getcwd()
-    attachment = directory + "/files/attachement_1.txt"
+    attachment = Path.cwd() / "files" / "attachement_1.txt"
 
     msg = Message(
         subject="testing",
@@ -133,10 +128,9 @@ def test_plain_message_with_attach_method() -> None:
         body="test mail body",
     )
 
-    with open(attachment, "w") as file:
-        file.write(CONTENT)
+    attachment.write_text(CONTENT)
 
-    with open(attachment, "rb") as fp:
+    with attachment.open("rb") as fp:
         msg.attach("attachement_1.txt", fp.read())
 
     assert len(msg.attachments) == 1

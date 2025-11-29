@@ -11,11 +11,12 @@ from typing import TYPE_CHECKING, Any
 import aiosmtplib
 from pydantic_settings import BaseSettings
 
-from .config import ConnectionConfig
 from .errors import ConnectionErrors, PydanticClassRequired
 
 if TYPE_CHECKING:
     from types import TracebackType
+
+    from .config import ConnectionConfig
 
 
 class Connection:
@@ -106,9 +107,9 @@ class Connection:
             self.session = aiosmtplib.SMTP(
                 hostname=self.settings.get("MAIL_SERVER"),
                 port=self.settings.get("MAIL_PORT"),
-                use_tls=self.settings.get("MAIL_USE_SSL"),
-                start_tls=self.settings.get("MAIL_USE_TLS"),
-                validate_certs=self.settings.get("VALIDATE_CERTS"),
+                use_tls=bool(self.settings.get("MAIL_USE_SSL")),
+                start_tls=bool(self.settings.get("MAIL_USE_TLS")),
+                validate_certs=bool(self.settings.get("VALIDATE_CERTS")),
                 timeout=30,  # Reasonable timeout for SMTP operations
             )
 

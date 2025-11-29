@@ -1,13 +1,12 @@
-from dotenv import load_dotenv
+import os
 
-load_dotenv()
-
-from flask import jsonify
 from base import create_app
+from dotenv import load_dotenv
+from flask import jsonify
+
 from flask_mailing import Mail, Message
 
-import os as os
-
+load_dotenv()
 
 mail = Mail()
 
