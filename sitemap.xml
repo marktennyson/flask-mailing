@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://marktennyson.github.io/flask-mailing/</loc>
+         <lastmod>2025-11-29</lastmod>
+    </url>
+    <url>
+         <loc>https://marktennyson.github.io/flask-mailing/changelog/</loc>
+         <lastmod>2025-11-29</lastmod>
+    </url>
+    <url>
+         <loc>https://marktennyson.github.io/flask-mailing/contribute/</loc>
+         <lastmod>2025-11-29</lastmod>
+    </url>
+    <url>
+         <loc>https://marktennyson.github.io/flask-mailing/example/</loc>
+         <lastmod>2025-11-29</lastmod>
+    </url>
+    <url>
+         <loc>https://marktennyson.github.io/flask-mailing/getting-started/</loc>
+         <lastmod>2025-11-29</lastmod>
+    </url>
+    <url>
+         <loc>https://marktennyson.github.io/flask-mailing/install/</loc>
+         <lastmod>2025-11-29</lastmod>
+    </url>
+</urlset>
