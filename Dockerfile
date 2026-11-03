@@ -21,8 +21,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better Docker layer caching
-COPY requirements.txt pyproject.toml setup.py ./
-COPY flask_mailing/__init__.py flask_mailing/__init__.py
+COPY requirements.txt pyproject.toml setup.py README.md LICENSE ./
+COPY flask_mailing/ flask_mailing/
 
 # Install Python dependencies
 RUN pip install --upgrade pip setuptools wheel && \
