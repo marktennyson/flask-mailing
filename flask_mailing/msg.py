@@ -173,8 +173,10 @@ class MailMsg:
         Raises:
             ValueError: If both template_body and html are set
         """
+        # Charset is applied to each text part in _mimetext(). Setting it on the
+        # container would add Content-Transfer-Encoding: base64, which RFC 2045
+        # section 6.4 forbids for multipart entities (see issue #67).
         self.message = MIMEMultipart(self.multipart_subtype)
-        self.message.set_charset(self.charset)
 
         # Set standard headers
         self.message["Date"] = formatdate(time.time(), localtime=True)

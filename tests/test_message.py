@@ -4,9 +4,13 @@ Flask-Mailing v3.0.0 - Message Tests
 
 from __future__ import annotations
 
+import io
+from email import policy
+from email.parser import BytesParser
 from pathlib import Path
 
 import pytest
+from werkzeug.datastructures import FileStorage
 
 from flask_mailing.msg import MailMsg
 from flask_mailing.schemas import Message, MultipartSubtypeEnum
@@ -222,5 +226,39 @@ async def test_message_charset() -> None:
 
     msg = MailMsg(**message.model_dump())
     msg_object = await msg._message("test@example.com")
-    assert msg_object._charset is not None
-    assert msg_object._charset == "utf-8"
+    (text_part,) = msg_object.get_payload()
+    assert text_part.get_content_charset() == "utf-8"
+
+
+@pytest.mark.asyncio
+async def test_multipart_container_has_no_transfer_encoding() -> None:
+    """Regression test for #67: multipart container must not be base64 encoded."""
+    html = "<p>Příliš žluťoučký kůň</p>"
+    pdf = b"%PDF-1.4\n%\xe2\xe3\xcf\xd3\n%%EOF\n"
+    message = Message(
+        subject="MIME reproduction",
+        recipients=["recipient@example.org"],
+        html=html,
+        attachments=[
+            {
+                "file": FileStorage(io.BytesIO(pdf), "sample.pdf"),
+                "mime_type": "application",
+                "mime_subtype": "pdf",
+            }
+        ],
+    )
+
+    mime = await MailMsg(**message.model_dump())._message("sender@example.org")
+    parsed = BytesParser(policy=policy.default).parsebytes(
+        mime.as_bytes(policy=policy.SMTP)
+    )
+
+    assert parsed.get_content_type() == "multipart/mixed"
+    assert parsed["Content-Transfer-Encoding"] is None
+    assert [d for part in parsed.walk() for d in part.defects] == []
+
+    body, attachment = parsed.iter_parts()
+    assert body.get_content_charset() == "utf-8"
+    assert body.get_payload(decode=True) == html.encode("utf-8")
+    assert attachment["Content-Transfer-Encoding"] == "base64"
+    assert attachment.get_payload(decode=True) == pdf

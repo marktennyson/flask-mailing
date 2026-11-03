@@ -25,7 +25,7 @@ if TYPE_CHECKING:
     from flask import Flask
     from jinja2 import Environment, Template
 
-__version_info__ = (3, 0, 0)
+__version_info__ = (3, 0, 1)
 __version__ = ".".join(str(v) for v in __version_info__)
 
 

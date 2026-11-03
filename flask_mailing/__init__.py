@@ -129,8 +129,8 @@ from .security import EmailSecurityValidator, RateLimiter
 
 __author__ = "Aniket Sarkar"
 __email__ = "aniketsarkar@yahoo.com"
-__version__ = "3.0.0"
-__version_info__ = (3, 0, 0)
+__version__ = "3.0.1"
+__version_info__ = (3, 0, 1)
 __license__ = "MIT"
 
 __all__ = [

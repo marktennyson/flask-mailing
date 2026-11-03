@@ -9,7 +9,7 @@ from pathlib import Path
 
 from setuptools import find_packages, setup
 
-VERSION = (3, 0, 0)
+VERSION = (3, 0, 1)
 AUTHOR = "Aniket Sarkar"
 AUTHOR_EMAIL = "aniketsarkar@yahoo.com"
 
