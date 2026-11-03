@@ -1,5 +1,23 @@
 # Changelog  
 
+## Version 3.0.1
+**Release Date:** November 3, 2026  
+
+### 🐛 Bug Fixes
+- **Invalid `Content-Transfer-Encoding` on multipart messages** ([#67](https://github.com/marktennyson/flask-mailing/issues/67)):
+  the outer `multipart/*` container was given `Content-Transfer-Encoding: base64`
+  because the charset was set on the container itself. RFC 2045 §6.4 only allows
+  `7bit`, `8bit` or `binary` for multipart entities, and Python's email parser
+  reported `InvalidMultipartContentTransferEncodingDefect`. The charset is now
+  applied only to individual text parts. Attachments keep their base64 encoding,
+  and decoded content is unchanged.
+  Reported by [@filak](https://github.com/filak), who also found the cause and suggested the fix. Thank you!
+
+### 🧪 Tests
+- Added a regression test that serializes and re-parses a message with HTML and an
+  attachment, and checks that it has no MIME defects
+  ([#67](https://github.com/marktennyson/flask-mailing/issues/67)).
+
 ## Version 3.0.0 🚀 2026-Ready Release
 **Release Date:** November 29, 2025  
 
