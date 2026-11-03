@@ -18,6 +18,12 @@
   attachment, and checks that it has no MIME defects
   ([#67](https://github.com/marktennyson/flask-mailing/issues/67)).
 
+### 🛠️ Build & CI
+- **Docker image build fixed:** the dependency install step ran before `README.md`,
+  `LICENSE` and the `flask_mailing/utils` subpackage were copied into the image, so
+  `pip install -e .` failed. All files the build needs are now copied first.
+- Fixed a new `ruff` lint failure (`PLC0207`) in the test suite.
+
 ## Version 3.0.0 🚀 2026-Ready Release
 **Release Date:** November 29, 2025  
 
